@@ -14,6 +14,7 @@ scipy = "*"
 numpy = "*"
 tcav = "*"
 tensorflow = "~=1.14"
+pillow = "*"
 
 [requires]
 python_version = "3.7"

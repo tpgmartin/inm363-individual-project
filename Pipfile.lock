@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "317ee46bf09692cb2a54f34da912adbc8602862edd6870c2d3af01cf3009d65e"
+            "sha256": "705c3b9ee5263de560ef9d99daa747c3b2bc0aa48aa927e0a4504bdfbd88246f"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -27,7 +27,7 @@
                 "sha256:5b26757dc6f79a3b7dc9fab95359328d5747fcb2409d331ea66d0272b90ab2a0",
                 "sha256:8b995ffe925347a2138d7ac0fe77155e4311a0ea6d6da4f5128fe4b3cbe5ed71"
             ],
-            "markers": "sys_platform == 'darwin'",
+            "markers": "platform_system == 'Darwin'",
             "version": "==0.1.0"
         },
         "argon2-cffi": {
@@ -610,6 +610,7 @@
                 "sha256:f7e30c27477dffc3e85c2463b3e649f751789e0f6c8456099eea7ddd53be4a8a",
                 "sha256:ffe538682dc19cc542ae7c3e504fdf54ca7f86fb8a135e59dd6bc8627eae6cce"
             ],
+            "index": "pypi",
             "version": "==7.2.0"
         },
         "prometheus-client": {

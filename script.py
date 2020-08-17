@@ -1,4 +1,6 @@
 import argparse
+from PIL import Image
+from skimage import io
 import sys
 from tcav import utils
 import tcav.model as model
@@ -22,6 +24,12 @@ def main(args):
 
   sess = utils.create_session()
   mymodel = make_model(sess, args.model_to_run, args.model_path, args.labels_path)
+  print('mymodel.get_image_shape()')
+  print(mymodel.get_image_shape())
+  print('-------------------------')
+
+  # img = io.imread('./reference_image.jpg')
+  # print(mymodel.get_predictions(img))
 
   # Run model
 
