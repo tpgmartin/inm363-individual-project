@@ -1,6 +1,6 @@
 import argparse
+import numpy as np
 from PIL import Image
-from skimage import io
 import sys
 from tcav import utils
 import tcav.model as model
@@ -12,7 +12,6 @@ def make_model(sess, model_to_run, model_path, labels_path):
     mymodel = model.InceptionV3Wrapper_public(
         sess, model_saved_path=model_path, labels_path=labels_path)
   elif model_to_run == 'GoogleNet':
-    # common_typos_disable
     mymodel = model.GoolgeNetWrapper_public(
         sess, model_saved_path=model_path, labels_path=labels_path)
   else:
@@ -24,14 +23,25 @@ def main(args):
 
   sess = utils.create_session()
   mymodel = make_model(sess, args.model_to_run, args.model_path, args.labels_path)
-  print('mymodel.get_image_shape()')
-  print(mymodel.get_image_shape())
-  print('-------------------------')
+  print(mymodel.ends)
+  
+  image_shape = mymodel.get_image_shape()[:2]
+  filename = './reference_image.jpg'
+  image = np.array(Image.open(filename).resize(image_shape, Image.BILINEAR))
+  image = np.float32(image) / 255.0
 
-  # img = io.imread('./reference_image.jpg')
-  # print(mymodel.get_predictions(img))
-
-  # Run model
+  # Move to function
+  # Image should contain spatial and channel info, should be mult-channel
+  if not (len(image.shape) == 3 and image.shape[2] == 3):
+    print('BAD PATH')
+    return None
+  else:
+    print('GOOD PATH')
+    # return image
+  np.reshape(image, (-1, 224, 224, 3))
+  bottleneck_name = 'mixed4c'
+  # print(mymodel.get_predictions(image))
+  print(mymodel.run_examples(image, bottleneck_name))
 
 def parse_arguments(argv):
   parser = argparse.ArgumentParser()
