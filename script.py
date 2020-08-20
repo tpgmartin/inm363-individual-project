@@ -111,7 +111,7 @@ class ConceptDiscovery(object):
     return load_images_from_files(
         img_paths,
         max_imgs=max_imgs,
-        return_filenames=False,
+        return_filenames=True,
         do_shuffle=False,
         run_parallel=(self.num_workers > 0),
         shape=(self.image_shape),
@@ -120,11 +120,10 @@ class ConceptDiscovery(object):
   def predict(self, discovery_images=None):
 
     if discovery_images is None:
-      raw_imgs = self.load_concept_imgs(
-          self.target_class, self.num_discovery_imgs)
+      raw_imgs, final_filenames = self.load_concept_imgs(self.target_class, self.num_discovery_imgs)
       self.discovery_images = raw_imgs
 
-    return self.model.get_predictions(self.discovery_images)
+    return self.model.get_predictions(self.discovery_images), final_filenames
 
 def main(args):
 
@@ -137,8 +136,16 @@ def main(args):
     sess,
     args.source_dir)
 
-  predictions = cd.predict()
-  print(len(predictions))
+  predictions, filenames = cd.predict()
+
+  print(filenames)
+
+  for prediction, filename in zip(predictions, filenames):
+    print(filename)
+    print(f'True value: {filename}')
+    print(mymodel.id_to_label(list(prediction).index(np.max(prediction))))
+    print('------------------')
+
 
 def parse_arguments(argv):
   parser = argparse.ArgumentParser()
@@ -152,7 +159,7 @@ def parse_arguments(argv):
   parser.add_argument('--labels_path', type=str,
       help='Path to model checkpoints.', default='./imagenet_labels.txt')
   parser.add_argument('--target_class', type=str,
-      help='The name of the target class to be interpreted', default='dumbbell')
+      help='The name of the target class to be interpreted', default='example')
   return parser.parse_args(argv)
 
 
