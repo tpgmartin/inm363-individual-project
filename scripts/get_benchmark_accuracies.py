@@ -4,6 +4,7 @@ from glob import glob
 import numpy as np
 import os
 import pandas as pd
+from pathlib import Path
 import random
 import sys
 from tcav import utils
@@ -25,23 +26,20 @@ def map_labels_to_dirs(labels_to_dirs='./labels/ImageNet_label.txt'):
     return mapping
 
 def main(args):
-
-    mapping_labels_to_dirs = map_labels_to_dirs()
     
     sess = utils.create_session()
     mymodel = make_model(sess, args.model_to_run, args.model_path, args.labels_path)
-    source_dirs = f'{args.source_dir}{mapping_labels_to_dirs[args.target_class]}'
+    source_dirs = f'{args.source_dir}{args.mapping_labels_to_dirs[args.target_class]}'
 
     prediction_count = 0
     filenames = []
     predictions = []
 
-    print(f'Starting benchmark accuracies for {args.target_class}')
     for source_dir in glob(f'{source_dirs}/*'):
 
         cd = ConceptDiscovery(
             mymodel,
-            mapping_labels_to_dirs[args.target_class],
+            args.mapping_labels_to_dirs[args.target_class],
             sess,
             f'{source_dir}/')
 
@@ -76,8 +74,11 @@ def main(args):
         'prediction_probability': prediction_probability
     })
     
-    df.to_csv(f"./baseline_predictions/{'_'.join(args.target_class.split(' '))}_baseline_predictions.csv")
-    print(f'Finished benchmark accuracies for {args.target_class}')
+    save_filename = f"./baseline_predictions/{'_'.join(args.target_class.split(' '))}_baseline_predictions.csv"
+    save_filepath = Path(save_filename)
+    save_filepath.touch(exist_ok=True)
+
+    df.to_csv(save_filename, index=False)
 
 
 def parse_arguments(argv):
@@ -98,13 +99,18 @@ def parse_arguments(argv):
 
 if __name__ == '__main__':
     
-    random.seed(42)
+    mapping_labels_to_dirs = map_labels_to_dirs()
 
     args = parse_arguments(sys.argv[1:])
     labels = [label.strip() for label in open(args.labels_path)]
+    labels = [label for label in labels if label != 'dummy']
+
+    args.mapping_labels_to_dirs = mapping_labels_to_dirs
 
     for label in labels:
         args.target_class = label
+        print(f'Starting benchmark accuracies for {args.target_class}')
         main(args)
+        print(f'Finished benchmark accuracies for {args.target_class}')
 
     print('End of script!!!')
