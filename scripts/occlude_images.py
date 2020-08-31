@@ -36,7 +36,7 @@ def get_mask_coords(CURRENT_SEARCHES, previous_mask_coords, HEIGHT, WIDTH, MASK_
         previous_mask_coords.extend(mask_coords)
         return (mask_y_min, mask_x_min)
 
-def main(label, dir_name, mask_size):
+def main(label, dir_name, MAX_MASK_SIZE):
     
     # NB.
     # For `occluded_images` directory structure,
@@ -46,12 +46,14 @@ def main(label, dir_name, mask_size):
 
         img_filename = img_path.split('/')[-2]
 
+        print(f'Starting: {img_filename}')
+
         IMG = io.imread(img_path)
         HEIGHT, WIDTH, _ = IMG.shape
         DPI = 72 # Check this value
 
-        MASK_SIZE = mask_size
-        MAX_MASKS = int(np.ceil((HEIGHT * WIDTH) / (MASK_SIZE ** 2))) # scale this with mask size
+        MASK_SIZE = np.min([(np.min([HEIGHT, WIDTH]) // 100)*100, MAX_MASK_SIZE])
+        MAX_MASKS = 2 * int(np.ceil((HEIGHT * WIDTH) / (MASK_SIZE ** 2))) # scale this with mask size
         MAX_SEARCHES_PER_EPOCH = int(np.ceil((HEIGHT * WIDTH) / (MASK_SIZE ** 2))) # Max number of searches for each epoch
 
         # Mask colour
@@ -60,19 +62,20 @@ def main(label, dir_name, mask_size):
         mean_b_channel = np.mean([item[2]/255 for sublist in IMG for item in sublist])
         mask_colour = [mean_r_channel, mean_g_channel, mean_b_channel]
 
+        total_count = 1
         mask_no = 1
-        while mask_no <= MAX_MASKS:
+        previous_mask_coords = []
+        while total_count <= MAX_MASKS:
 
-            previous_mask_coords = []
+            print('total_count:', total_count)
 
-            for i in range(1,11):
+            for CURRENT_SEARCHES in range(MAX_SEARCHES_PER_EPOCH+1):
 
                 # start = time.time()
-
-                CURRENT_SEARCHES = 0
-
+                print('CURRENT_SEARCHES:', CURRENT_SEARCHES)
                 coords = get_mask_coords(CURRENT_SEARCHES, previous_mask_coords, HEIGHT, WIDTH, MASK_SIZE, MAX_SEARCHES_PER_EPOCH)
 
+                total_count += 1
                 if not coords:
                     break
 
@@ -88,17 +91,21 @@ def main(label, dir_name, mask_size):
                 plt.savefig(f'./occluded_images/{dir_name}/{img_filename}/mask_dim_{MASK_SIZE}/test_mask_no_{mask_no}_y_min_{coords[0]}_x_min_{coords[1]}/test_mask_no_{mask_no}_y_min_{coords[0]}_x_min_{coords[1]}.JPEG')
                 # end = time.time()
                 # execution_times.append(end - start)
-            
                 mask_no += 1
+            
+
+        print(f'Finished: {img_filename}')
 
 
 if __name__ == '__main__':
 
     random.seed(42)
-
+    MAX_MASK_SIZE = 300
     mapping_labels_to_dirs = map_labels_to_dirs()
 
     existing_baselines = [' '.join(pred.split('/')[-1].split('_baseline_predictions')[0].split('_')) for pred in glob('./baseline_predictions/*')]
 
-    for label in existing_baselines:
-        main(label, mapping_labels_to_dirs[label], 300)
+    for label in existing_baselines[1:]:
+        print(f'Starting label: {label}')
+        main(label, mapping_labels_to_dirs[label], MAX_MASK_SIZE)
+        print(f'Finsihed label: {label}')
