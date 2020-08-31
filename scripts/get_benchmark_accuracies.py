@@ -53,6 +53,8 @@ def main(args):
             filenames.append(source_dir)
             pass
     
+    sess.close()
+
     num_predictions = len(predictions)
     directory = [source_dirs.split('/')[-2]] * num_predictions
     true_labels = [args.target_class] * num_predictions
@@ -98,12 +100,18 @@ def parse_arguments(argv):
 
 
 if __name__ == '__main__':
+
+
     
     mapping_labels_to_dirs = map_labels_to_dirs()
 
     args = parse_arguments(sys.argv[1:])
     labels = [label.strip() for label in open(args.labels_path)]
     labels = [label for label in labels if label != 'dummy']
+
+    existing_baselines = [' '.join(pred.split('/')[-1].split('_baseline_predictions')[0].split('_')) for pred in glob('./baseline_predictions/*')]
+
+    labels = list(set(labels) - set(existing_baselines))
 
     args.mapping_labels_to_dirs = mapping_labels_to_dirs
 
