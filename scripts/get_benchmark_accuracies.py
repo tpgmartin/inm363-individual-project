@@ -2,6 +2,7 @@
 import argparse
 from glob import glob
 import numpy as np
+import os
 import pandas as pd
 import random
 import sys
@@ -29,20 +30,42 @@ def main(args):
     
     sess = utils.create_session()
     mymodel = make_model(sess, args.model_to_run, args.model_path, args.labels_path)
-  
-    cd = ConceptDiscovery(
-        mymodel,
-        mapping_labels_to_dirs[args.target_class],
-        sess,
-        args.source_dir)
+    source_dirs = f'{args.source_dir}{mapping_labels_to_dirs[args.target_class]}'
 
-    predictions, filenames = cd.predict()
+    prediction_count = 0
+    filenames = []
+    predictions = []
+
+    print(f'Starting benchmark accuracies for {args.target_class}')
+    for source_dir in glob(f'{source_dirs}/*'):
+
+        cd = ConceptDiscovery(
+            mymodel,
+            mapping_labels_to_dirs[args.target_class],
+            sess,
+            f'{source_dir}/')
+
+        try:
+            prediction, filename = cd.predict()
+            predictions.append(prediction)
+            filenames.append(filename[0])
+            prediction_count += 1
+        except ValueError as e:
+            predictions.append(np.nan)
+            filenames.append(source_dir)
+            pass
     
     num_predictions = len(predictions)
-    directory = [filenames[0].split('/')[-2]] * num_predictions
-    filenames = [filename.split('/')[-1] for _, filename in zip(predictions, filenames)]
+    directory = [source_dirs.split('/')[-2]] * num_predictions
     true_labels = [args.target_class] * num_predictions
-    predicted_labels = [mymodel.id_to_label(list(prediction).index(np.max(prediction))) for prediction in predictions]
+
+    predicted_labels = []
+    for prediction in predictions:
+        try:
+            predicted_labels.append(mymodel.id_to_label(prediction.tolist()[0].index(np.max(prediction))))
+        except AttributeError:
+            predicted_labels.append(np.nan)
+
     prediction_probability = [np.max(prediction) for prediction in predictions]
 
     df = pd.DataFrame({
@@ -53,7 +76,8 @@ def main(args):
         'prediction_probability': prediction_probability
     })
     
-    df.to_csv(f"./data/{'_'.join(args.target_class.split(' '))}_baseline_predictions.csv")
+    df.to_csv(f"./baseline_predictions/{'_'.join(args.target_class.split(' '))}_baseline_predictions.csv")
+    print(f'Finished benchmark accuracies for {args.target_class}')
 
 
 def parse_arguments(argv):
@@ -68,7 +92,7 @@ def parse_arguments(argv):
   parser.add_argument('--labels_path', type=str,
       help='Path to model checkpoints.', default='./imagenet_labels.txt')
   parser.add_argument('--target_class', type=str,
-      help='The name of the target class to be interpreted', default='coffee mug')
+      help='The name of the target class to be interpreted', default='tench')
   return parser.parse_args(argv)
 
 
@@ -78,8 +102,9 @@ if __name__ == '__main__':
 
     args = parse_arguments(sys.argv[1:])
     labels = [label.strip() for label in open(args.labels_path)]
-    labels_sample = random.sample(labels, 10)
 
-    for label in labels_sample:
+    for label in labels:
         args.target_class = label
         main(args)
+
+    print('End of script!!!')

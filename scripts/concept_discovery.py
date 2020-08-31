@@ -30,17 +30,17 @@ class ConceptDiscovery(object):
 
   def load_concept_imgs(self, concept, max_imgs=1000):
 
-    concept_dir = os.path.join(self.source_dir, concept)
+    # concept_dir = os.path.join(self.source_dir, concept)
     img_paths = [
-        os.path.join(concept_dir, d)
-        for d in tf.gfile.ListDirectory(concept_dir)
+        os.path.join(self.source_dir, d)
+        for d in tf.gfile.ListDirectory(self.source_dir)
     ]
     return load_images_from_files(
         img_paths,
         max_imgs=max_imgs,
         return_filenames=True,
         do_shuffle=False,
-        run_parallel=(self.num_workers > 0),
+        run_parallel=False,
         shape=(self.image_shape),
         num_workers=self.num_workers)
 
