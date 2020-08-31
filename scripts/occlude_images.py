@@ -99,8 +99,6 @@ if __name__ == '__main__':
     mapping_labels_to_dirs = map_labels_to_dirs()
 
     existing_baselines = [' '.join(pred.split('/')[-1].split('_baseline_predictions')[0].split('_')) for pred in glob('./baseline_predictions/*')]
-    label = existing_baselines[0]
 
-    # for label in existing_baselines:
-
-    main(label, mapping_labels_to_dirs[label], 300)
+    for label in existing_baselines:
+        main(label, mapping_labels_to_dirs[label], 300)
