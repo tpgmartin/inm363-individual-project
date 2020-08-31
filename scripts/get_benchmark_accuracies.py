@@ -11,19 +11,8 @@ from tcav import utils
 import tcav.model as model
 import tensorflow as tf
 
-from helpers import make_model
+from helpers import make_model, map_labels_to_dirs
 from concept_discovery import ConceptDiscovery
-
-def map_labels_to_dirs(labels_to_dirs='./labels/ImageNet_label.txt'):
-
-    labels_to_dirs = open(labels_to_dirs)
-    mapping = {}
-    for line in labels_to_dirs:
-        filename, labels = line.strip().split('    ')
-        label = labels.split(', ')[0]
-        mapping[label] = filename
-    
-    return mapping
 
 def main(args):
     

@@ -5,6 +5,17 @@ import tcav.model as model
 import tensorflow as tf
 
 # Helper functions
+def map_labels_to_dirs(labels_to_dirs='./labels/ImageNet_label.txt'):
+
+    labels_to_dirs = open(labels_to_dirs)
+    mapping = {}
+    for line in labels_to_dirs:
+        filename, labels = line.strip().split('    ')
+        label = labels.split(', ')[0]
+        mapping[label] = filename
+    
+    return mapping
+
 def make_model(sess, model_to_run, model_path, labels_path):
 
   if model_to_run == 'InceptionV3':
