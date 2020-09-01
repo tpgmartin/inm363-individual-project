@@ -90,13 +90,11 @@ def parse_arguments(argv):
 
 if __name__ == '__main__':
 
-
-    
     mapping_labels_to_dirs = map_labels_to_dirs()
 
     args = parse_arguments(sys.argv[1:])
-    labels = [label.strip() for label in open(args.labels_path)]
-    labels = [label for label in labels if label != 'dummy']
+    labels = [label.strip() for label in open('./labels/class_labels_subset.txt')]
+    labels = [' '.join(label.split('_')) for label in labels]
 
     existing_baselines = [' '.join(pred.split('/')[-1].split('_baseline_predictions')[0].split('_')) for pred in glob('./baseline_predictions/*')]
 

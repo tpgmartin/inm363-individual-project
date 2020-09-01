@@ -14,6 +14,10 @@ def map_labels_to_dirs(labels_to_dirs='./labels/ImageNet_label.txt'):
         label = labels.split(', ')[0]
         mapping[label] = filename
     
+    mapping['crane bird'] = 'n02012849'
+    mapping['african grey'] = 'n01817953'
+    mapping['tank suit'] = 'n03710721'
+
     return mapping
 
 def make_model(sess, model_to_run, model_path, labels_path):

@@ -5,3 +5,4 @@
 labels/*.txt
 images
 baseline_predictions
+baseline_prediction_samples
