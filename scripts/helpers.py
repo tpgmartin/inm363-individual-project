@@ -20,6 +20,21 @@ def map_labels_to_dirs(labels_to_dirs='./labels/ImageNet_label.txt'):
 
     return mapping
 
+def map_images_to_labels(labels_to_dirs='./labels/ImageNet_label.txt'):
+
+    labels_to_dirs = open(labels_to_dirs)
+    mapping = {}
+    for line in labels_to_dirs:
+        filename, labels = line.strip().split('    ')
+        label = labels.split(', ')[0]
+        mapping[filename] = label
+
+    mapping['n02012849'] = 'crane bird'
+    mapping['n01817953'] = 'african grey'
+    mapping['n03710721'] = 'tank suit'
+
+    return mapping
+
 def make_model(sess, model_to_run, model_path, labels_path):
 
   if model_to_run == 'InceptionV3':

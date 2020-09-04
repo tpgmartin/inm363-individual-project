@@ -1,8 +1,6 @@
-# TODO: Get initial accuracy scores for trained network for original images from test set
 import argparse
 from glob import glob
 import numpy as np
-import os
 import pandas as pd
 from pathlib import Path
 import random
@@ -11,23 +9,22 @@ from tcav import utils
 import tcav.model as model
 import tensorflow as tf
 
-from helpers import make_model, map_labels_to_dirs
+from helpers import make_model, map_images_to_labels
 from concept_discovery import ConceptDiscovery
 
 def main(args):
     
     sess = utils.create_session()
     mymodel = make_model(sess, args.model_to_run, args.model_path, args.labels_path)
-    source_dirs = f'{args.source_dir}{args.mapping_labels_to_dirs[args.target_class]}'
 
     filenames = []
     predictions = []
-
-    for source_dir in glob(f'{source_dirs}/*'):
-
+    
+    for source_dir in glob(f'{args.source_dir}/*'):
+  
         cd = ConceptDiscovery(
             mymodel,
-            args.mapping_labels_to_dirs[args.target_class],
+            None,
             sess,
             f'{source_dir}/')
 
@@ -39,11 +36,12 @@ def main(args):
             predictions.append(np.nan)
             filenames.append(source_dir)
             pass
-    
+
     sess.close()
 
     num_predictions = len(predictions)
-    directory = [source_dirs.split('/')[-2]] * num_predictions
+    directory = ['/'.join(args.source_dir.split('/')[:4])] * num_predictions
+    mask_dim = [args.source_dir.split('/')[-2].split('_')[-1]] * num_predictions
     true_labels = [args.target_class] * num_predictions
 
     predicted_labels = []
@@ -53,28 +51,36 @@ def main(args):
         except AttributeError:
             predicted_labels.append(np.nan)
 
+    true_label_predictions = []
+    for prediction in predictions:
+        try:
+            true_label_predictions.append(prediction.tolist()[0][mymodel.label_to_id(args.target_class)])
+        except AttributeError:
+            true_label_predictions.append(np.nan)
+
     prediction_probability = [np.max(prediction) for prediction in predictions]
 
     df = pd.DataFrame({
         'directory': directory,
+        'mask_dim': mask_dim,
         'filename': filenames,
         'true_label': true_labels,
+        'true_label_predictions': true_label_predictions,
         'predicted_label': predicted_labels,
         'prediction_probability': prediction_probability
     })
     
-    save_filename = f"./baseline_predictions/{'_'.join(args.target_class.split(' '))}_baseline_predictions.csv"
+    save_filename = f"./occluded_image_predictions/mask_dim_{mask_dim[0]}/{'_'.join(args.target_class.split(' '))}_image_{args.source_dir.split('/')[3]}_occluded_image_predictions.csv"
     save_filepath = Path(save_filename)
     save_filepath.touch(exist_ok=True)
 
     df.to_csv(save_filename, index=False)
 
-
 def parse_arguments(argv):
   parser = argparse.ArgumentParser()
   parser.add_argument('--source_dir', type=str,
       help='''Directory where the network's classes image folders and random
-      concept folders are saved.''', default='../ACE/ImageNet/ILSVRC2012_img_train/')
+      concept folders are saved.''', default='./occluded_images/')
   parser.add_argument('--model_to_run', type=str,
       help='The name of the model.', default='GoogleNet')
   parser.add_argument('--model_path', type=str,
@@ -82,28 +88,17 @@ def parse_arguments(argv):
   parser.add_argument('--labels_path', type=str,
       help='Path to model checkpoints.', default='./imagenet_labels.txt')
   parser.add_argument('--target_class', type=str,
-      help='The name of the target class to be interpreted', default='tench')
+      help='The name of the target class to be interpreted', default='bookshop')
   return parser.parse_args(argv)
 
 
 if __name__ == '__main__':
 
-    mapping_labels_to_dirs = map_labels_to_dirs()
-
+    mapping_images_to_labels = map_images_to_labels()
     args = parse_arguments(sys.argv[1:])
-    labels = [label.strip() for label in open('./labels/class_labels_subset.txt')]
-    labels = [' '.join(label.split('_')) for label in labels]
 
-    existing_baselines = [' '.join(pred.split('/')[-1].split('_baseline_predictions')[0].split('_')) for pred in glob('./baseline_predictions/*')]
-
-    labels = list(set(labels) - set(existing_baselines))
-
-    args.mapping_labels_to_dirs = mapping_labels_to_dirs
-
-    for label in labels:
-        args.target_class = label
-        print(f'Starting benchmark accuracies for {args.target_class}')
+    for images_path in glob(f'{args.source_dir}**/**/*'):
+        args.target_class = mapping_images_to_labels[images_path.split('/')[2]]
+        args.source_dir = f'{images_path}/'
         main(args)
-        print(f'Finished benchmark accuracies for {args.target_class}')
-
-    print('End of script!!!')
+    

@@ -7,17 +7,9 @@ import pandas as pd
 import random
 from skimage import draw
 from skimage import io
-from skimage.util import crop
 import time
 
 from helpers import map_labels_to_dirs
-
-# For a given image find relevant patches with following approach
-# • For given image and given patch size, randomly place M patches across N images without duplication
-# • Find change in prediction accuracy from baseline prediction for N images
-# • For the top X images or more strictly for those images whose prediction changes, overlay the masks
-# • Normalise the mask intensities e.g. so max for pixels with largest number of mask overlays
-# • Normalised overlay masks determine minimal set of image features required for correct classification
 
 def get_mask_coords(CURRENT_SEARCHES, previous_mask_coords, HEIGHT, WIDTH, MASK_SIZE, MAX_MASKS_PER_EPOCH):
 
@@ -51,7 +43,7 @@ def main(img_filename, dir_name, MAX_MASK_SIZE, MASKS_PER_EPOCH):
     DPI = 72 # Check this value
     MASK_SIZE = np.min([(np.min([HEIGHT, WIDTH]) // 100)*100, MAX_MASK_SIZE])
     # MAX_MASKED_IMAGES = 2 * int(np.ceil((HEIGHT * WIDTH) / (MASK_SIZE ** 2))) # scale this with mask size
-    MAX_MASKED_IMAGES = 1000
+    MAX_MASKED_IMAGES = 100
     MAX_MASKS_PER_EPOCH = np.min([int(np.ceil((HEIGHT * WIDTH) / (MASK_SIZE ** 2))), MASKS_PER_EPOCH]) # Max number of searches for each epoch
 
     # Mask colour
