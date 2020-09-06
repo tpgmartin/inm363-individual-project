@@ -16,19 +16,20 @@ def init_mask(width, height):
     
     return img_mask
 
-def save_image(image_to_save, image_filename, width, height, dpi, img_filename, MASK_SIZE, is_prediction_correct):
+def save_image(image_to_save, image_filename_to_save, width, height, dpi, img_filename, MASK_SIZE, is_prediction_correct):
 
     fig, ax = plt.subplots(figsize=((width/dpi),(height/dpi)), dpi=dpi)
     ax.imshow(image_to_save)
     ax.axis('off')
     plt.tight_layout(pad=0)
 
-    os.makedirs(f"./occlusion_heatmaps/{img_filename.split('_')[0]}/{img_filename}/mask_dim_{MASK_SIZE}/{is_prediction_correct}/{image_filename}_{image_to_save}", exist_ok=True)
-    plt.savefig(f"./occlusion_heatmaps/{img_filename.split('_')[0]}/{img_filename}/mask_dim_{MASK_SIZE}/{is_prediction_correct}/{image_filename}_{image_to_save}/{image_filename}_{image_to_save}.JPEG")
+    os.makedirs(f"./occlusion_heatmaps/{img_filename.split('_')[0]}/{img_filename}/mask_dim_{MASK_SIZE}/is_prediction_correct_{str(is_prediction_correct).lower()}/{img_filename}_{image_filename_to_save}", exist_ok=True)
+    plt.savefig(f"./occlusion_heatmaps/{img_filename.split('_')[0]}/{img_filename}/mask_dim_{MASK_SIZE}/is_prediction_correct_{str(is_prediction_correct).lower()}/{img_filename}_{image_filename_to_save}/{img_filename}_{image_filename_to_save}.JPEG")
 
 def main(f):
 
     df = pd.read_csv(f)
+    df = df[df['prediction_probability'].notna()]
     df_prediction_true, df_prediction_false = df[df['is_prediction_correct'] == True], df[df['is_prediction_correct'] == False]
 
     img_filename = df['directory'].values[0].split('/')[-1]
@@ -40,11 +41,20 @@ def main(f):
 
     for df in [df_prediction_true, df_prediction_false]:
 
-        is_prediction_correct = df['is_prediction_correct'].values[0]
+        print(img_filename)
+        if df.shape[0] == 0:
+            continue
+        
+        try:
+            is_prediction_correct = df['is_prediction_correct'].values[0]
+            print('is_prediction_correct', is_prediction_correct)
+        except IndexError:
+            print(df.shape)
+            print(df['is_prediction_correct'].values)
         
         df_filenames = df['filename'].tolist()
-        x_coords = [int(re.findall(r'\+', f.split('/')[-2])[-1]) for f in df_filenames]
-        y_coords = [int(re.findall(r'\+', f.split('/')[-2])[-2]) for f in df_filenames]
+        x_coords = [int(re.findall(r'\d+', f.split('/')[-2])[-1]) for f in df_filenames]
+        y_coords = [int(re.findall(r'\d+', f.split('/')[-2])[-2]) for f in df_filenames]
 
         # Create blank image mask
         img_mask = init_mask(WIDTH, HEIGHT)
@@ -74,8 +84,8 @@ def main(f):
 
                     # Crop input image and channel intensities to masks
                     img_cropped_to_mask_uniform_intensity[y][x][0] = img_cropped_to_mask_uniform_intensity[y][x][0] if img_mask[y][x][0] > 0 else 0
-                    img_cropped_to_mask_uniform_intensity[y][x][1] = img_cropped_to_mask_uniform_intensity[y][x][0] if img_mask[y][x][0] > 0 else 0
-                    img_cropped_to_mask_uniform_intensity[y][x][2] = img_cropped_to_mask_uniform_intensity[y][x][0] if img_mask[y][x][0] > 0 else 0
+                    img_cropped_to_mask_uniform_intensity[y][x][1] = img_cropped_to_mask_uniform_intensity[y][x][1] if img_mask[y][x][0] > 0 else 0
+                    img_cropped_to_mask_uniform_intensity[y][x][2] = img_cropped_to_mask_uniform_intensity[y][x][2] if img_mask[y][x][0] > 0 else 0
 
                     # Overlay masks on original image
                     IMG[y][x][0] = (1-img_mask[y][x][0])*IMG[y][x][0] + 255*img_mask[y][x][0]
@@ -86,8 +96,15 @@ def main(f):
         save_image(img_cropped_to_mask, 'image_cropped_to_mask', WIDTH, HEIGHT, DPI, img_filename, MASK_SIZE, is_prediction_correct)
         save_image(img_cropped_to_mask_uniform_intensity, 'image_cropped_to_mask_uniform_intensity', WIDTH, HEIGHT, DPI, img_filename, MASK_SIZE, is_prediction_correct)
         save_image(IMG, 'image_with_mask', WIDTH, HEIGHT, DPI, img_filename, MASK_SIZE, is_prediction_correct)
+        plt.clf()
 
 if __name__ == '__main__':
 
-    for f in [f for f in glob('occluded_image_predictions/mask_dim_100/*')]:
+    occlusion_images = [f.split('/')[-1] for f in glob('./occluded_images/**/*')]
+
+    existing_heatmaps = [f.split('/')[-1] for f in glob('./occlusion_heatmaps/**/*')]
+
+    occlusion_images = list(set(occlusion_images) - set(existing_heatmaps))
+
+    for f in occlusion_images:
         main(f'./{f}')
