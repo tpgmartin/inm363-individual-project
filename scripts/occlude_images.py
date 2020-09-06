@@ -78,11 +78,12 @@ def main(img_filename, dir_name, MAX_MASK_SIZE, MASKS_PER_EPOCH):
             mask = draw.rectangle((coords[0],coords[1]), extent=(MASK_SIZE,MASK_SIZE))
             ax.plot(mask[1], mask[0], color=mask_colour, lw=1)
 
+        ax.axis('off')
         plt.tight_layout(pad=0)
         os.makedirs(f'./occluded_images/{dir_name}/{img_filename}/mask_dim_{MASK_SIZE}/mask_no_{mask_no}', exist_ok=True)
-        plt.savefig(f'./occluded_images/{dir_name}/{img_filename}/mask_dim_{MASK_SIZE}/mask_no_{mask_no}/test_mask_no_{mask_no}.JPEG')
+        plt.savefig(f'./occluded_images/{dir_name}/{img_filename}/mask_dim_{MASK_SIZE}/mask_no_{mask_no}/mask_no_{mask_no}.JPEG')
         mask_coords_df = pd.DataFrame({'x_min':[c[1] for c in all_mask_coords], 'y_min': [c[0] for c in all_mask_coords]})
-        mask_coords_df.to_csv(f'./occluded_images/{dir_name}/{img_filename}/mask_dim_{MASK_SIZE}/test_mask_no_{mask_no}/test_mask_no_{mask_no}.csv', index=False)
+        mask_coords_df.to_csv(f'./occluded_images/{dir_name}/{img_filename}/mask_dim_{MASK_SIZE}/mask_no_{mask_no}/mask_no_{mask_no}.csv', index=False)
         # end = time.time()
         # execution_times.append(end - start)
         mask_no += 1
