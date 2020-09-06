@@ -51,6 +51,13 @@ def main(args):
         except AttributeError:
             predicted_labels.append(np.nan)
 
+    if args.target_class == 'crane bird':
+        args.target_class = 'crane'
+    elif args.target_class == 'african grey':
+        args.target_class = 'African grey'
+    elif args.target_class == 'tank suit':
+        args.target_class = 'maillot'
+
     true_label_predictions = []
     for prediction in predictions:
         try:
