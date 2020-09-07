@@ -10,5 +10,5 @@ def main(filename):
 
 if __name__ == '__main__':
 
-    for f in [f for f in glob('occluded_image_predictions/mask_dim_100/*')]:
+    for f in [f for f in glob('occluded_image_predictions/**/*')]:
         main(f'./{f}')

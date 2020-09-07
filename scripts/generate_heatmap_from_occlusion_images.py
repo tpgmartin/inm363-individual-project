@@ -6,6 +6,8 @@ import random
 import re
 from skimage import io
 
+from helpers import map_images_to_labels
+
 def init_mask(width, height):
 
     img_mask = []
@@ -26,9 +28,9 @@ def save_image(image_to_save, image_filename_to_save, width, height, dpi, img_fi
     os.makedirs(f"./occlusion_heatmaps/{img_filename.split('_')[0]}/{img_filename}/mask_dim_{MASK_SIZE}/is_prediction_correct_{str(is_prediction_correct).lower()}/{img_filename}_{image_filename_to_save}", exist_ok=True)
     plt.savefig(f"./occlusion_heatmaps/{img_filename.split('_')[0]}/{img_filename}/mask_dim_{MASK_SIZE}/is_prediction_correct_{str(is_prediction_correct).lower()}/{img_filename}_{image_filename_to_save}/{img_filename}_{image_filename_to_save}.JPEG")
 
-def main(f):
+def main(f, label):
 
-    df = pd.read_csv(f)
+    df = pd.read_csv(f"./occluded_image_predictions/mask_dim_100/{'_'.join(label.split(' '))}_image_{f}_occluded_image_predictions.csv")
     df = df[df['prediction_probability'].notna()]
     df_prediction_true, df_prediction_false = df[df['is_prediction_correct'] == True], df[df['is_prediction_correct'] == False]
 
@@ -53,8 +55,9 @@ def main(f):
             print(df['is_prediction_correct'].values)
         
         df_filenames = df['filename'].tolist()
-        x_coords = [int(re.findall(r'\d+', f.split('/')[-2])[-1]) for f in df_filenames]
-        y_coords = [int(re.findall(r'\d+', f.split('/')[-2])[-2]) for f in df_filenames]
+        mask_coords = [f.replace('JPEG','csv') for f in df_filenames]
+        x_coords = pd.concat([pd.read_csv(f)['x_min'] for f in mask_coords]).values.tolist()
+        y_coords = pd.concat([pd.read_csv(f)['y_min'] for f in mask_coords]).values.tolist()
 
         # Create blank image mask
         img_mask = init_mask(WIDTH, HEIGHT)
@@ -100,11 +103,11 @@ def main(f):
 
 if __name__ == '__main__':
 
+    mapping = map_images_to_labels()
+
     occlusion_images = [f.split('/')[-1] for f in glob('./occluded_images/**/*')]
-
     existing_heatmaps = [f.split('/')[-1] for f in glob('./occlusion_heatmaps/**/*')]
-
     occlusion_images = list(set(occlusion_images) - set(existing_heatmaps))
 
     for f in occlusion_images:
-        main(f'./{f}')
+        main(f, mapping[f.split('_')[0]])

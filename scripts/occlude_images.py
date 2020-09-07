@@ -36,14 +36,14 @@ def get_mask_coords(CURRENT_SEARCHES, previous_mask_coords, HEIGHT, WIDTH, MASK_
         previous_mask_coords.extend(mask_coords)
         return (mask_y_min, mask_x_min)
 
-def main(img_filename, dir_name, MAX_MASK_SIZE, MASKS_PER_EPOCH):
+def main(img_filename, dir_name, MAX_MASK_SIZE, MAX_MASKED_IMAGES, MASKS_PER_EPOCH):
 
     IMG = io.imread(f'../ACE/ImageNet/ILSVRC2012_img_train/{dir_name}/{img_filename}/{img_filename}.JPEG')
     HEIGHT, WIDTH, _ = IMG.shape
     DPI = 72 # Check this value
     MASK_SIZE = np.min([(np.min([HEIGHT, WIDTH]) // 100)*100, MAX_MASK_SIZE])
     # MAX_MASKED_IMAGES = 2 * int(np.ceil((HEIGHT * WIDTH) / (MASK_SIZE ** 2))) # scale this with mask size
-    MAX_MASKED_IMAGES = 100
+    MAX_MASKED_IMAGES = MAX_MASKED_IMAGES
     MAX_MASKS_PER_EPOCH = np.min([int(np.ceil((HEIGHT * WIDTH) / (MASK_SIZE ** 2))), MASKS_PER_EPOCH]) # Max number of searches for each epoch
 
     # Mask colour
@@ -93,7 +93,8 @@ if __name__ == '__main__':
 
     random.seed(42)
     MAX_MASK_SIZE = 100
-    MASKS_PER_EPOCH = 5
+    MAX_MASKED_IMAGES = 1000
+    MASKS_PER_EPOCH = 1
     # mapping_labels_to_dirs = map_labels_to_dirs()
 
     baseline_prediction_samples = pd.concat([pd.read_csv(f) for f in glob('./baseline_prediction_samples/*')])
@@ -105,5 +106,5 @@ if __name__ == '__main__':
 
     for image in images_to_occlude:
         print(f'Starting image: {image}')
-        main(image, image.split('_')[0], MAX_MASK_SIZE, MASKS_PER_EPOCH)
+        main(image, image.split('_')[0], MAX_MASK_SIZE, MAX_MASKED_IMAGES, MASKS_PER_EPOCH)
         print(f'Finsihed image: {image}')
