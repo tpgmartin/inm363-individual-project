@@ -44,7 +44,8 @@ def main(img_filename, dir_name, MAX_MASK_SIZE, MAX_MASKED_IMAGES, MASKS_PER_EPO
     MASK_SIZE = np.min([(np.min([HEIGHT, WIDTH]) // 100)*100, MAX_MASK_SIZE])
     # MAX_MASKED_IMAGES = 2 * int(np.ceil((HEIGHT * WIDTH) / (MASK_SIZE ** 2))) # scale this with mask size
     MAX_MASKED_IMAGES = MAX_MASKED_IMAGES
-    MAX_MASKS_PER_EPOCH = np.min([int(np.ceil((HEIGHT * WIDTH) / (MASK_SIZE ** 2))), MASKS_PER_EPOCH]) # Max number of searches for each epoch
+    # MAX_MASKS_PER_EPOCH = np.min([int(np.ceil((HEIGHT * WIDTH) / (MASK_SIZE ** 2))), MASKS_PER_EPOCH]) # Max number of searches for each epoch
+    MAX_MASKS_PER_EPOCH = MASKS_PER_EPOCH # Max number of searches for each epoch
 
     # Mask colour
     mean_r_channel = np.mean([item[0]/255 for sublist in IMG for item in sublist])
@@ -93,8 +94,8 @@ if __name__ == '__main__':
 
     random.seed(42)
     MAX_MASK_SIZE = 100
-    MAX_MASKED_IMAGES = 1000
-    MASKS_PER_EPOCH = 1
+    MAX_MASKED_IMAGES = 100
+    MASKS_PER_EPOCH = 5
     # mapping_labels_to_dirs = map_labels_to_dirs()
 
     baseline_prediction_samples = pd.concat([pd.read_csv(f) for f in glob('./baseline_prediction_samples/*')])

@@ -1,9 +1,7 @@
 from glob import glob
 import matplotlib.pyplot as plt
+import numpy as np
 import os
-import pandas as pd
-import random
-import re
 from skimage import io
 
 from helpers import map_images_to_labels
@@ -28,7 +26,7 @@ def save_image(image_to_save, image_filename_to_save, width, height, dpi, img_fi
     os.makedirs(f"./net_occlusion_heatmaps/{img_filename.split('_')[0]}/{img_filename}/mask_dim_{MASK_SIZE}/{img_filename}_{image_filename_to_save}", exist_ok=True)
     plt.savefig(f"./net_occlusion_heatmaps/{img_filename.split('_')[0]}/{img_filename}/mask_dim_{MASK_SIZE}/{img_filename}_{image_filename_to_save}/{img_filename}_{image_filename_to_save}.JPEG")
 
-def main(f, label):
+def main(f):
 
 
     try:
@@ -44,60 +42,70 @@ def main(f, label):
 
     img_mask = init_mask(WIDTH, HEIGHT)
 
-    max_pos_intensity = 0
-    min_pos_intensity = 0
-    max_neg_intensity = 0
-    min_neg_intensity = 0
+    all_net_intensities = []
     for y in range(HEIGHT):
         for x in range(WIDTH):
             net_intensity = int(false_heatmap[y][x][0]) - int(true_heatmap[y][x][0])
 
+            all_net_intensities.append(net_intensity)
             img_mask[y][x][0] = net_intensity
-
-            if net_intensity >= 0:
-
-                if net_intensity > max_pos_intensity:
-                    max_pos_intensity = net_intensity
-
-                if net_intensity < min_pos_intensity:
-                    min_pos_intensity = net_intensity
-            
-            else:
-
-                if abs(net_intensity) > max_neg_intensity:
-                    max_neg_intensity = abs(net_intensity)
-
-                if abs(net_intensity) < min_neg_intensity:
-                    min_neg_intensity = abs(net_intensity)
     
+    mean_net_intensity = np.mean(all_net_intensities)
+    std_net_intensity = np.std(all_net_intensities)
+
+    all_standardised_intensities = []
     for y in range(HEIGHT):
         for x in range(WIDTH):
             intensity = img_mask[y][x][0]
 
-            if intensity >= 0:
-                normalised_intensity = (intensity - min_pos_intensity)/(max_pos_intensity - min_pos_intensity)
-                img_mask[y][x][0] = normalised_intensity
-            else:
-                normalised_intensity = (abs(intensity) - min_neg_intensity)/(max_neg_intensity - min_neg_intensity)
+            # Perform significance testing here
+            standardised_intensity = (intensity - mean_net_intensity)/std_net_intensity
+            all_standardised_intensities.append(standardised_intensity)
+            
+            img_mask[y][x][0] = standardised_intensity
+    
+    max_standardised_intensity = np.max(all_standardised_intensities)
+    min_standardised_intensity = np.min(all_standardised_intensities)
+
+    # lower_bound = 1.96 # 95% confidence interval
+    # lower_bound = 1.645 # 90% confidence interval
+    lower_bound = 1.282 # 80% confidence interval
+    # lower_bound = 1 # 68.2% confidence interval
+    img_cropped_to_mask = IMG.copy()
+    for y in range(HEIGHT):
+        for x in range(WIDTH):
+            intensity = img_mask[y][x][0]
+
+            if intensity >= lower_bound:
+                intensity = (intensity - lower_bound)/(max_standardised_intensity - lower_bound)
+                img_mask[y][x][0] = intensity
+            elif intensity <= -lower_bound:
+                intensity = (abs(intensity) - lower_bound)/(abs(min_standardised_intensity) - lower_bound)
                 img_mask[y][x][0] = 0
-                img_mask[y][x][2] = normalised_intensity
+                img_mask[y][x][2] = intensity
+            else:
+                img_mask[y][x][0] = 0
+
+            # Crop input image and channel intensities to masks
+            img_cropped_to_mask[y][x][0] *= img_mask[y][x][0]
+            img_cropped_to_mask[y][x][1] *= img_mask[y][x][0]
+            img_cropped_to_mask[y][x][2] *= img_mask[y][x][0]
 
             IMG[y][x][0] = (1-img_mask[y][x][0]-img_mask[y][x][2])*IMG[y][x][0] + 255*img_mask[y][x][0]
             IMG[y][x][1] = (1-img_mask[y][x][0]-img_mask[y][x][2])*IMG[y][x][1]
             IMG[y][x][2] = (1-img_mask[y][x][0]-img_mask[y][x][2])*IMG[y][x][2] + 255*img_mask[y][x][2]
 
     save_image(img_mask, 'net_heatmap', WIDTH, HEIGHT, DPI, f, MASK_SIZE)
+    save_image(img_cropped_to_mask, 'image_cropped_to_mask', WIDTH, HEIGHT, DPI, f, MASK_SIZE)
     save_image(IMG, 'image_with_mask', WIDTH, HEIGHT, DPI, f, MASK_SIZE)
     plt.clf()
 
 if __name__ == '__main__':
-
-    mapping = map_images_to_labels()
 
     occlusion_heatmaps = [f.split('/')[-1] for f in glob('./occlusion_heatmaps/**/*')]
     occlusion_heatmaps = [f for f in occlusion_heatmaps if '_' in f]
     existing_heatmaps = [f.split('/')[-1] for f in glob('./net_occlusion_heatmaps/**/*')]
     heatmaps = list(set(occlusion_heatmaps) - set(existing_heatmaps))
 
-    for f in heatmaps:
-        main(f, mapping[f.split('_')[0]])
+    for dir_name in heatmaps:
+        main(dir_name)

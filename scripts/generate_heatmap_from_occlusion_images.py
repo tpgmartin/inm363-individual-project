@@ -79,6 +79,8 @@ def main(f, label):
             for x in range(WIDTH):
                     # Find normalised mask on black background
                     img_mask[y][x][0] /= max_intensity
+                    img_mask[y][x][1] = 0
+                    img_mask[y][x][2] = 0
 
                     # Crop input image and channel intensities to masks
                     img_cropped_to_mask[y][x][0] *= img_mask[y][x][0]
