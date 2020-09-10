@@ -44,6 +44,7 @@ def main(args):
     mask_dim = [args.source_dir.split('/')[-2].split('_')[-1]] * num_predictions
     true_labels = [args.target_class] * num_predictions
 
+    # For occluded image prediction need to find prediction accuracy of true label
     predicted_labels = []
     for prediction in predictions:
         try:

@@ -30,7 +30,7 @@ def save_image(image_to_save, image_filename_to_save, width, height, dpi, img_fi
 
 def main(f, label):
 
-    df = pd.read_csv(f"./occluded_image_predictions/mask_dim_100/{'_'.join(label.split(' '))}_image_{f}_occluded_image_predictions.csv")
+    df = pd.read_csv(f"./occluded_image_predictions/mask_dim_50/{'_'.join(label.split(' '))}_image_{f}_occluded_image_predictions.csv")
     df = df[df['prediction_probability'].notna()]
     df_prediction_true, df_prediction_false = df[df['is_prediction_correct'] == True], df[df['is_prediction_correct'] == False]
 
@@ -111,5 +111,6 @@ if __name__ == '__main__':
     existing_heatmaps = [f.split('/')[-1] for f in glob('./occlusion_heatmaps/**/*')]
     occlusion_images = list(set(occlusion_images) - set(existing_heatmaps))
 
+    occlusion_images = ['n03450230_9453']
     for f in occlusion_images:
         main(f, mapping[f.split('_')[0]])

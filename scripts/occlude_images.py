@@ -93,7 +93,7 @@ def main(img_filename, dir_name, MAX_MASK_SIZE, MAX_MASKED_IMAGES, MASKS_PER_EPO
 if __name__ == '__main__':
 
     random.seed(42)
-    MAX_MASK_SIZE = 100
+    MAX_MASK_SIZE = 50
     MAX_MASKED_IMAGES = 100
     MASKS_PER_EPOCH = 5
     # mapping_labels_to_dirs = map_labels_to_dirs()
@@ -105,6 +105,7 @@ if __name__ == '__main__':
 
     images_to_occlude = list(set(baseline_prediction_samples_filenames) - set(existing_occluded_images))
 
+    images_to_occlude = ['n02871525_10490']
     for image in images_to_occlude:
         print(f'Starting image: {image}')
         main(image, image.split('_')[0], MAX_MASK_SIZE, MAX_MASKED_IMAGES, MASKS_PER_EPOCH)
