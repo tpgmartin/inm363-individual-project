@@ -62,7 +62,6 @@ def main(img_filename, dir_name, MAX_MASK_SIZE, MAX_MASKED_IMAGES, MASKS_PER_EPO
 
         for _ in range(MAX_MASKS_PER_EPOCH):
 
-            # start = time.time()
             CURRENT_SEARCHES = 0
             coords = get_mask_coords(CURRENT_SEARCHES, previous_mask_coords, HEIGHT, WIDTH, MASK_SIZE, 100)
 
@@ -83,17 +82,16 @@ def main(img_filename, dir_name, MAX_MASK_SIZE, MAX_MASKED_IMAGES, MASKS_PER_EPO
         plt.tight_layout(pad=0)
         os.makedirs(f'./occluded_images/{dir_name}/{img_filename}/mask_dim_{MASK_SIZE}/mask_no_{mask_no}', exist_ok=True)
         plt.savefig(f'./occluded_images/{dir_name}/{img_filename}/mask_dim_{MASK_SIZE}/mask_no_{mask_no}/mask_no_{mask_no}.JPEG')
+        plt.clf()
         mask_coords_df = pd.DataFrame({'x_min':[c[1] for c in all_mask_coords], 'y_min': [c[0] for c in all_mask_coords]})
         mask_coords_df.to_csv(f'./occluded_images/{dir_name}/{img_filename}/mask_dim_{MASK_SIZE}/mask_no_{mask_no}/mask_no_{mask_no}.csv', index=False)
-        # end = time.time()
-        # execution_times.append(end - start)
         mask_no += 1
 
 
 if __name__ == '__main__':
 
     random.seed(42)
-    MAX_MASK_SIZE = 50
+    MAX_MASK_SIZE = 100
     MAX_MASKED_IMAGES = 1000
     MASKS_PER_EPOCH = 5
     # mapping_labels_to_dirs = map_labels_to_dirs()
@@ -105,8 +103,10 @@ if __name__ == '__main__':
 
     images_to_occlude = list(set(baseline_prediction_samples_filenames) - set(existing_occluded_images))
 
-    images_to_occlude = ['n02871525_10490']
     for image in images_to_occlude:
+        start = time.time()
         print(f'Starting image: {image}')
         main(image, image.split('_')[0], MAX_MASK_SIZE, MAX_MASKED_IMAGES, MASKS_PER_EPOCH)
         print(f'Finsihed image: {image}')
+        end = time.time()
+        print('Elapsed time (minutes):', (end - start)/60)
