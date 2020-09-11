@@ -19,3 +19,19 @@ Run the script `get_benchmark_accuracies.py` to get the predicted label and pred
 ### Occlude Images
 
 Run `occlude_images.py`
+
+### Get Predictions for Occluded Images
+
+Run `get_occluded_image_accuracy.py`
+
+Also run one of the following
+* `check_true_label_prediction_accuracy.py` - return true label prediction delta
+* `check_true_vs_predicted_label_occluded_images.py` - determine whether predicted label is true label
+
+### Generate Heatmap from Occluded Images
+
+Run `generate_heatmap_from_occlusion_images.py` - only need to do this step if have run `check_true_vs_predicted_label_occluded_images.py`
+
+Then run one of,
+* `generate_heatmap_from_occlusion_images.py`
+* `generate_net_heatmap_from_prediction_probabilities.py`
