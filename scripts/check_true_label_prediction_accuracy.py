@@ -8,13 +8,9 @@ def main(filename):
 
     baseline_predictions = pd.read_csv(f'./baseline_prediction_samples/{true_label}baseline_prediction_samples.csv')
     true_label_prediction_probability = baseline_predictions[baseline_predictions['filename'].str.contains(image_file)]['prediction_probability'].values[0]
-
-    print(true_label_prediction_probability)
     
     occluded_image_predictions = pd.read_csv(filename)
     occluded_image_predictions['true_label_prediction_probability_delta'] = occluded_image_predictions['true_label_predictions'] - true_label_prediction_probability
-
-    # print(occluded_image_predictions)
 
     occluded_image_predictions.to_csv(filename, index=False)
 

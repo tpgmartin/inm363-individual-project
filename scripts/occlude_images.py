@@ -94,7 +94,7 @@ if __name__ == '__main__':
 
     random.seed(42)
     MAX_MASK_SIZE = 50
-    MAX_MASKED_IMAGES = 100
+    MAX_MASKED_IMAGES = 1000
     MASKS_PER_EPOCH = 5
     # mapping_labels_to_dirs = map_labels_to_dirs()
 
