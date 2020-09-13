@@ -23,7 +23,7 @@ def main(args):
         mymodel,
         args.target_class,
         sess,
-        './net_occlusion_heatmaps/n04485082/n04485082_19145/mask_dim_100/n04485082_19145_image_cropped_to_mask/')
+        './net_occlusion_heatmaps/n02342885/n02342885_12999/mask_dim_100/n02342885_12999_image_cropped_to_mask/')
 
     prediction, filename = cd.predict()
     
@@ -46,7 +46,7 @@ def parse_arguments(argv):
   parser.add_argument('--labels_path', type=str,
       help='Path to model checkpoints.', default='./imagenet_labels.txt')
   parser.add_argument('--target_class', type=str,
-      help='The name of the target class to be interpreted', default='tripod')
+      help='The name of the target class to be interpreted', default='hamster')
   return parser.parse_args(argv)
 
 

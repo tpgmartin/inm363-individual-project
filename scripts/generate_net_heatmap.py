@@ -30,8 +30,8 @@ def main(f):
 
 
     try:
-        false_heatmap = io.imread(f"./occlusion_heatmaps/{f.split('_')[0]}/{f}/mask_dim_50/is_prediction_correct_false/{f}_mask_heatmap/{f}_mask_heatmap.JPEG")
-        true_heatmap = io.imread(f"./occlusion_heatmaps/{f.split('_')[0]}/{f}/mask_dim_50/is_prediction_correct_true/{f}_mask_heatmap/{f}_mask_heatmap.JPEG")
+        false_heatmap = io.imread(f"./occlusion_heatmaps/{f.split('_')[0]}/{f}/mask_dim_100/is_prediction_correct_false/{f}_mask_heatmap/{f}_mask_heatmap.JPEG")
+        true_heatmap = io.imread(f"./occlusion_heatmaps/{f.split('_')[0]}/{f}/mask_dim_100/is_prediction_correct_true/{f}_mask_heatmap/{f}_mask_heatmap.JPEG")
         IMG = io.imread(f"../ACE/ImageNet/ILSVRC2012_img_train/{f.split('_')[0]}/{f}/{f}.JPEG")
     except FileNotFoundError:
         return
@@ -66,6 +66,9 @@ def main(f):
     
     max_standardised_intensity = np.max(all_standardised_intensities)
     min_standardised_intensity = np.min(all_standardised_intensities)
+
+    print(max_standardised_intensity)
+    print(min_standardised_intensity)
 
     # lower_bound = 1.96 # 95% confidence interval
     # lower_bound = 1.645 # 90% confidence interval
@@ -104,9 +107,10 @@ if __name__ == '__main__':
 
     occlusion_heatmaps = [f.split('/')[-1] for f in glob('./occlusion_heatmaps/**/*')]
     occlusion_heatmaps = [f for f in occlusion_heatmaps if '_' in f]
-    existing_heatmaps = [f.split('/')[-1] for f in glob('./net_occlusion_heatmaps/**/*')]
-    heatmaps = list(set(occlusion_heatmaps) - set(existing_heatmaps))
+    # existing_heatmaps = [f.split('/')[-1] for f in glob('./net_occlusion_heatmaps/**/*')]
+    # heatmaps = list(set(occlusion_heatmaps) - set(existing_heatmaps))
 
-    heatmaps = ['n03450230_9453']
-    for dir_name in heatmaps:
+    # heatmaps = ['n04540053_12791']
+    for dir_name in [f for f in occlusion_heatmaps if 'n02342885_96' in f]:
+        print(dir_name)
         main(dir_name)

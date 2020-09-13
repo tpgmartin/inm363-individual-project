@@ -63,7 +63,7 @@ def main(img_filename, dir_name, MAX_MASK_SIZE, MAX_MASKED_IMAGES, MASKS_PER_EPO
         for _ in range(MAX_MASKS_PER_EPOCH):
 
             CURRENT_SEARCHES = 0
-            coords = get_mask_coords(CURRENT_SEARCHES, previous_mask_coords, HEIGHT, WIDTH, MASK_SIZE, 100)
+            coords = get_mask_coords(CURRENT_SEARCHES, previous_mask_coords, HEIGHT, WIDTH, MASK_SIZE, 10)
 
             if not coords:
                 break
@@ -93,7 +93,7 @@ if __name__ == '__main__':
     random.seed(42)
     MAX_MASK_SIZE = 100
     MAX_MASKED_IMAGES = 1000
-    MASKS_PER_EPOCH = 5
+    MASKS_PER_EPOCH = 1
     # mapping_labels_to_dirs = map_labels_to_dirs()
 
     baseline_prediction_samples = pd.concat([pd.read_csv(f) for f in glob('./baseline_prediction_samples/*')])
@@ -103,6 +103,7 @@ if __name__ == '__main__':
 
     images_to_occlude = list(set(baseline_prediction_samples_filenames) - set(existing_occluded_images))
 
+    images_to_occlude = [image for image in images_to_occlude if 'n09229709' in image]
     for image in images_to_occlude:
         start = time.time()
         print(f'Starting image: {image}')

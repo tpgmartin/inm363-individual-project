@@ -30,8 +30,8 @@ def save_image(image_to_save, image_filename_to_save, width, height, dpi, img_fi
     ax.axis('off')
     plt.tight_layout(pad=0)
 
-    os.makedirs(f"./net_occlusion_heatmaps/{img_filename.split('_')[0]}/{img_filename}/mask_dim_{MASK_SIZE}/{img_filename}_{image_filename_to_save}", exist_ok=True)
-    plt.savefig(f"./net_occlusion_heatmaps/{img_filename.split('_')[0]}/{img_filename}/mask_dim_{MASK_SIZE}/{img_filename}_{image_filename_to_save}/{img_filename}_{image_filename_to_save}.JPEG")
+    os.makedirs(f"./net_occlusion_heatmaps_delta_prob/{img_filename.split('_')[0]}/{img_filename}/mask_dim_{MASK_SIZE}/{img_filename}_{image_filename_to_save}", exist_ok=True)
+    plt.savefig(f"./net_occlusion_heatmaps_delta_prob/{img_filename.split('_')[0]}/{img_filename}/mask_dim_{MASK_SIZE}/{img_filename}_{image_filename_to_save}/{img_filename}_{image_filename_to_save}.JPEG")
 
 def main(f, label, z_value):
 
@@ -39,12 +39,12 @@ def main(f, label, z_value):
 
     HEIGHT, WIDTH, _ = IMG.shape
     DPI = 72
-    MASK_SIZE = 50
+    MASK_SIZE = 100
 
     img_mask = init_mask(WIDTH, HEIGHT)
 
     # bookshop_image_n02871525_10490_occluded_image_predictions
-    df = pd.read_csv(f'./occluded_image_predictions/mask_dim_50/{label}_image_{f}_occluded_image_predictions.csv')
+    df = pd.read_csv(f'./occluded_image_predictions/mask_dim_100/{label}_image_{f}_occluded_image_predictions.csv')
     # prediction_probability_delta = df['true_label_prediction_probability_delta'].values
 
     prob_mean = df['true_label_prediction_probability_delta'].mean()
@@ -68,7 +68,11 @@ def main(f, label, z_value):
 
     for _, row in df.iterrows():
         filename = row['filename'][:-4] + 'csv'
-        pixel_intensity = 1 if row['standardised_prediction_prob'] < 0 else -1
+        if row['standardised_prediction_prob'] < 0:
+            pixel_intensity = 1
+        elif row['standardised_prediction_prob'] > 0:
+            pixel_intensity = -1
+            
         mask_coords = pd.read_csv(filename)
 
         for id_, row in mask_coords.iterrows():
@@ -86,13 +90,25 @@ def main(f, label, z_value):
 
             if pixel_intensity > 0:
                 pos_vals.append(pixel_intensity)
-            else:
+            elif pixel_intensity < 0:
                 neg_vals.append(abs(pixel_intensity))
 
-    ub_pos_val = np.max(pos_vals)
-    lb_pos_val = np.min(pos_vals)
-    ub_neg_val = np.max(neg_vals)
-    lb_neg_val = np.min(neg_vals)
+    print('Total pixels:', HEIGHT*WIDTH)
+    print('No. positive:', len(pos_vals))
+    print('No. negative:', len(neg_vals))
+    if len(pos_vals) != 0:
+        ub_pos_val = np.max(pos_vals)
+        lb_pos_val = np.min(pos_vals)
+    else:
+        ub_pos_val = 0
+        lb_pos_val = 0
+
+    if len(neg_vals) != 0:
+        ub_neg_val = np.max(neg_vals)
+        lb_neg_val = np.min(neg_vals)
+    else:
+        ub_neg_val = 0
+        lb_neg_val = 0
 
     img_cropped_to_mask = IMG.copy()
     for y in range(HEIGHT):
@@ -100,9 +116,13 @@ def main(f, label, z_value):
             intensity = img_mask[y][x][0]
             
             if intensity > 0:
-                intensity = (intensity - lb_pos_val)/(ub_pos_val - lb_pos_val)
-                img_mask[y][x][0] = intensity
-                img_mask[y][x][2] = 0
+                try:
+                    intensity = (intensity - lb_pos_val)/(ub_pos_val - lb_pos_val)
+                    img_mask[y][x][0] = intensity
+                    img_mask[y][x][2] = 0
+                except ZeroDivisionError:
+                    img_mask[y][x][0] = 0
+                    img_mask[y][x][2] = 0
             else:
                 try:
                     intensity = (abs(intensity) - lb_neg_val)/(ub_neg_val - lb_neg_val)
@@ -133,13 +153,14 @@ def main(f, label, z_value):
 
 if __name__ == '__main__':
 
-    mapping = map_images_to_labels()
+    # mapping = map_images_to_labels()
 
-    occlusion_heatmaps = [f.split('/')[-1] for f in glob('./occlusion_heatmaps/**/*')]
+    occlusion_heatmaps = [f.split('/')[-1] for f in glob('./occluded_image_predictions/**/*')]
     occlusion_heatmaps = [f for f in occlusion_heatmaps if '_' in f]
     existing_heatmaps = [f.split('/')[-1] for f in glob('./net_occlusion_heatmaps/**/*')]
-    heatmaps = list(set(occlusion_heatmaps) - set(existing_heatmaps))
+    # heatmaps = list(set(occlusion_heatmaps) - set(existing_heatmaps))
 
-    heatmaps = ['n02871525_10490']
+    heatmaps = [f for f in occlusion_heatmaps if 'n09229709' in f]
     for f in heatmaps:
-        main(f, mapping[f.split('_')[0]], 1.96)
+        print(f)
+        main(('_').join(f.split('_')[2:4]), f.split('_')[0], 1)

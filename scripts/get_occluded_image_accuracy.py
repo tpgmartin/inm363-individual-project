@@ -105,7 +105,7 @@ if __name__ == '__main__':
     mapping_images_to_labels = map_images_to_labels()
     args = parse_arguments(sys.argv[1:])
 
-    for images_path in glob(f'{args.source_dir}**/**/*'):
+    for images_path in [f for f in glob(f'{args.source_dir}**/**/*') if 'n09229709' in f]:
         args.target_class = mapping_images_to_labels[images_path.split('/')[2]]
         args.source_dir = f'{images_path}/'
         main(args)

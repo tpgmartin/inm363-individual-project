@@ -12,6 +12,8 @@ Will require [setting up](https://stackoverflow.com/questions/11443302/compiling
 
 ## Instructions
 
+To generate heatmaps from change in prediction probabilities end-to-end run `scripts/main.py`
+
 ### Generate Baseline Accuracies
 
 Run the script `get_benchmark_accuracies.py` to get the predicted label and prediction accuracies for training images. For these images, generate a random sample using `sample_baseline_images`.
@@ -33,5 +35,5 @@ Also run one of the following
 Run `generate_heatmap_from_occlusion_images.py` - only need to do this step if have run `check_true_vs_predicted_label_occluded_images.py`
 
 Then run one of,
-* `generate_heatmap_from_occlusion_images.py`
+* `generate_net_heatmap.py`
 * `generate_net_heatmap_from_prediction_probabilities.py`

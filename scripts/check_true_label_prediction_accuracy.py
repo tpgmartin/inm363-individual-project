@@ -16,6 +16,6 @@ def main(filename):
 
 if __name__ == '__main__':
 
-    # for f in [f for f in glob('occluded_image_predictions/**/*')]:
-    for f in ['./occluded_image_predictions/mask_dim_50/bookshop_image_n02871525_10490_occluded_image_predictions.csv']:
+    for f in [f for f in glob('occluded_image_predictions/**/*') if 'n09229709' in f]:
+    # for f in ['./occluded_image_predictions/mask_dim_50/bookshop_image_n02871525_10490_occluded_image_predictions.csv']:
         main(f'./{f}')
