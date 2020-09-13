@@ -6,6 +6,7 @@ labels/*.txt
 images
 baseline_predictions
 baseline_prediction_samples
+net_heatmap_predictions
 net_occlusion_heatmaps
 net_occlusion_heatmaps_delta_prob
 occluded_image_predictions

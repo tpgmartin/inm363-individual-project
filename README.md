@@ -37,3 +37,7 @@ Run `generate_heatmap_from_occlusion_images.py` - only need to do this step if h
 Then run one of,
 * `generate_net_heatmap.py`
 * `generate_net_heatmap_from_prediction_probabilities.py`
+
+### Check Classification of Heatmaps
+
+Run `check_classification_of_heatmaps.py` to find the predicted label and probability of heatmaps.
