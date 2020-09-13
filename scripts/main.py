@@ -28,12 +28,10 @@ if __name__ == '__main__':
 
     baseline_prediction_samples = pd.concat([pd.read_csv(f) for f in glob('./baseline_prediction_samples/*')])
     baseline_prediction_samples_filenames = [filename.split('/')[-2] for filename in baseline_prediction_samples['filename'].values]
-
     existing_occluded_images = [directory.split('/')[-1] for directory in glob('./occluded_images/**/*')]
-
     images_to_occlude = list(set(baseline_prediction_samples_filenames) - set(existing_occluded_images))
 
-    images_to_occlude = [image for image in images_to_occlude if 'n02966193_2173' in image]
+    # images_to_occlude = [image for image in images_to_occlude if 'n02966193_2173' in image]
     for image in images_to_occlude:
         occlude_images.main(image, image.split('_')[0], MAX_MASK_SIZE, MAX_MASKED_IMAGES, MASKS_PER_EPOCH)
     # #####################################################################################################################################
@@ -46,15 +44,16 @@ if __name__ == '__main__':
     args_params = dict(zip(keys,values))
     args = ArgsDict(args_params)
 
-    for images_path in [f for f in glob(f'{args.source_dir}**/**/*') if 'n02966193_2173' in f]:
+    # for images_path in [f for f in glob(f'{args.source_dir}**/**/*') if 'n02966193_2173' in f]:
+    for images_path in glob(f'{args.source_dir}**/**/*'):
         args.target_class = mapping_images_to_labels[images_path.split('/')[2]]
         args.source_dir = f'{images_path}/'
         get_occluded_image_accuracy.main(args)
     # #####################################################################################################################################
 
     # Check True Label Prediction Accuracy ################################################################################################
-    for f in [f for f in glob('occluded_image_predictions/**/*') if 'n02966193_2173' in f]:
     # for f in ['./occluded_image_predictions/mask_dim_50/bookshop_image_n02871525_10490_occluded_image_predictions.csv']:
+    for f in glob('occluded_image_predictions/**/*'):
         check_true_label_prediction_accuracy.main(f'./{f}')
     # #####################################################################################################################################
 
@@ -62,9 +61,9 @@ if __name__ == '__main__':
     occlusion_heatmaps = [f.split('/')[-1] for f in glob('./occluded_image_predictions/**/*')]
     occlusion_heatmaps = [f for f in occlusion_heatmaps if '_' in f]
     existing_heatmaps = [f.split('/')[-1] for f in glob('./net_occlusion_heatmaps/**/*')]
-    # heatmaps = list(set(occlusion_heatmaps) - set(existing_heatmaps))
+    heatmaps = list(set(occlusion_heatmaps) - set(existing_heatmaps))
     
-    heatmaps = [f for f in occlusion_heatmaps if 'n02966193_2173' in f]
+    # heatmaps = [f for f in occlusion_heatmaps if 'n02966193_2173' in f]
     for f in heatmaps:
         print(f)
         generate_net_heatmap_from_prediction_probabilities.main(('_').join(f.split('_')[2:4]), f.split('_')[0], 1)
