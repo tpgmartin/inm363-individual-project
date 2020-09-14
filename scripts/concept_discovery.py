@@ -1,3 +1,5 @@
+from multiprocessing import dummy as multiprocessing
+import numpy as np
 import os
 import tcav.model as model
 import tensorflow as tf
@@ -9,17 +11,21 @@ class ConceptDiscovery(object):
   def __init__(self,
                model,
                target_class,
+               bottleneck,
                sess,
                source_dir,
+               channel_mean=True,
                max_imgs=40,
                min_imgs=20,
                num_discovery_imgs=40,
                num_workers=20):
 
     self.model = model
+    self.bottleneck = bottleneck
     self.sess = sess
     self.target_class = target_class
     self.source_dir = source_dir
+    self.channel_mean = channel_mean
     self.image_shape = model.get_image_shape()[:2]
     self.max_imgs = max_imgs
     self.min_imgs = min_imgs
@@ -51,3 +57,28 @@ class ConceptDiscovery(object):
       self.discovery_images = raw_imgs
 
     return self.model.get_predictions(self.discovery_images), final_filenames
+
+  def get_bn_activations(self, bs=100, channel_mean=None):
+
+    imgs, _ = self.load_concept_imgs(None, self.num_discovery_imgs)
+
+    if channel_mean is None:
+      channel_mean = self.channel_mean
+
+    if self.num_workers:
+      pool = multiprocessing.Pool(self.num_workers)
+      output = pool.map(
+          lambda i: self.model.run_examples(imgs[i * bs:(i + 1) * bs], self.bottleneck),
+          np.arange(int(imgs.shape[0] / bs) + 1))
+    else:
+      output = []
+      for i in range(int(imgs.shape[0] / bs) + 1):
+        output.append(
+            self.model.run_examples(imgs[i * bs:(i + 1) * bs], self.bottleneck))
+
+    output = np.concatenate(output, 0)
+    if channel_mean and len(output.shape) > 3:
+      output = np.mean(output, (1, 2))
+    else:
+      output = np.reshape(output, [output.shape[0], -1])
+    return output

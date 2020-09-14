@@ -5,6 +5,9 @@ import tcav.model as model
 import tensorflow as tf
 
 # Helper functions
+def get_acts_from_images(imgs, model, bottleneck_name):
+  return np.asarray(model.run_examples(imgs, bottleneck_name)).squeeze()
+
 def map_labels_to_dirs(labels_to_dirs='./labels/ImageNet_label.txt'):
 
     labels_to_dirs = open(labels_to_dirs)

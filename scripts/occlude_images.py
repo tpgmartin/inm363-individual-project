@@ -103,7 +103,7 @@ if __name__ == '__main__':
 
     images_to_occlude = list(set(baseline_prediction_samples_filenames) - set(existing_occluded_images))
 
-    images_to_occlude = [image for image in images_to_occlude if 'n09229709' in image]
+    images_to_occlude = [image for image in images_to_occlude if 'n01534433' in image]
     for image in images_to_occlude:
         start = time.time()
         print(f'Starting image: {image}')
