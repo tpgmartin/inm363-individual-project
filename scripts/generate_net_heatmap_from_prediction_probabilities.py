@@ -123,7 +123,7 @@ def main(f, label, z_value):
                 except ZeroDivisionError:
                     img_mask[y][x][0] = 0
                     img_mask[y][x][2] = 0
-            else:
+            elif intensity < 0:
                 try:
                     intensity = (abs(intensity) - lb_neg_val)/(ub_neg_val - lb_neg_val)
                     img_mask[y][x][0] = 0
@@ -131,6 +131,9 @@ def main(f, label, z_value):
                 except ZeroDivisionError:
                     img_mask[y][x][0] = 0
                     img_mask[y][x][2] = 0
+            else:
+                img_mask[y][x][0] = 0
+                img_mask[y][x][2] = 0
 
             # Crop input image and channel intensities to masks
             img_cropped_to_mask[y][x][0] *= img_mask[y][x][0]
@@ -160,7 +163,7 @@ if __name__ == '__main__':
     existing_heatmaps = [f.split('/')[-1] for f in glob('./net_occlusion_heatmaps/**/*')]
     # heatmaps = list(set(occlusion_heatmaps) - set(existing_heatmaps))
 
-    heatmaps = [f for f in occlusion_heatmaps if 'n09229709' in f]
+    heatmaps = [f for f in occlusion_heatmaps if 'n09229709_10378' in f]
     for f in heatmaps:
         print(f)
-        main(('_').join(f.split('_')[2:4]), f.split('_')[0], 1)
+        main(('_').join(f.split('_')[2:4]), f.split('_')[0], 1.96)
