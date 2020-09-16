@@ -15,7 +15,7 @@ import tensorflow as tf
 from helpers import make_model
 from concept_discovery import ConceptDiscovery
 
-def main(args):
+def get_patch_activations(args):
     
     sess = utils.create_session()
     mymodel = make_model(sess, args.model_to_run, args.model_path, args.labels_path)
@@ -27,34 +27,11 @@ def main(args):
         sess,
         args.source_dir)
 
-    # try:
-    #     prediction, filename = cd.predict()
-    #     predictions.append(prediction)
-    #     filenames.append(filename[0])
-    # except ValueError as e:
-    #     predictions.append(np.nan)
-    #     filenames.append(source_dir)
-    #     pass
+    bn_activations = cd.get_bn_activations()
     
     sess.close()
 
-
-def parse_arguments(argv):
-  parser = argparse.ArgumentParser()
-  parser.add_argument('--source_dir', type=str,
-      help='''Directory where the network's classes image folders and random
-      concept folders are saved.''', default='./net_occlusion_heatmaps_delta_prob/n02966193/n02966193_2173/mask_dim_100/n02966193_2173_image_cropped_to_mask/')
-  parser.add_argument('--model_to_run', type=str,
-      help='The name of the model.', default='GoogleNet')
-  parser.add_argument('--model_path', type=str,
-      help='Path to model checkpoints.', default='./tensorflow_inception_graph.pb')
-  parser.add_argument('--labels_path', type=str,
-      help='Path to model checkpoints.', default='./imagenet_labels.txt')
-  parser.add_argument('--bottlenecks', type=str,
-      help='Names of the target layers of the network (comma separated)',
-                      default='mixed4c')
-  return parser.parse_args(argv)
-
+    return bn_activations
 
 def extract_patch(image, DPI=72):
 
@@ -88,12 +65,31 @@ def extract_patch(image, DPI=72):
             cropped_image[y-y_min][x-x_min].append(IMG[y][x][1])
             cropped_image[y-y_min][x-x_min].append(IMG[y][x][2])
 
-    os.makedirs(f"./patches/{IMAGE_CAT}/{IMAGE_NO}/mask_dim_{MASK_DIM}/{IMAGE_NO}_patch", exist_ok=True)
+    filepath = f"./patches/{IMAGE_CAT}/{IMAGE_NO}/mask_dim_{MASK_DIM}/{IMAGE_NO}_patch"
+    os.makedirs(filepath, exist_ok=True)
 
     # Save patch resized to original image dimensions
     cropped_image = Image.fromarray((np.array(cropped_image)).astype(np.uint8))
     image_resized = np.array(cropped_image.resize([IMG.shape[1], IMG.shape[0]], Image.BICUBIC))
-    Image.fromarray(image_resized).save(f"./patches/{IMAGE_CAT}/{IMAGE_NO}/mask_dim_{MASK_DIM}/{IMAGE_NO}_patch/{IMAGE_NO}_patch.png", format='PNG')
+    Image.fromarray(image_resized).save(f"{filepath}/{IMAGE_NO}_patch.png", format='PNG')
+
+    return image_resized, filepath
+
+def parse_arguments(argv):
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--source_dir', type=str,
+        help='''Directory where the network's classes image folders and random
+        concept folders are saved.''', default='')
+    parser.add_argument('--model_to_run', type=str,
+        help='The name of the model.', default='GoogleNet')
+    parser.add_argument('--model_path', type=str,
+        help='Path to model checkpoints.', default='./tensorflow_inception_graph.pb')
+    parser.add_argument('--labels_path', type=str,
+        help='Path to model checkpoints.', default='./imagenet_labels.txt')
+    parser.add_argument('--bottlenecks', type=str,
+        help='Names of the target layers of the network (comma separated)',
+                        default='mixed4c')
+    return parser.parse_args(argv)
 
 if __name__ == '__main__':
 
@@ -106,9 +102,12 @@ if __name__ == '__main__':
     # 4. Apply clustering - just standard k-means
     # 5. Remove outliers from clustering technique - this creates bottleneck dictionary for given bottleneck layer
 
-    # main(parse_arguments(sys.argv[1:]))
-
-    # Resize image patch
-
+    # images = glob('./net_occlusion_heatmaps_delta_prob/**/**/**/**/*')
+    # for image in images:
     img_path = './net_occlusion_heatmaps_delta_prob/n09229709/n09229709_47343/mask_dim_100/n09229709_47343_image_cropped_to_mask/n09229709_47343_image_cropped_to_mask.JPEG'
-    extract_patch(img_path)
+    patch, filepath = extract_patch(img_path)
+
+    args = parse_arguments(sys.argv[1:])
+    args.source_dir = filepath
+    bn_activations = get_patch_activations(args)
+
