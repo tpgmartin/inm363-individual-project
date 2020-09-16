@@ -56,6 +56,45 @@ def parse_arguments(argv):
   return parser.parse_args(argv)
 
 
+def extract_patch(image, DPI=72):
+
+    IMG = io.imread(image)
+
+    HEIGHT, WIDTH, _ = IMG.shape
+    DPI = DPI
+    IMAGE_NO = image.split('/')[3]
+    IMAGE_CAT = IMAGE_NO.split('_')[0]
+    MASK_DIM = image.split('/')[4].split('_')[-1]
+
+    x_coords = []
+    y_coords = []
+    for y in range(HEIGHT):
+        for x in range(WIDTH):
+            if np.mean(IMG[y][x])>0:
+                x_coords.append(x)
+                y_coords.append(y)
+
+    # Get x,y-coords of image segment
+    x_min, x_max = np.min(x_coords), np.max(x_coords)
+    y_min, y_max = np.min(y_coords), np.max(y_coords)
+
+    # Crop input image to dimensions of image segment
+    cropped_image = []
+    for y in range(y_min,y_max):
+        cropped_image.append([])
+        for x in range(x_min,x_max):
+            cropped_image[y-y_min].append([])
+            cropped_image[y-y_min][x-x_min].append(IMG[y][x][0])
+            cropped_image[y-y_min][x-x_min].append(IMG[y][x][1])
+            cropped_image[y-y_min][x-x_min].append(IMG[y][x][2])
+
+    os.makedirs(f"./patches/{IMAGE_CAT}/{IMAGE_NO}/mask_dim_{MASK_DIM}/{IMAGE_NO}_patch", exist_ok=True)
+
+    # Save patch resized to original image dimensions
+    cropped_image = Image.fromarray((np.array(cropped_image)).astype(np.uint8))
+    image_resized = np.array(cropped_image.resize([IMG.shape[1], IMG.shape[0]], Image.BICUBIC))
+    Image.fromarray(image_resized).save(f"./patches/{IMAGE_CAT}/{IMAGE_NO}/mask_dim_{MASK_DIM}/{IMAGE_NO}_patch/{IMAGE_NO}_patch.png", format='PNG')
+
 if __name__ == '__main__':
 
     # 1. Need to find patches from heatmap - likely just elements that are not blacked out
@@ -72,74 +111,4 @@ if __name__ == '__main__':
     # Resize image patch
 
     img_path = './net_occlusion_heatmaps_delta_prob/n09229709/n09229709_47343/mask_dim_100/n09229709_47343_image_cropped_to_mask/n09229709_47343_image_cropped_to_mask.JPEG'
-    IMG = io.imread(img_path)
-
-    HEIGHT, WIDTH, _ = IMG.shape
-    DPI = 72
-
-    x_coords = []
-    y_coords = []
-    for y in range(HEIGHT):
-        for x in range(WIDTH):
-            if np.mean(IMG[y][x])>0:
-                x_coords.append(x)
-                y_coords.append(y)
-
-    # h1, h2, w1, w2 = ones[0].min(), ones[0].max(), ones[1].min(), ones[1].max()
-    x_min, x_max = np.min(x_coords), np.max(x_coords)
-    y_min, y_max = np.min(y_coords), np.max(y_coords)
-
-    # IMG[y][x] = [c1,c2,c3]
-
-    cropped_image = []
-    for y in range(y_min,y_max):
-        cropped_image.append([])
-        for x in range(x_min,x_max):
-            cropped_image[y-y_min].append([])
-            cropped_image[y-y_min][x-x_min].append(IMG[y][x][0])
-            cropped_image[y-y_min][x-x_min].append(IMG[y][x][1])
-            cropped_image[y-y_min][x-x_min].append(IMG[y][x][2])
-
-    fig, ax = plt.subplots(figsize=(((x_max-x_min)/DPI),((y_max-y_min)/DPI)), dpi=DPI)
-    ax.imshow(cropped_image)
-    ax.axis('off')
-    plt.tight_layout(pad=0)
-
-    plt.savefig("cropped_example.JPEG")
-
-    # image_resized = np.array(image.resize(self.image_shape, Image.BICUBIC)).astype(float) / 255
-    cropped_image = Image.fromarray((np.array(cropped_image)).astype(np.uint8))
-    image_resized = np.array(cropped_image.resize(IMG.shape[:2], Image.BICUBIC)).astype(float) / 255
-
-    Image.fromarray(image_resized).save('resized_example', format='PNG')
-
-    # fig, ax = plt.subplots(figsize=((WIDTH/DPI),(HEIGHT/DPI)), dpi=DPI)
-    # ax.imshow(cropped_image)
-    # ax.axis('off')
-    # plt.tight_layout(pad=0)
-
-    # plt.savefig("resized_example.JPEG")
-
-    # def _extract_patch(self, image, mask):
-    """Extracts a patch out of an image.
-
-    Args:
-      image: The original image
-      mask: The binary mask of the patch area
-
-    Returns:
-      image_resized: The resized patch such that its boundaries touches the
-        image boundaries
-      patch: The original patch. Rest of the image is padded with average value
-    """
-    # Find x, y coords of non-zero pixels
-    # Crop image to these coords
-    # Resize cropped iamge to original image size
-    # mask_expanded = np.expand_dims(mask, -1)
-    # patch = (mask_expanded * image + (
-    #     1 - mask_expanded) * float(self.average_image_value) / 255)
-    # ones = np.where(mask == 1)
-    # h1, h2, w1, w2 = ones[0].min(), ones[0].max(), ones[1].min(), ones[1].max()
-    # image = Image.fromarray((patch[h1:h2, w1:w2] * 255).astype(np.uint8))
-    # image_resized = np.array(image.resize(self.image_shape,
-    #                                       Image.BICUBIC)).astype(float) / 255
+    extract_patch(img_path)
