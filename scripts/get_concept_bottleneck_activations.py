@@ -16,17 +16,18 @@ import tensorflow as tf
 from helpers import make_model
 from concept_discovery import ConceptDiscovery
 
-def get_patch_activations(args, cavs_dir):
+def get_patch_activations(args, activations_dir, cavs_dir):
     
     sess = utils.create_session()
     mymodel = make_model(sess, args.model_to_run, args.model_path, args.labels_path)
 
     cd = ConceptDiscovery(
         mymodel,
-        None,
+        args.target_class,
         args.bottlenecks,
         sess,
         args.source_dir,
+        activations_dir,
         cavs_dir)
 
     bn_activations = cd.get_bn_activations()
@@ -93,6 +94,8 @@ def parse_arguments(argv):
         help='Path to model checkpoints.', default='./tensorflow_inception_graph.pb')
     parser.add_argument('--labels_path', type=str,
         help='Path to model checkpoints.', default='./imagenet_labels.txt')
+    parser.add_argument('--target_class', type=str,
+      help='The name of the target class to be interpreted', default='bubble')
     parser.add_argument('--bottlenecks', type=str,
         help='Names of the target layers of the network (comma separated)',
                         default='mixed4c')
@@ -105,7 +108,9 @@ if __name__ == '__main__':
 
     args = parse_arguments(sys.argv[1:])
     cavs_dir = os.path.join(args.working_dir, 'cavs/')
+    activations_dir = os.path.join(args.working_dir, 'acts/')
     tf.gfile.MakeDirs(cavs_dir)
+    tf.gfile.MakeDirs(activations_dir)
 
     # 1. Need to find patches from heatmap - likely just elements that are not blacked out
     # 2. Resize each patch to original input image size
@@ -137,7 +142,7 @@ if __name__ == '__main__':
             filepaths.append(filepath)
             args.source_dir = filepath
             # Get activation for superpixel
-            bn_activations.append(get_patch_activations(args, cavs_dir)[0])
+            bn_activations.append(get_patch_activations(args, activations_dir, cavs_dir)[0])
 
     # Save to CSV
 
@@ -165,7 +170,7 @@ if __name__ == '__main__':
     concepts = []
     for l in range(len(labels)):
         concept = {}
-        concept['concept'] = l
+        concept['concept'] = f"{args.target_class}_concept{l}"
         concept['center'] = centers[l]
         idxs = [idx for idx, x in enumerate(labels) if x == l]
         concept['images'] = [filepaths[idx] for idx in idxs]
@@ -198,15 +203,18 @@ if __name__ == '__main__':
 
     for concept in concepts:
 
+        print(concept)
+
         concept_acts = []
         for concept_img in concept['images']:
 
             cd = ConceptDiscovery(
                 mymodel,
-                None,
+                args.target_class,
                 args.bottlenecks,
                 sess,
                 f"{concept_img}/",
+                activations_dir,
                 cavs_dir,
                 num_random_exp=args.num_random_exp)
 

@@ -15,6 +15,7 @@ class ConceptDiscovery(object):
                bottleneck,
                sess,
                source_dir,
+               activation_dir,
                cav_dir,
                num_random_exp=2,
                channel_mean=True,
@@ -29,6 +30,7 @@ class ConceptDiscovery(object):
     self.target_class = target_class
     self.num_random_exp = num_random_exp
     self.source_dir = source_dir
+    self.activation_dir = activation_dir
     self.cav_dir = cav_dir
     self.channel_mean = channel_mean
     self.image_shape = model.get_image_shape()[:2]
@@ -38,6 +40,7 @@ class ConceptDiscovery(object):
       num_discovery_imgs = max_imgs
     self.num_discovery_imgs = num_discovery_imgs
     self.num_workers = num_workers
+    self.discovery_images = None
 
   def load_concept_imgs(self, concept, max_imgs=1000):
 
@@ -58,7 +61,7 @@ class ConceptDiscovery(object):
   def predict(self, discovery_images=None):
 
     if discovery_images is None:
-      raw_imgs, final_filenames = self.load_concept_imgs(self.target_class, self.num_discovery_imgs)
+      raw_imgs, final_filenames = self.load_concept_imgs(None, self.num_discovery_imgs)
       self.discovery_images = raw_imgs
 
     return self.model.get_predictions(self.discovery_images), final_filenames
@@ -101,7 +104,8 @@ class ConceptDiscovery(object):
     rnd_acts_path = os.path.join(self.activation_dir, 'acts_{}_{}'.format(
         random_concept, bottleneck))
     if not tf.gfile.Exists(rnd_acts_path):
-      rnd_imgs = self.load_concept_imgs(random_concept, self.max_imgs)
+      # This will load images from source_dir
+      rnd_imgs, _ = self.load_concept_imgs(random_concept, self.max_imgs)
       acts = get_acts_from_images(rnd_imgs, self.model, bottleneck)
       with tf.gfile.Open(rnd_acts_path, 'w') as f:
         np.save(f, acts, allow_pickle=False)
@@ -153,15 +157,15 @@ class ConceptDiscovery(object):
       randoms = [
           'random500_{}'.format(i) for i in np.arange(self.num_random_exp)
       ]
-    if self.num_workers:
-      pool = multiprocessing.Pool(20)
-      accs = pool.map(
-          lambda rnd: self._calculate_cav(concept, rnd, bn, activations, ow),
-          randoms)
-    else:
-      accs = []
-      for rnd in randoms:
-        accs.append(self._calculate_cav(concept, rnd, bn, activations, ow))
+    # if self.num_workers:
+    #   pool = multiprocessing.Pool(20)
+    #   accs = pool.map(
+    #       lambda rnd: self._calculate_cav(concept, rnd, bn, activations, ow),
+    #       randoms)
+    # else:
+    accs = []
+    for rnd in randoms:
+      accs.append(self._calculate_cav(concept, rnd, bn, activations, ow))
     return accs
 
   def cavs(self, concept, min_acc=0., ow=True):
@@ -176,28 +180,50 @@ class ConceptDiscovery(object):
       A dicationary of classification accuracy of linear boundaries orthogonal
       to cav vectors
     """
-    # acc = {bn: {} for bn in self.bottleneck}
     acc = {self.bottleneck: {}}
     concepts_to_delete = []
+    # only one bottleneck layer
+    # for concept in concepts:
     # for bn in self.bottleneck:
-      # for concept in self.dic[bn]['concepts']:
-      # concept_imgs = self.dic[bn][concept]['images']
+    # for concept in self.dic[bn]['concepts']:
+    # concept_imgs = self.dic[bn][concept]['images']
     concept_imgs, _ = self.load_concept_imgs(None, self.num_discovery_imgs)
     concept_acts = get_acts_from_images(concept_imgs, self.model, self.bottleneck)
 
-    acc[self.bottleneck][concept] = self._concept_cavs(self.bottleneck, concept, concept_acts, ow=ow)
-    print('HELLO!!!!!')
-    #   if np.mean(acc[bn][concept]) < min_acc:
-    #     concepts_to_delete.append((bn, concept))
-    # target_class_acts = get_acts_from_images(
-    #     self.discovery_images, self.model, bn)
-    # acc[bn][self.target_class] = self._concept_cavs(
-    #     bn, self.target_class, target_class_acts, ow=ow)
-    # rnd_acts = self._random_concept_activations(bn, self.random_concept)
-    # acc[bn][self.random_concept] = self._concept_cavs(
-    #     bn, self.random_concept, rnd_acts, ow=ow)
-    # for bn, concept in concepts_to_delete:
-    #   self.delete_concept(bn, concept)
-    # return acc
+    acc[self.bottleneck][concept['concept']] = self._concept_cavs(self.bottleneck, concept['concept'], concept_acts, ow=ow)
+
+    if np.mean(acc[self.bottleneck][concept['concept']]) < min_acc:
+        concepts_to_delete.append((self.bottleneck, concept))
+
+    if self.discovery_images is None:
+      raw_imgs = self.load_concept_imgs(
+          self.target_class, self.num_discovery_imgs)
+      self.discovery_images = raw_imgs
+
+    print(self.discovery_images)
+    print(self.discovery_images)
+    target_class_acts = get_acts_from_images(
+        self.discovery_images, self.model, self.bottleneck)
+
+    acc[self.bottleneck][self.target_class] = self._concept_cavs(
+        self.bottleneck, self.target_class, target_class_acts, ow=ow)
+
+    rnd_acts = self._random_concept_activations(self.bottleneck, self.random_concept)
+    acc[self.bottleneck][self.random_concept] = self._concept_cavs(
+        self.bottleneck, self.random_concept, rnd_acts, ow=ow)
+    
+    # TODO: handle concepts to delete
+
+    return acc
+
+    def delete_concept(self, bn, concept):
+      """Removes a discovered concepts if it's not already removed.
+      Args:
+        bn: Bottleneck layer where the concepts is discovered.
+        concept: concept name
+      """
+      self.dic[bn].pop(concept, None)
+      if concept in self.dic[bn]['concepts']:
+        self.dic[bn]['concepts'].pop(self.dic[bn]['concepts'].index(concept))
 
     # #########################################################################
