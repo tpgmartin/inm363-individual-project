@@ -16,7 +16,7 @@ import tensorflow as tf
 from helpers import make_model
 from concept_discovery import ConceptDiscovery
 
-def get_patch_activations(args):
+def get_patch_activations(args, cavs_dir):
     
     sess = utils.create_session()
     mymodel = make_model(sess, args.model_to_run, args.model_path, args.labels_path)
@@ -26,7 +26,8 @@ def get_patch_activations(args):
         None,
         args.bottlenecks,
         sess,
-        args.source_dir)
+        args.source_dir,
+        cavs_dir)
 
     bn_activations = cd.get_bn_activations()
     
@@ -70,16 +71,13 @@ def extract_patch(image, DPI=72):
             cropped_image[y-y_min][x-x_min].append(IMG[y][x][1])
             cropped_image[y-y_min][x-x_min].append(IMG[y][x][2])
 
-    # Change name "patch"
-    filepath = f"./patches/{IMAGE_CAT}/{IMAGE_NO}/mask_dim_{MASK_DIM}/{IMAGE_NO}_superpixels"
+    filepath = f"./superpixels/{IMAGE_CAT}/{IMAGE_NO}/mask_dim_{MASK_DIM}/{IMAGE_NO}_superpixels"
     os.makedirs(filepath, exist_ok=True)
 
     # Save patch resized to original image dimensions
     cropped_image = Image.fromarray((np.array(cropped_image)).astype(np.uint8))
     image_resized = np.array(cropped_image.resize([IMG.shape[1], IMG.shape[0]], Image.BICUBIC))
-    # Change name "patch"
     Image.fromarray(image_resized).save(f"{filepath}/{IMAGE_NO}_superpixels.png", format='PNG')
-
     return image_resized, cropped_image, filepath
 
 def parse_arguments(argv):
@@ -87,6 +85,8 @@ def parse_arguments(argv):
     parser.add_argument('--source_dir', type=str,
         help='''Directory where the network's classes image folders and random
         concept folders are saved.''', default='')
+    parser.add_argument('--working_dir', type=str,
+      help='Directory to save the results.', default='./inm363-individual-project')
     parser.add_argument('--model_to_run', type=str,
         help='The name of the model.', default='GoogleNet')
     parser.add_argument('--model_path', type=str,
@@ -96,9 +96,16 @@ def parse_arguments(argv):
     parser.add_argument('--bottlenecks', type=str,
         help='Names of the target layers of the network (comma separated)',
                         default='mixed4c')
+    parser.add_argument('--num_random_exp', type=int,
+        help="Number of random experiments used for statistical testing, etc",
+                        default=20)
     return parser.parse_args(argv)
 
 if __name__ == '__main__':
+
+    args = parse_arguments(sys.argv[1:])
+    cavs_dir = os.path.join(args.working_dir, 'cavs/')
+    tf.gfile.MakeDirs(cavs_dir)
 
     # 1. Need to find patches from heatmap - likely just elements that are not blacked out
     # 2. Resize each patch to original input image size
@@ -119,7 +126,7 @@ if __name__ == '__main__':
     # costs = []
 
     # "bubble" images only
-    images = glob('./net_occlusion_heatmaps_delta_prob/n09229709/**/**/*_image_cropped_to_mask/*')[:3]
+    images = glob('./net_occlusion_heatmaps_delta_prob/n09229709/**/**/*_image_cropped_to_mask/*')[:1]
     for image in images:
     # img_path = './net_occlusion_heatmaps_delta_prob/n09229709/n09229709_47343/mask_dim_100/n09229709_47343_image_cropped_to_mask/n09229709_47343_image_cropped_to_mask.JPEG'
         print('------------------------------')
@@ -128,10 +135,9 @@ if __name__ == '__main__':
         superpixel, patch, filepath = extract_patch(image)
         if filepath:
             filepaths.append(filepath)
-            args = parse_arguments(sys.argv[1:])
             args.source_dir = filepath
             # Get activation for superpixel
-            bn_activations.append(get_patch_activations(args)[0])
+            bn_activations.append(get_patch_activations(args, cavs_dir)[0])
 
     # Save to CSV
 
@@ -149,24 +155,12 @@ if __name__ == '__main__':
     # * If true then for each concept reutrn images, partcher, and image numbers
 
     centers = None
-    n_clusters = 3
+    n_clusters = 1 # Need to adjust this
     km = cluster.KMeans(n_clusters)
     d = km.fit(bn_activations)
     centers = km.cluster_centers_
     d = np.linalg.norm(np.expand_dims(bn_activations, 1) - np.expand_dims(centers, 0), ord=2, axis=-1)
     labels, costs = np.argmin(d, -1), np.min(d, -1)
-
-    # label concepts by target label and concept number
-    # if highly_common_concept or cond2 or cond3:
-    #         concept_number += 1
-    #         concept = '{}_concept{}'.format(self.target_class, concept_number)
-    #         bn_dic['concepts'].append(concept)
-    #         bn_dic[concept] = {
-    #             'images': self.dataset[concept_idxs],
-    #             'patches': self.patches[concept_idxs],
-    #             'image_numbers': self.image_numbers[concept_idxs]
-    #         }
-    #         bn_dic[concept + '_center'] = centers[i]
 
     concepts = []
     for l in range(len(labels)):
@@ -177,9 +171,45 @@ if __name__ == '__main__':
         concept['images'] = [filepaths[idx] for idx in idxs]
         concepts.append(concept)
 
-    print('+++++++++++++++++++++++++++++++++++++')
-    print(concepts)
-    print('+++++++++++++++++++++++++++++++++++++')
-    # ^ Save labels and centers
+    # def cavs(self, min_acc=0., ow=True):
+    #     acc = {bn: {} for bn in self.bottlenecks}
+    #     concepts_to_delete = []
+    #     for bn in self.bottlenecks:
+    #     for concept in self.dic[bn]['concepts']:
+    #         concept_imgs = self.dic[bn][concept]['images']
+    #         concept_acts = get_acts_from_images(
+    #             concept_imgs, self.model, bn)
+    #         acc[bn][concept] = self._concept_cavs(bn, concept, concept_acts, ow=ow)
+    #         if np.mean(acc[bn][concept]) < min_acc:
+    #         concepts_to_delete.append((bn, concept))
+    #     target_class_acts = get_acts_from_images(
+    #         self.discovery_images, self.model, bn)
+    #     acc[bn][self.target_class] = self._concept_cavs(
+    #         bn, self.target_class, target_class_acts, ow=ow)
+    #     rnd_acts = self._random_concept_activations(bn, self.random_concept)
+    #     acc[bn][self.random_concept] = self._concept_cavs(
+    #         bn, self.random_concept, rnd_acts, ow=ow)
+    #     for bn, concept in concepts_to_delete:
+    #     self.delete_concept(bn, concept)
+    #     return acc
 
+    sess = utils.create_session()
+    mymodel = make_model(sess, args.model_to_run, args.model_path, args.labels_path)
 
+    for concept in concepts:
+
+        concept_acts = []
+        for concept_img in concept['images']:
+
+            cd = ConceptDiscovery(
+                mymodel,
+                None,
+                args.bottlenecks,
+                sess,
+                f"{concept_img}/",
+                cavs_dir,
+                num_random_exp=args.num_random_exp)
+
+            print(cd.cavs(concept))
+    
+    sess.close()

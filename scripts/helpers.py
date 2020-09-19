@@ -5,9 +5,6 @@ import tcav.model as model
 import tensorflow as tf
 
 # Helper functions
-def get_acts_from_images(imgs, model, bottleneck_name):
-  return np.asarray(model.run_examples(imgs, bottleneck_name)).squeeze()
-
 def map_labels_to_dirs(labels_to_dirs='./labels/ImageNet_label.txt'):
 
     labels_to_dirs = open(labels_to_dirs)
@@ -37,6 +34,9 @@ def map_images_to_labels(labels_to_dirs='./labels/ImageNet_label.txt'):
     mapping['n03710721'] = 'tank suit'
 
     return mapping
+
+def get_acts_from_images(imgs, model, bottleneck_name):
+  return np.asarray(model.run_examples(imgs, bottleneck_name)).squeeze()
 
 def make_model(sess, model_to_run, model_path, labels_path):
 

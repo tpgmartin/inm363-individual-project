@@ -103,8 +103,7 @@ if __name__ == '__main__':
 
     images_to_occlude = list(set(baseline_prediction_samples_filenames) - set(existing_occluded_images))
 
-    images_to_occlude = [image for image in images_to_occlude if 'n01534433' in image]
-    for image in images_to_occlude:
+    for image in [image for image in images_to_occlude if 'n01944390' in image]:
         start = time.time()
         print(f'Starting image: {image}')
         main(image, image.split('_')[0], MAX_MASK_SIZE, MAX_MASKED_IMAGES, MASKS_PER_EPOCH)
