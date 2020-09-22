@@ -16,7 +16,7 @@ import tensorflow as tf
 from helpers import make_model
 from concept_discovery import ConceptDiscovery
 
-def get_patch_activations(args, activations_dir, cavs_dir):
+def get_patch_activations(args, activations_dir, cavs_dir, random_concept='random_discovery'):
     
     sess = utils.create_session()
     mymodel = make_model(sess, args.model_to_run, args.model_path, args.labels_path)
@@ -24,6 +24,7 @@ def get_patch_activations(args, activations_dir, cavs_dir):
     cd = ConceptDiscovery(
         mymodel,
         args.target_class,
+        random_concept,
         args.bottlenecks,
         sess,
         args.source_dir,
@@ -87,7 +88,7 @@ def parse_arguments(argv):
         help='''Directory where the network's classes image folders and random
         concept folders are saved.''', default='')
     parser.add_argument('--working_dir', type=str,
-      help='Directory to save the results.', default='./inm363-individual-project')
+      help='Directory to save the results.', default='./')
     parser.add_argument('--model_to_run', type=str,
         help='The name of the model.', default='GoogleNet')
     parser.add_argument('--model_path', type=str,
@@ -107,6 +108,7 @@ def parse_arguments(argv):
 if __name__ == '__main__':
 
     args = parse_arguments(sys.argv[1:])
+    random_concept = 'random_discovery'
     cavs_dir = os.path.join(args.working_dir, 'cavs/')
     activations_dir = os.path.join(args.working_dir, 'acts/')
     tf.gfile.MakeDirs(cavs_dir)
@@ -134,9 +136,6 @@ if __name__ == '__main__':
     images = glob('./net_occlusion_heatmaps_delta_prob/n09229709/**/**/*_image_cropped_to_mask/*')[:1]
     for image in images:
     # img_path = './net_occlusion_heatmaps_delta_prob/n09229709/n09229709_47343/mask_dim_100/n09229709_47343_image_cropped_to_mask/n09229709_47343_image_cropped_to_mask.JPEG'
-        print('------------------------------')
-        print(image)
-        print('------------------------------')
         superpixel, patch, filepath = extract_patch(image)
         if filepath:
             filepaths.append(filepath)
@@ -176,34 +175,10 @@ if __name__ == '__main__':
         concept['images'] = [filepaths[idx] for idx in idxs]
         concepts.append(concept)
 
-    # def cavs(self, min_acc=0., ow=True):
-    #     acc = {bn: {} for bn in self.bottlenecks}
-    #     concepts_to_delete = []
-    #     for bn in self.bottlenecks:
-    #     for concept in self.dic[bn]['concepts']:
-    #         concept_imgs = self.dic[bn][concept]['images']
-    #         concept_acts = get_acts_from_images(
-    #             concept_imgs, self.model, bn)
-    #         acc[bn][concept] = self._concept_cavs(bn, concept, concept_acts, ow=ow)
-    #         if np.mean(acc[bn][concept]) < min_acc:
-    #         concepts_to_delete.append((bn, concept))
-    #     target_class_acts = get_acts_from_images(
-    #         self.discovery_images, self.model, bn)
-    #     acc[bn][self.target_class] = self._concept_cavs(
-    #         bn, self.target_class, target_class_acts, ow=ow)
-    #     rnd_acts = self._random_concept_activations(bn, self.random_concept)
-    #     acc[bn][self.random_concept] = self._concept_cavs(
-    #         bn, self.random_concept, rnd_acts, ow=ow)
-    #     for bn, concept in concepts_to_delete:
-    #     self.delete_concept(bn, concept)
-    #     return acc
-
     sess = utils.create_session()
     mymodel = make_model(sess, args.model_to_run, args.model_path, args.labels_path)
 
     for concept in concepts:
-
-        print(concept)
 
         concept_acts = []
         for concept_img in concept['images']:
@@ -211,6 +186,7 @@ if __name__ == '__main__':
             cd = ConceptDiscovery(
                 mymodel,
                 args.target_class,
+                random_concept,
                 args.bottlenecks,
                 sess,
                 f"{concept_img}/",
@@ -218,6 +194,11 @@ if __name__ == '__main__':
                 cavs_dir,
                 num_random_exp=args.num_random_exp)
 
-            print(cd.cavs(concept))
+            cav_accuraciess, concepts_to_delete = cd.cavs(concept)
+
+            # get TCAVs
+            print('tcavs ~~~~~~~~~~~~~~~~~~~~~~~~~')
+            print(cd.tcavs(concept))
+            print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
     
     sess.close()

@@ -12,6 +12,7 @@ class ConceptDiscovery(object):
   def __init__(self,
                model,
                target_class,
+               random_concept,
                bottleneck,
                sess,
                source_dir,
@@ -33,6 +34,7 @@ class ConceptDiscovery(object):
     self.activation_dir = activation_dir
     self.cav_dir = cav_dir
     self.channel_mean = channel_mean
+    self.random_concept = random_concept
     self.image_shape = model.get_image_shape()[:2]
     self.max_imgs = max_imgs
     self.min_imgs = min_imgs
@@ -169,17 +171,7 @@ class ConceptDiscovery(object):
     return accs
 
   def cavs(self, concept, min_acc=0., ow=True):
-    """Calculates cavs for all discovered concepts.
-    This method calculates and saves CAVs for all the discovered concepts
-    versus all random concepts in all the bottleneck layers
-    Args:
-      min_acc: Delete discovered concept if the average classification accuracy
-        of the CAV is less than min_acc
-      ow: If True, overwrites an already calcualted cav.
-    Returns:
-      A dicationary of classification accuracy of linear boundaries orthogonal
-      to cav vectors
-    """
+
     acc = {self.bottleneck: {}}
     concepts_to_delete = []
     # only one bottleneck layer
@@ -190,18 +182,21 @@ class ConceptDiscovery(object):
     concept_imgs, _ = self.load_concept_imgs(None, self.num_discovery_imgs)
     concept_acts = get_acts_from_images(concept_imgs, self.model, self.bottleneck)
 
+    print('concept_acts~~~~~~~~~~~~~~~~~~~')
+    print(len(concept_acts))
+    print(len(concept_acts[0]))
+    print(len(concept_acts[0][0]))
+    print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+
     acc[self.bottleneck][concept['concept']] = self._concept_cavs(self.bottleneck, concept['concept'], concept_acts, ow=ow)
 
     if np.mean(acc[self.bottleneck][concept['concept']]) < min_acc:
         concepts_to_delete.append((self.bottleneck, concept))
 
     if self.discovery_images is None:
-      raw_imgs = self.load_concept_imgs(
+      self.discovery_images, _ = self.load_concept_imgs(
           self.target_class, self.num_discovery_imgs)
-      self.discovery_images = raw_imgs
 
-    print(self.discovery_images)
-    print(self.discovery_images)
     target_class_acts = get_acts_from_images(
         self.discovery_images, self.model, self.bottleneck)
 
@@ -211,19 +206,96 @@ class ConceptDiscovery(object):
     rnd_acts = self._random_concept_activations(self.bottleneck, self.random_concept)
     acc[self.bottleneck][self.random_concept] = self._concept_cavs(
         self.bottleneck, self.random_concept, rnd_acts, ow=ow)
-    
-    # TODO: handle concepts to delete
 
-    return acc
+    for bn, concept in concepts_to_delete:
+      self.delete_concept(bn, concept)
+    # Need to delete concepts from concepts list in `get_concept_bottleneck_activations.py`
+    return acc, concepts_to_delete
 
-    def delete_concept(self, bn, concept):
-      """Removes a discovered concepts if it's not already removed.
-      Args:
-        bn: Bottleneck layer where the concepts is discovered.
-        concept: concept name
-      """
-      self.dic[bn].pop(concept, None)
-      if concept in self.dic[bn]['concepts']:
-        self.dic[bn]['concepts'].pop(self.dic[bn]['concepts'].index(concept))
+  def delete_concept(self, bn, concept):
+    """Removes a discovered concepts if it's not already removed.
+    Args:
+      bn: Bottleneck layer where the concepts is discovered.
+      concept: concept name
+    """
+    self.dic[bn].pop(concept, None)
+    if concept in self.dic[bn]['concepts']:
+      self.dic[bn]['concepts'].pop(self.dic[bn]['concepts'].index(concept))
 
-    # #########################################################################
+  # #########################################################################
+
+  # TCAVs from ACE script ###################################################
+
+  def tcavs(self, concept, test=False, sort=True, tcav_score_images=None):
+
+    # concept = concept['concept']
+
+    # tcav_scores = {bn: {} for bn in self.bottlenecks}
+    tcav_scores = {self.bottleneck: {}}
+    randoms = ['random500_{}'.format(i) for i in np.arange(self.num_random_exp)]
+    if tcav_score_images is None:  # Load target class images if not given
+      raw_imgs, _ = self.load_concept_imgs(self.target_class, 2 * self.max_imgs)
+      tcav_score_images = raw_imgs[-self.max_imgs:]
+    gradients = self._return_gradients(tcav_score_images)
+    # for bn in self.bottlenecks:
+    # for concept in self.dic[bn]['concepts'] + [self.random_concept]:
+    concept = concept['concept'] + [self.random_concept]
+    def t_func(rnd):
+      return self._tcav_score(self.bottleneck, concept, rnd, gradients)
+    if self.num_workers:
+      pool = multiprocessing.Pool(self.num_workers)
+      tcav_scores[self.bottleneck][concept] = pool.map(lambda rnd: t_func(rnd), randoms)
+    else:
+      tcav_scores[self.bottleneck][concept] = [t_func(rnd) for rnd in randoms]
+    if sort:
+      self._sort_concepts(tcav_scores)
+    return tcav_scores
+
+  def _return_gradients(self, images):
+    gradients = {}
+    class_id = self.model.label_to_id(self.target_class.replace('_', ' '))
+    # for bn in self.bottlenecks:
+    acts = get_acts_from_images(images, self.model, self.bottleneck)
+    bn_grads = np.zeros((acts.shape[0], np.prod(acts.shape[1:])))
+    print('acts.shape[0]', acts.shape[0])
+    print('acts.shape[1:]', acts.shape[1:])
+    print('self.bottlenecks_gradients~~~~~~~~~~~~~~')
+    print(self.model.bottlenecks_gradients['mixed4c'])
+    print(self.model.bottlenecks_gradients['mixed4c'].shape)
+    print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+    print('----------------------------------')
+    print('acts')
+    print(len(acts))
+    print(len(acts[0]))
+    print(len(acts[0][0]))
+    print('class_id')
+    print(class_id)
+    print('self.bottleneck')
+    print(self.bottleneck)
+    print('----------------------------------')
+    print('bn_grads>>>>>>>>>>>>>>>>>>>>>>>>>>')
+    print(len(bn_grads))
+    print(len(bn_grads[0]))
+    print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
+    # for i in range(len(acts)):
+    #   bn_grads[i] = self.model.get_gradient(
+    #       acts[i:i+1], [class_id], self.bottleneck).reshape(-1)
+    print(self.model.get_gradient(acts, [class_id], self.bottleneck).reshape(-1))
+    gradients[self.bottleneck] = bn_grads
+    return gradients
+
+  def _tcav_score(self, bn, concept, rnd, gradients):
+    vector = self.load_cav_direction(concept, rnd, bn)
+    prod = np.sum(gradients[bn] * vector, -1)
+    return np.mean(prod < 0)
+
+  def load_cav_direction(self, c, r, bn, directory=None):
+    if directory is None:
+      directory = self.cav_dir
+    params = tf.contrib.training.HParams(model_type='linear', alpha=.01)
+    cav_key = cav.CAV.cav_key([c, r], bn, params.model_type, params.alpha)
+    cav_path = os.path.join(self.cav_dir, cav_key.replace('/', '.') + '.pkl')
+    vector = cav.CAV.load_cav(cav_path).cavs[0]
+    return np.expand_dims(vector, 0) / np.linalg.norm(vector, ord=2)
+
+# #########################################################################
