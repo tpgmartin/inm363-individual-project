@@ -42,10 +42,10 @@ def extract_patch(image, DPI=72):
     IMG = io.imread(image)
 
     HEIGHT, WIDTH, _ = IMG.shape
-    DPI = DPI
-    IMAGE_NO = image.split('/')[3]
-    IMAGE_CAT = IMAGE_NO.split('_')[0]
-    MASK_DIM = image.split('/')[4].split('_')[-1]
+    DPI = DPI # <- skip this line
+    IMAGE_NO = image.split('/')[3] # <- skip this line
+    IMAGE_CAT = IMAGE_NO.split('_')[0] # <- skip this line
+    MASK_DIM = image.split('/')[4].split('_')[-1] # <- skip this line
 
     x_coords = []
     y_coords = []
@@ -73,13 +73,14 @@ def extract_patch(image, DPI=72):
             cropped_image[y-y_min][x-x_min].append(IMG[y][x][1])
             cropped_image[y-y_min][x-x_min].append(IMG[y][x][2])
 
-    filepath = f"./superpixels/{IMAGE_CAT}/{IMAGE_NO}/mask_dim_{MASK_DIM}/{IMAGE_NO}_superpixels"
-    os.makedirs(filepath, exist_ok=True)
+    filepath = f"./superpixels/{IMAGE_CAT}/{IMAGE_NO}/mask_dim_{MASK_DIM}/{IMAGE_NO}_superpixels" # <- skip this line
+    os.makedirs(filepath, exist_ok=True) # <- skip this line
 
     # Save patch resized to original image dimensions
     cropped_image = Image.fromarray((np.array(cropped_image)).astype(np.uint8))
     image_resized = np.array(cropped_image.resize([IMG.shape[1], IMG.shape[0]], Image.BICUBIC))
-    Image.fromarray(image_resized).save(f"{filepath}/{IMAGE_NO}_superpixels.png", format='PNG')
+    Image.fromarray(image_resized).save(f"{filepath}/{IMAGE_NO}_superpixels.png", format='PNG') # <- skip this line
+    # "cropped_image" is same as "patch"
     return image_resized, cropped_image, filepath
 
 def parse_arguments(argv):
@@ -133,15 +134,18 @@ if __name__ == '__main__':
     # costs = []
 
     # "bubble" images only
-    images = glob('./net_occlusion_heatmaps_delta_prob/n09229709/**/**/*_image_cropped_to_mask/*')[:1]
+    images = glob('./net_occlusion_heatmaps_delta_prob/n09229709/**/**/*_image_cropped_to_mask/*')
     for image in images:
     # img_path = './net_occlusion_heatmaps_delta_prob/n09229709/n09229709_47343/mask_dim_100/n09229709_47343_image_cropped_to_mask/n09229709_47343_image_cropped_to_mask.JPEG'
-        superpixel, patch, filepath = extract_patch(image)
-        if filepath:
-            filepaths.append(filepath)
-            args.source_dir = filepath
-            # Get activation for superpixel
-            bn_activations.append(get_patch_activations(args, activations_dir, cavs_dir)[0])
+        
+        extract_patch(image)
+        
+        # superpixel, patch, filepath = extract_patch(image)
+        # if filepath:
+        #     filepaths.append(filepath)
+        #     args.source_dir = filepath
+        #     # Get activation for superpixel
+        #     bn_activations.append(get_patch_activations(args, activations_dir, cavs_dir)[0])
 
     # Save to CSV
 
@@ -158,47 +162,50 @@ if __name__ == '__main__':
     # images more half of all images
     # * If true then for each concept reutrn images, partcher, and image numbers
 
-    centers = None
-    n_clusters = 1 # Need to adjust this
-    km = cluster.KMeans(n_clusters)
-    d = km.fit(bn_activations)
-    centers = km.cluster_centers_
-    d = np.linalg.norm(np.expand_dims(bn_activations, 1) - np.expand_dims(centers, 0), ord=2, axis=-1)
-    labels, costs = np.argmin(d, -1), np.min(d, -1)
+    # What can I do to reuse original ACE code?
 
-    concepts = []
-    for l in range(len(labels)):
-        concept = {}
-        concept['concept'] = f"{args.target_class}_concept{l}"
-        concept['center'] = centers[l]
-        idxs = [idx for idx, x in enumerate(labels) if x == l]
-        concept['images'] = [filepaths[idx] for idx in idxs]
-        concepts.append(concept)
+    # Skip for now
+    # centers = None
+    # n_clusters = 3 # Need to adjust this
+    # km = cluster.KMeans(n_clusters)
+    # d = km.fit(bn_activations)
+    # centers = km.cluster_centers_
+    # d = np.linalg.norm(np.expand_dims(bn_activations, 1) - np.expand_dims(centers, 0), ord=2, axis=-1)
+    # labels, costs = np.argmin(d, -1), np.min(d, -1)
 
-    sess = utils.create_session()
-    mymodel = make_model(sess, args.model_to_run, args.model_path, args.labels_path)
+    # concepts = []
+    # for c in range(len(centers)):
+    #     concept = {}
+    #     concept['concept'] = f"{args.target_class}_concept{c}"
+    #     concept['center'] = centers[c]
+    #     idxs = [idx for idx, x in enumerate(labels) if x == c]
+    #     concept['images'] = [filepaths[idx] for idx in idxs]
+    #     concepts.append(concept)
 
-    for concept in concepts:
+    # sess = utils.create_session()
+    # mymodel = make_model(sess, args.model_to_run, args.model_path, args.labels_path)
 
-        concept_acts = []
-        for concept_img in concept['images']:
+    # for concept in concepts:
 
-            cd = ConceptDiscovery(
-                mymodel,
-                args.target_class,
-                random_concept,
-                args.bottlenecks,
-                sess,
-                f"{concept_img}/",
-                activations_dir,
-                cavs_dir,
-                num_random_exp=args.num_random_exp)
+    #     concept_acts = []
+    #     for concept_img in concept['images']:
 
-            cav_accuraciess, concepts_to_delete = cd.cavs(concept)
+    #         cd = ConceptDiscovery(
+    #             mymodel,
+    #             args.target_class,
+    #             random_concept,
+    #             args.bottlenecks,
+    #             sess,
+    #             f"{concept_img}/",
+    #             activations_dir,
+    #             cavs_dir,
+    #             num_random_exp=args.num_random_exp)
 
-            # get TCAVs
-            print('tcavs ~~~~~~~~~~~~~~~~~~~~~~~~~')
-            print(cd.tcavs(concept))
-            print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+    #         cav_accuraciess, concepts_to_delete = cd.cavs(concept)
+
+    #     # get TCAVs
+    #     print('tcavs ~~~~~~~~~~~~~~~~~~~~~~~~~')
+    #     print(cd.tcavs(concept))
+    #     print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
     
-    sess.close()
+    # sess.close()

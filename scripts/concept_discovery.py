@@ -182,12 +182,6 @@ class ConceptDiscovery(object):
     concept_imgs, _ = self.load_concept_imgs(None, self.num_discovery_imgs)
     concept_acts = get_acts_from_images(concept_imgs, self.model, self.bottleneck)
 
-    print('concept_acts~~~~~~~~~~~~~~~~~~~')
-    print(len(concept_acts))
-    print(len(concept_acts[0]))
-    print(len(concept_acts[0][0]))
-    print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
-
     acc[self.bottleneck][concept['concept']] = self._concept_cavs(self.bottleneck, concept['concept'], concept_acts, ow=ow)
 
     if np.mean(acc[self.bottleneck][concept['concept']]) < min_acc:
@@ -239,16 +233,16 @@ class ConceptDiscovery(object):
     gradients = self._return_gradients(tcav_score_images)
     # for bn in self.bottlenecks:
     # for concept in self.dic[bn]['concepts'] + [self.random_concept]:
-    concept = concept['concept'] + [self.random_concept]
-    def t_func(rnd):
-      return self._tcav_score(self.bottleneck, concept, rnd, gradients)
-    if self.num_workers:
-      pool = multiprocessing.Pool(self.num_workers)
-      tcav_scores[self.bottleneck][concept] = pool.map(lambda rnd: t_func(rnd), randoms)
-    else:
-      tcav_scores[self.bottleneck][concept] = [t_func(rnd) for rnd in randoms]
-    if sort:
-      self._sort_concepts(tcav_scores)
+    for concept in [concept['concept']] + [self.random_concept]:
+      def t_func(rnd):
+        return self._tcav_score(self.bottleneck, concept, rnd, gradients)
+      if self.num_workers:
+        pool = multiprocessing.Pool(self.num_workers)
+        tcav_scores[self.bottleneck][concept] = pool.map(lambda rnd: t_func(rnd), randoms)
+      else:
+        tcav_scores[self.bottleneck][concept] = [t_func(rnd) for rnd in randoms]
+    # if sort:
+      # self._sort_concepts(tcav_scores)
     return tcav_scores
 
   def _return_gradients(self, images):
@@ -257,30 +251,10 @@ class ConceptDiscovery(object):
     # for bn in self.bottlenecks:
     acts = get_acts_from_images(images, self.model, self.bottleneck)
     bn_grads = np.zeros((acts.shape[0], np.prod(acts.shape[1:])))
-    print('acts.shape[0]', acts.shape[0])
-    print('acts.shape[1:]', acts.shape[1:])
-    print('self.bottlenecks_gradients~~~~~~~~~~~~~~')
-    print(self.model.bottlenecks_gradients['mixed4c'])
-    print(self.model.bottlenecks_gradients['mixed4c'].shape)
-    print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
-    print('----------------------------------')
-    print('acts')
-    print(len(acts))
-    print(len(acts[0]))
-    print(len(acts[0][0]))
-    print('class_id')
-    print(class_id)
-    print('self.bottleneck')
-    print(self.bottleneck)
-    print('----------------------------------')
-    print('bn_grads>>>>>>>>>>>>>>>>>>>>>>>>>>')
-    print(len(bn_grads))
-    print(len(bn_grads[0]))
-    print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
     # for i in range(len(acts)):
     #   bn_grads[i] = self.model.get_gradient(
     #       acts[i:i+1], [class_id], self.bottleneck).reshape(-1)
-    print(self.model.get_gradient(acts, [class_id], self.bottleneck).reshape(-1))
+    # print(self.model.get_gradient(np.array([acts]), [class_id], self.bottleneck).reshape(-1))
     gradients[self.bottleneck] = bn_grads
     return gradients
 
