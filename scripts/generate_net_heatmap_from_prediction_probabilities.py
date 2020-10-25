@@ -136,9 +136,13 @@ def main(f, label, z_value):
                 img_mask[y][x][2] = 0
 
             # Crop input image and channel intensities to masks
-            img_cropped_to_mask[y][x][0] *= img_mask[y][x][0]
-            img_cropped_to_mask[y][x][1] *= img_mask[y][x][0]
-            img_cropped_to_mask[y][x][2] *= img_mask[y][x][0]
+            mean_pixel_intensity = np.mean(IMG)
+            if img_mask[y][x][0] == 0:
+                img_cropped_to_mask[y][x][0] = mean_pixel_intensity
+                img_cropped_to_mask[y][x][1] = mean_pixel_intensity
+                img_cropped_to_mask[y][x][2] = mean_pixel_intensity
+            else:
+                pass
 
             try:
                 IMG[y][x][0] = (1-img_mask[y][x][0]-img_mask[y][x][2])*IMG[y][x][0] + 255*img_mask[y][x][0]
@@ -163,7 +167,7 @@ if __name__ == '__main__':
     existing_heatmaps = [f.split('/')[-1] for f in glob('./net_occlusion_heatmaps/**/*')]
     # heatmaps = list(set(occlusion_heatmaps) - set(existing_heatmaps))
 
-    heatmaps = [f for f in occlusion_heatmaps if 'n09229709_10378' in f]
+    heatmaps = [f for f in occlusion_heatmaps if 'n09229709_28418' in f]
     for f in heatmaps:
         print(f)
         main(('_').join(f.split('_')[2:4]), f.split('_')[0], 1.96)
