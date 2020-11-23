@@ -1,0 +1,1001 @@
+label,raw_label,most_similar_label,cosine_similarity
+kit fox,kit fox,,
+english setter,English setter,,
+siberian husky,Siberian husky,,
+australian terrier,Australian terrier,,
+english springer,English springer,,
+grey whale,grey whale,,
+lesser panda,lesser panda,,
+egyptian cat,Egyptian cat,,
+ibex,ibex,ptarmigan,0.5292630791664124
+persian cat,Persian cat,,
+cougar,cougar,coyote,0.7155816555023193
+gazelle,gazelle,cheetah,0.5484806299209595
+porcupine,porcupine,leopard,0.5092303156852722
+sea lion,sea lion,,
+malamute,malamute,collie,0.6467183232307434
+badger,badger,polecat,0.49675071239471436
+great dane,Great Dane,,
+walker hound,Walker hound,,
+welsh springer spaniel,Welsh springer spaniel,,
+whippet,whippet,doberman,0.5600378513336182
+scottish deerhound,Scottish deerhound,,
+killer whale,killer whale,,
+mink,mink,lynx,0.48380786180496216
+african elephant,African elephant,,
+weimaraner,Weimaraner,keeshond,0.6838314533233643
+soft-coated wheaten terrier,soft-coated wheaten terrier,,
+dandie dinmont,Dandie Dinmont,,
+red wolf,red wolf,,
+old english sheepdog,Old English sheepdog,,
+jaguar,jaguar,lynx,0.581459641456604
+otterhound,otterhound,,
+bloodhound,bloodhound,beagle,0.5677886009216309
+airedale,Airedale,,
+hyena,hyena,baboon,0.5858524441719055
+meerkat,meerkat,baboon,0.5292682647705078
+giant schnauzer,giant schnauzer,,
+titi,titi,colobus,0.5998938679695129
+three-toed sloth,three-toed sloth,,
+sorrel,sorrel,cardoon,0.5211452841758728
+black-footed ferret,black-footed ferret,,
+dalmatian,dalmatian,weimaraner,0.66743004322052
+black-and-tan coonhound,black-and-tan coonhound,,
+papillon,papillon,schipperke,0.7253285646438599
+skunk,skunk,coyote,0.5475552678108215
+staffordshire bullterrier,Staffordshire bullterrier,,
+mexican hairless,Mexican hairless,,
+bouvier des flandres,Bouvier des Flandres,,
+weasel,weasel,badger,0.48722580075263977
+miniature poodle,miniature poodle,,
+cardigan,Cardigan,overskirt,0.537300169467926
+malinois,malinois,schipperke,0.6541218757629395
+bighorn,bighorn,bison,0.6210498213768005
+fox squirrel,fox squirrel,,
+colobus,colobus,guenon,0.6695790886878967
+tiger cat,tiger cat,,
+lhasa,Lhasa,papillon,0.5081232190132141
+impala,impala,warthog,0.6031294465065002
+coyote,coyote,cougar,0.7155816555023193
+yorkshire terrier,Yorkshire terrier,,
+newfoundland,Newfoundland,,
+brown bear,brown bear,,
+red fox,red fox,,
+norwegian elkhound,Norwegian elkhound,,
+rottweiler,Rottweiler,collie,0.6578083634376526
+hartebeest,hartebeest,impala,0.5664829611778259
+saluki,Saluki,borzoi,0.6405378580093384
+grey fox,grey fox,,
+schipperke,schipperke,papillon,0.7253285646438599
+pekinese,Pekinese,,
+brabancon griffon,Brabancon griffon,,
+west highland white terrier,West Highland white terrier,,
+sealyham terrier,Sealyham terrier,,
+guenon,guenon,siamang,0.6721621155738831
+mongoose,mongoose,hyena,0.48984450101852417
+indri,indri,colobus,0.5989353060722351
+tiger,tiger,leopard,0.6132040023803711
+irish wolfhound,Irish wolfhound,,
+wild boar,wild boar,,
+entlebucher,EntleBucher,,
+zebra,zebra,hippopotamus,0.5641687512397766
+ram,ram,slug,0.333793967962265
+french bulldog,French bulldog,,
+orangutan,orangutan,gorilla,0.5961936116218567
+basenji,basenji,borzoi,0.6950019001960754
+leopard,leopard,cheetah,0.623271107673645
+bernese mountain dog,Bernese mountain dog,,
+maltese dog,Maltese dog,,
+norfolk terrier,Norfolk terrier,,
+toy terrier,toy terrier,,
+vizsla,vizsla,schipperke,0.6833739876747131
+cairn,cairn,obelisk,0.4801284968852997
+squirrel monkey,squirrel monkey,,
+groenendael,groenendael,,
+clumber,clumber,,
+siamese cat,Siamese cat,,
+chimpanzee,chimpanzee,gorilla,0.6095555424690247
+komondor,komondor,,
+afghan hound,Afghan hound,,
+japanese spaniel,Japanese spaniel,,
+proboscis monkey,proboscis monkey,,
+guinea pig,guinea pig,,
+white wolf,white wolf,,
+ice bear,ice bear,,
+gorilla,gorilla,chimpanzee,0.6095555424690247
+borzoi,borzoi,schipperke,0.7006547451019287
+toy poodle,toy poodle,,
+kerry blue terrier,Kerry blue terrier,,
+ox,ox,ostrich,0.37667492032051086
+scotch terrier,Scotch terrier,,
+tibetan mastiff,Tibetan mastiff,,
+spider monkey,spider monkey,,
+doberman,Doberman,pomeranian,0.6889361143112183
+boston bull,Boston bull,,
+greater swiss mountain dog,Greater Swiss Mountain dog,,
+appenzeller,Appenzeller,,
+shih-tzu,Shih-Tzu,,
+irish water spaniel,Irish water spaniel,,
+pomeranian,Pomeranian,schipperke,0.6989486217498779
+bedlington terrier,Bedlington terrier,,
+warthog,warthog,impala,0.6031294465065002
+arabian camel,Arabian camel,,
+siamang,siamang,guenon,0.6721621155738831
+miniature schnauzer,miniature schnauzer,,
+collie,collie,beagle,0.697783887386322
+golden retriever,golden retriever,,
+irish terrier,Irish terrier,,
+affenpinscher,affenpinscher,keeshond,0.5292165875434875
+border collie,Border collie,,
+hare,hare,cheetah,0.5046040415763855
+boxer,boxer,pug,0.4343937039375305
+silky terrier,silky terrier,,
+beagle,beagle,collie,0.697783887386322
+leonberg,Leonberg,,
+german short-haired pointer,German short-haired pointer,,
+patas,patas,titi,0.49937111139297485
+dhole,dhole,,
+baboon,baboon,hyena,0.5858524441719055
+macaque,macaque,guenon,0.5705259442329407
+chesapeake bay retriever,Chesapeake Bay retriever,,
+bull mastiff,bull mastiff,,
+kuvasz,kuvasz,,
+capuchin,capuchin,basenji,0.5688014030456543
+pug,pug,chihuahua,0.6971673965454102
+curly-coated retriever,curly-coated retriever,,
+norwich terrier,Norwich terrier,,
+flat-coated retriever,flat-coated retriever,,
+hog,hog,corn,0.5003533959388733
+keeshond,keeshond,schipperke,0.7000305652618408
+eskimo dog,Eskimo dog,,
+brittany spaniel,Brittany spaniel,,
+standard poodle,standard poodle,,
+lakeland terrier,Lakeland terrier,,
+snow leopard,snow leopard,,
+gordon setter,Gordon setter,,
+dingo,dingo,wombat,0.5923686027526855
+standard schnauzer,standard schnauzer,,
+hamster,hamster,chihuahua,0.5295847058296204
+tibetan terrier,Tibetan terrier,,
+arctic fox,Arctic fox,,
+wire-haired fox terrier,wire-haired fox terrier,,
+basset,basset,schipperke,0.6559066772460938
+water buffalo,water buffalo,,
+american black bear,American black bear,,
+angora,Angora,wool,0.5434457063674927
+bison,bison,bighorn,0.6210498213768005
+howler monkey,howler monkey,,
+hippopotamus,hippopotamus,gorilla,0.565105676651001
+chow,chow,cheeseburger,0.45914843678474426
+giant panda,giant panda,,
+american staffordshire terrier,American Staffordshire terrier,,
+shetland sheepdog,Shetland sheepdog,,
+great pyrenees,Great Pyrenees,,
+chihuahua,Chihuahua,pug,0.6971673965454102
+tabby,tabby,beagle,0.6868280172348022
+marmoset,marmoset,guenon,0.5240800976753235
+labrador retriever,Labrador retriever,,
+saint bernard,Saint Bernard,,
+armadillo,armadillo,triceratops,0.515852689743042
+samoyed,Samoyed,,
+bluetick,bluetick,borzoi,0.642285168170929
+redbone,redbone,schipperke,0.6818727850914001
+polecat,polecat,borzoi,0.5515334010124207
+marmot,marmot,beaver,0.5348657965660095
+kelpie,kelpie,borzoi,0.6787469387054443
+gibbon,gibbon,siamang,0.6140556335449219
+llama,llama,beagle,0.5539130568504333
+miniature pinscher,miniature pinscher,,
+wood rabbit,wood rabbit,,
+italian greyhound,Italian greyhound,,
+lion,lion,tiger,0.5121040940284729
+cocker spaniel,cocker spaniel,,
+irish setter,Irish setter,,
+dugong,dugong,otter,0.5383636355400085
+indian elephant,Indian elephant,,
+beaver,beaver,coyote,0.5646629333496094
+sussex spaniel,Sussex spaniel,,
+pembroke,Pembroke,,
+blenheim spaniel,Blenheim spaniel,,
+madagascar cat,Madagascar cat,,
+rhodesian ridgeback,Rhodesian ridgeback,,
+lynx,lynx,cougar,0.5921729803085327
+african hunting dog,African hunting dog,,
+langur,langur,tusker,0.6174497604370117
+ibizan hound,Ibizan hound,,
+timber wolf,timber wolf,,
+cheetah,cheetah,leopard,0.623271107673645
+english foxhound,English foxhound,,
+briard,briard,,
+sloth bear,sloth bear,,
+border terrier,Border terrier,,
+german shepherd,German shepherd,,
+otter,otter,pelican,0.6449128985404968
+koala,koala,wombat,0.6323026418685913
+tusker,tusker,langur,0.6174497604370117
+echidna,echidna,lorikeet,0.6244845986366272
+wallaby,wallaby,dingo,0.5680041909217834
+platypus,platypus,echidna,0.5975183844566345
+wombat,wombat,koala,0.6323026418685913
+revolver,revolver,rifle,0.6385781764984131
+umbrella,umbrella,cloak,0.34618398547172546
+schooner,schooner,yawl,0.640313446521759
+soccer ball,soccer ball,,
+accordion,accordion,banjo,0.6353048086166382
+ant,ant,cockroach,0.5551186800003052
+starfish,starfish,jellyfish,0.568268895149231
+chambered nautilus,chambered nautilus,,
+grand piano,grand piano,,
+laptop,laptop,notebook,0.67857825756073
+strawberry,strawberry,pineapple,0.6026434302330017
+airliner,airliner,plane,0.7167277932167053
+warplane,warplane,missile,0.4995364844799042
+airship,airship,plane,0.47718003392219543
+balloon,balloon,kite,0.5276596546173096
+space shuttle,space shuttle,,
+fireboat,fireboat,pier,0.47939616441726685
+gondola,gondola,ski,0.5456451177597046
+speedboat,speedboat,catamaran,0.632594645023346
+lifeboat,lifeboat,schooner,0.46616077423095703
+canoe,canoe,paddle,0.6400002837181091
+yawl,yawl,schooner,0.640313446521759
+catamaran,catamaran,trimaran,0.6776024103164673
+trimaran,trimaran,catamaran,0.6776024103164673
+container ship,container ship,,
+liner,liner,plate,0.2931808531284332
+pirate,pirate,lifeboat,0.41022375226020813
+aircraft carrier,aircraft carrier,,
+submarine,submarine,schooner,0.4714292883872986
+wreck,wreck,cliff,0.2787148356437683
+half track,half track,,
+tank,tank,radiator,0.3920571208000183
+missile,missile,warplane,0.4995364844799042
+bobsled,bobsled,ski,0.45275992155075073
+dogsled,dogsled,snowmobile,0.492232084274292
+bicycle-built-for-two,bicycle-built-for-two,,
+mountain bike,mountain bike,,
+freight car,freight car,,
+passenger car,passenger car,,
+barrow,barrow,thresher,0.37998273968696594
+shopping cart,shopping cart,,
+motor scooter,motor scooter,,
+forklift,forklift,crane,0.6210452914237976
+electric locomotive,electric locomotive,,
+steam locomotive,steam locomotive,,
+amphibian,amphibian,otter,0.6206340193748474
+ambulance,ambulance,stretcher,0.5142790675163269
+beach wagon,beach wagon,,
+cab,cab,minivan,0.5320988297462463
+convertible,convertible,minivan,0.35035383701324463
+jeep,jeep,minibus,0.6241374015808105
+limousine,limousine,cab,0.5266083478927612
+minivan,minivan,pickup,0.5978912711143494
+model t,Model T,,
+racer,racer,boxer,0.40094852447509766
+sports car,sports car,,
+go-kart,go-kart,,
+golfcart,golfcart,,
+moped,moped,tricycle,0.5060741305351257
+snowplow,snowplow,plow,0.583476185798645
+fire engine,fire engine,,
+garbage truck,garbage truck,,
+pickup,pickup,minivan,0.5978912711143494
+tow truck,tow truck,,
+trailer truck,trailer truck,,
+moving van,moving van,,
+police van,police van,,
+recreational vehicle,recreational vehicle,,
+streetcar,streetcar,viaduct,0.5710351467132568
+snowmobile,snowmobile,ski,0.5895644426345825
+tractor,tractor,forklift,0.6037556529045105
+mobile home,mobile home,,
+tricycle,tricycle,moped,0.5060741305351257
+unicycle,unicycle,tricycle,0.4739059507846832
+horse cart,horse cart,,
+jinrikisha,jinrikisha,,
+oxcart,oxcart,tractor,0.41069862246513367
+bassinet,bassinet,crib,0.7230319380760193
+cradle,cradle,crate,0.3235471248626709
+crib,crib,bassinet,0.7230319380760193
+four-poster,four-poster,,
+bookcase,bookcase,vase,0.49495071172714233
+china cabinet,china cabinet,,
+medicine chest,medicine chest,,
+chiffonier,chiffonier,,
+table lamp,table lamp,,
+file,file,binder,0.2866630256175995
+park bench,park bench,,
+barber chair,barber chair,,
+throne,throne,monarch,0.6191686987876892
+folding chair,folding chair,,
+rocking chair,rocking chair,,
+studio couch,studio couch,,
+toilet seat,toilet seat,,
+desk,desk,bookcase,0.4738543629646301
+pool table,pool table,,
+dining table,dining table,,
+entertainment center,entertainment center,,
+wardrobe,wardrobe,cardigan,0.5146294832229614
+granny smith,Granny Smith,,
+orange,orange,lemon,0.39823752641677856
+lemon,lemon,cucumber,0.6119891405105591
+fig,fig,artichoke,0.5027309060096741
+pineapple,pineapple,banana,0.6587538123130798
+banana,banana,pineapple,0.6587538123130798
+jackfruit,jackfruit,pineapple,0.540382981300354
+custard apple,custard apple,,
+pomegranate,pomegranate,lemon,0.5496553182601929
+acorn,acorn,junco,0.4491897523403168
+hip,hip,chest,0.3740198016166687
+ear,ear,microphone,0.4879021644592285
+rapeseed,rapeseed,corn,0.5506597757339478
+corn,corn,rapeseed,0.5506597757339478
+buckeye,buckeye,junco,0.44300922751426697
+organ,organ,violin,0.4521423876285553
+upright,upright,pedestal,0.3603664040565491
+chime,chime,harp,0.323168009519577
+drum,drum,flute,0.45391616225242615
+gong,gong,banjo,0.2796595096588135
+maraca,maraca,ocarina,0.49506863951683044
+marimba,marimba,flute,0.6752065420150757
+steel drum,steel drum,,
+banjo,banjo,harmonica,0.8015701174736023
+cello,cello,violin,0.8853902220726013
+violin,violin,cello,0.8853902220726013
+harp,harp,flute,0.6976373791694641
+acoustic guitar,acoustic guitar,,
+electric guitar,electric guitar,,
+cornet,cornet,trombone,0.7272205352783203
+french horn,French horn,,
+trombone,trombone,bassoon,0.7771544456481934
+harmonica,harmonica,banjo,0.8015701174736023
+ocarina,ocarina,flute,0.5470784902572632
+panpipe,panpipe,marimba,0.5596413612365723
+bassoon,bassoon,cello,0.8024012446403503
+oboe,oboe,bassoon,0.7972103357315063
+sax,sax,trombone,0.75257807970047
+flute,flute,violin,0.7700375318527222
+daisy,daisy,sorrel,0.4308170974254608
+yellow lady's slipper,yellow lady's slipper,,
+cliff,cliff,promontory,0.4785062372684479
+valley,valley,alp,0.37910276651382446
+alp,alp,ibex,0.40193238854408264
+volcano,volcano,geyser,0.4489440619945526
+promontory,promontory,cliff,0.4785062372684479
+sandbar,sandbar,pier,0.5274885892868042
+coral reef,coral reef,,
+lakeside,lakeside,boathouse,0.39964377880096436
+seashore,seashore,pier,0.45269134640693665
+geyser,geyser,volcano,0.4489440619945526
+hatchet,hatchet,cleaver,0.43972739577293396
+cleaver,cleaver,screwdriver,0.4504075050354004
+letter opener,letter opener,,
+plane,plane,airliner,0.7167277932167053
+power drill,power drill,,
+lawn mower,lawn mower,,
+hammer,hammer,cleaver,0.428739458322525
+corkscrew,corkscrew,spatula,0.4310917854309082
+can opener,can opener,,
+plunger,plunger,spatula,0.48804178833961487
+screwdriver,screwdriver,plunger,0.47263002395629883
+shovel,shovel,plow,0.5280941128730774
+plow,plow,snowplow,0.583476185798645
+chain saw,chain saw,,
+cock,cock,hen,0.5299640893936157
+hen,hen,cock,0.5299640893936157
+ostrich,ostrich,zebra,0.5116862058639526
+brambling,brambling,,
+goldfinch,goldfinch,robin,0.6556845307350159
+house finch,house finch,,
+junco,junco,robin,0.6325510144233704
+indigo bunting,indigo bunting,,
+robin,robin,goldfinch,0.6556845307350159
+bulbul,bulbul,hornbill,0.5933371186256409
+jay,jay,drake,0.49629297852516174
+magpie,magpie,robin,0.4852156639099121
+chickadee,chickadee,junco,0.6233519911766052
+water ouzel,water ouzel,,
+kite,kite,balloon,0.5276596546173096
+bald eagle,bald eagle,,
+vulture,vulture,baboon,0.4415890574455261
+great grey owl,great grey owl,,
+black grouse,black grouse,,
+ptarmigan,ptarmigan,redshank,0.6229372620582581
+ruffed grouse,ruffed grouse,,
+prairie chicken,prairie chicken,,
+peacock,peacock,flamingo,0.5457661747932434
+quail,quail,goose,0.5554084181785583
+partridge,partridge,robin,0.5174407958984375
+african grey,African grey,,
+macaw,macaw,guenon,0.5018067955970764
+sulphur-crested cockatoo,sulphur-crested cockatoo,,
+lorikeet,lorikeet,echidna,0.6244845986366272
+coucal,coucal,,
+bee eater,bee eater,,
+hornbill,hornbill,bulbul,0.5933371186256409
+hummingbird,hummingbird,chickadee,0.621506929397583
+jacamar,jacamar,,
+toucan,toucan,hummingbird,0.5169591903686523
+drake,drake,robin,0.5848069787025452
+red-breasted merganser,red-breasted merganser,,
+goose,goose,quail,0.5554084181785583
+black swan,black swan,,
+white stork,white stork,,
+black stork,black stork,,
+spoonbill,spoonbill,oystercatcher,0.6268882155418396
+flamingo,flamingo,peacock,0.5457661747932434
+american egret,American egret,,
+little blue heron,little blue heron,,
+bittern,bittern,oystercatcher,0.6197659373283386
+crane,crane,forklift,0.6210452914237976
+limpkin,limpkin,,
+american coot,American coot,,
+bustard,bustard,bittern,0.5719243884086609
+ruddy turnstone,ruddy turnstone,,
+red-backed sandpiper,red-backed sandpiper,,
+redshank,redshank,oystercatcher,0.6770530343055725
+dowitcher,dowitcher,,
+oystercatcher,oystercatcher,redshank,0.6770530343055725
+european gallinule,European gallinule,,
+pelican,pelican,otter,0.6449128985404968
+king penguin,king penguin,,
+albatross,albatross,loggerhead,0.35609301924705505
+great white shark,great white shark,,
+tiger shark,tiger shark,,
+hammerhead,hammerhead,spoonbill,0.48331889510154724
+electric ray,electric ray,,
+stingray,stingray,jellyfish,0.4848669469356537
+barracouta,barracouta,,
+coho,coho,sturgeon,0.7126024961471558
+tench,tench,coho,0.408274382352829
+goldfish,goldfish,hamster,0.4996359944343567
+eel,eel,crayfish,0.5765835046768188
+rock beauty,rock beauty,,
+anemone fish,anemone fish,,
+lionfish,lionfish,jellyfish,0.5405158996582031
+puffer,puffer,weimaraner,0.3607623875141144
+sturgeon,sturgeon,coho,0.7126024961471558
+gar,gar,spoonbill,0.411725789308548
+loggerhead,loggerhead,otter,0.5168848037719727
+leatherback turtle,leatherback turtle,,
+mud turtle,mud turtle,,
+terrapin,terrapin,otter,0.541966438293457
+box turtle,box turtle,,
+banded gecko,banded gecko,,
+common iguana,common iguana,,
+american chameleon,American chameleon,,
+whiptail,whiptail,guenon,0.6086593866348267
+agama,agama,bulbul,0.4966045916080475
+frilled lizard,frilled lizard,,
+alligator lizard,alligator lizard,,
+gila monster,Gila monster,,
+green lizard,green lizard,,
+african chameleon,African chameleon,,
+komodo dragon,Komodo dragon,,
+triceratops,triceratops,trilobite,0.594149112701416
+african crocodile,African crocodile,,
+american alligator,American alligator,,
+thunder snake,thunder snake,,
+ringneck snake,ringneck snake,,
+hognose snake,hognose snake,,
+green snake,green snake,,
+king snake,king snake,,
+garter snake,garter snake,,
+water snake,water snake,,
+vine snake,vine snake,,
+night snake,night snake,,
+boa constrictor,boa constrictor,,
+rock python,rock python,,
+indian cobra,Indian cobra,,
+green mamba,green mamba,,
+sea snake,sea snake,,
+horned viper,horned viper,,
+diamondback,diamondback,spoonbill,0.5955815315246582
+sidewinder,sidewinder,corkscrew,0.3800716698169708
+european fire salamander,European fire salamander,,
+common newt,common newt,,
+eft,eft,drake,0.386671781539917
+spotted salamander,spotted salamander,,
+axolotl,axolotl,flatworm,0.5032848715782166
+bullfrog,bullfrog,robin,0.5390923619270325
+tree frog,tree frog,,
+tailed frog,tailed frog,,
+whistle,whistle,scoreboard,0.3686862587928772
+wing,wing,muzzle,0.2663578689098358
+paintbrush,paintbrush,broom,0.5075982213020325
+hand blower,hand blower,,
+oxygen mask,oxygen mask,,
+snorkel,snorkel,paddle,0.4718484878540039
+loudspeaker,loudspeaker,microphone,0.4897543489933014
+microphone,microphone,loudspeaker,0.4897543489933014
+screen,screen,projector,0.5090276002883911
+mouse,mouse,joystick,0.525871753692627
+electric fan,electric fan,,
+oil filter,oil filter,,
+strainer,strainer,tub,0.5156150460243225
+space heater,space heater,,
+stove,stove,coffeepot,0.5691215395927429
+guillotine,guillotine,corkscrew,0.3389092683792114
+barometer,barometer,beacon,0.2797505259513855
+rule,rule,monarch,0.22023507952690125
+odometer,odometer,stopwatch,0.3848443925380707
+scale,scale,stage,0.3135269582271576
+analog clock,analog clock,,
+digital clock,digital clock,,
+wall clock,wall clock,,
+hourglass,hourglass,stopwatch,0.35125821828842163
+sundial,sundial,obelisk,0.48464980721473694
+parking meter,parking meter,,
+stopwatch,stopwatch,sundial,0.4094759523868561
+digital watch,digital watch,,
+stethoscope,stethoscope,microphone,0.4130029082298279
+syringe,syringe,screwdriver,0.45443055033683777
+magnetic compass,magnetic compass,,
+binoculars,binoculars,sunglasses,0.49147433042526245
+projector,projector,laptop,0.5395762920379639
+sunglasses,sunglasses,sunglass,0.6148303747177124
+loupe,loupe,chiton,0.4443613290786743
+radio telescope,radio telescope,,
+bow,bow,knot,0.39720913767814636
+cannon [ground],cannon [ground],,
+assault rifle,assault rifle,,
+rifle,rifle,revolver,0.6385781764984131
+projectile,projectile,missile,0.4422573447227478
+computer keyboard,computer keyboard,,
+typewriter keyboard,typewriter keyboard,,
+crane,crane,forklift,0.6210452914237976
+lighter,lighter,backpack,0.2934700548648834
+abacus,abacus,ocarina,0.3585415184497833
+cash machine,cash machine,,
+slide rule,slide rule,,
+desktop computer,desktop computer,,
+hand-held computer,hand-held computer,,
+notebook,notebook,laptop,0.67857825756073
+web site,web site,,
+harvester,harvester,tractor,0.5457509160041809
+thresher,thresher,tractor,0.5002973675727844
+printer,printer,photocopier,0.5746568441390991
+slot,slot,puck,0.2986432611942291
+vending machine,vending machine,,
+sewing machine,sewing machine,,
+joystick,joystick,mouse,0.525871753692627
+switch,switch,hook,0.31874197721481323
+hook,hook,reel,0.39638176560401917
+car wheel,car wheel,,
+paddlewheel,paddlewheel,schooner,0.4575424790382385
+pinwheel,pinwheel,candle,0.43734070658683777
+potter's wheel,potter's wheel,,
+gas pump,gas pump,,
+carousel,carousel,turnstile,0.43864163756370544
+swing,swing,paddle,0.2616423964500427
+reel,reel,hook,0.39638176560401917
+radiator,radiator,coil,0.5272929668426514
+puck,puck,plate,0.32450181245803833
+hard disc,hard disc,,
+sunglass,sunglass,sunglasses,0.6148303747177124
+pick,pick,pickup,0.31687089800834656
+car mirror,car mirror,,
+solar dish,solar dish,,
+remote control,remote control,,
+disk brake,disk brake,,
+buckle,buckle,screw,0.4231710135936737
+hair slide,hair slide,,
+knot,knot,bow,0.39720913767814636
+combination lock,combination lock,,
+padlock,padlock,screwdriver,0.45665791630744934
+nail,nail,hammer,0.42197614908218384
+safety pin,safety pin,,
+screw,screw,screwdriver,0.4314623177051544
+muzzle,muzzle,holster,0.3764954209327698
+seat belt,seat belt,,
+ski,ski,snowmobile,0.5895644426345825
+candle,candle,stove,0.44365614652633667
+jack-o'-lantern,jack-o'-lantern,,
+spotlight,spotlight,stage,0.309407114982605
+torch,torch,candle,0.42983290553092957
+neck brace,neck brace,,
+pier,pier,breakwater,0.7290346622467041
+tripod,tripod,projector,0.4875512719154358
+maypole,maypole,flagpole,0.4650190472602844
+mousetrap,mousetrap,cockroach,0.4205119013786316
+spider web,spider web,,
+trilobite,trilobite,isopod,0.6277468800544739
+harvestman,harvestman,,
+scorpion,scorpion,tarantula,0.5851886868476868
+black and gold garden spider,black and gold garden spider,,
+barn spider,barn spider,,
+garden spider,garden spider,,
+black widow,black widow,,
+tarantula,tarantula,cockroach,0.6075700521469116
+wolf spider,wolf spider,,
+tick,tick,ant,0.2878129184246063
+centipede,centipede,mantis,0.48551565408706665
+isopod,isopod,flatworm,0.6525671482086182
+dungeness crab,Dungeness crab,,
+rock crab,rock crab,,
+fiddler crab,fiddler crab,,
+king crab,king crab,,
+american lobster,American lobster,,
+spiny lobster,spiny lobster,,
+crayfish,crayfish,spoonbill,0.5854860544204712
+hermit crab,hermit crab,,
+tiger beetle,tiger beetle,,
+ladybug,ladybug,dragonfly,0.5635797381401062
+ground beetle,ground beetle,,
+long-horned beetle,long-horned beetle,,
+leaf beetle,leaf beetle,,
+dung beetle,dung beetle,,
+rhinoceros beetle,rhinoceros beetle,,
+weevil,weevil,nematode,0.6012250781059265
+fly,fly,plane,0.4033537209033966
+bee,bee,ant,0.49015146493911743
+grasshopper,grasshopper,ant,0.541286289691925
+cricket,cricket,baseball,0.40308877825737
+walking stick,walking stick,,
+cockroach,cockroach,tarantula,0.6075700521469116
+mantis,mantis,dragonfly,0.5543187260627747
+cicada,cicada,junco,0.5670961737632751
+leafhopper,leafhopper,nematode,0.5629435181617737
+lacewing,lacewing,whiptail,0.6042994856834412
+dragonfly,dragonfly,damselfly,0.6714502573013306
+damselfly,damselfly,dragonfly,0.6714502573013306
+admiral,admiral,submarine,0.4515831172466278
+ringlet,ringlet,chiton,0.556256890296936
+monarch,monarch,throne,0.6191686987876892
+cabbage butterfly,cabbage butterfly,,
+sulphur butterfly,sulphur butterfly,,
+lycaenid,lycaenid,,
+jellyfish,jellyfish,starfish,0.568268895149231
+sea anemone,sea anemone,,
+brain coral,brain coral,,
+flatworm,flatworm,isopod,0.6525671482086182
+nematode,nematode,weevil,0.6012250781059265
+conch,conch,lionfish,0.5058062076568604
+snail,snail,ant,0.5044276118278503
+slug,slug,snail,0.353324294090271
+sea slug,sea slug,,
+chiton,chiton,trilobite,0.5753738880157471
+sea urchin,sea urchin,,
+sea cucumber,sea cucumber,,
+iron,iron,hammer,0.3257310092449188
+espresso maker,espresso maker,,
+microwave,microwave,stove,0.5368033051490784
+dutch oven,Dutch oven,,
+rotisserie,rotisserie,stove,0.4805485010147095
+toaster,toaster,coffeepot,0.5327297449111938
+waffle iron,waffle iron,,
+vacuum,vacuum,washer,0.373305082321167
+dishwasher,dishwasher,washer,0.6245906352996826
+refrigerator,refrigerator,dishwasher,0.6055033206939697
+washer,washer,dishwasher,0.6245906352996826
+crock pot,Crock Pot,,
+frying pan,frying pan,,
+wok,wok,ladle,0.5709179043769836
+caldron,caldron,dome,0.3679254353046417
+coffeepot,coffeepot,teapot,0.5696077346801758
+teapot,teapot,vase,0.6208178400993347
+spatula,spatula,ladle,0.5733891129493713
+altar,altar,church,0.44325146079063416
+triumphal arch,triumphal arch,,
+patio,patio,restaurant,0.4419633746147156
+steel arch bridge,steel arch bridge,,
+suspension bridge,suspension bridge,,
+viaduct,viaduct,streetcar,0.5710351467132568
+barn,barn,hay,0.5181776285171509
+greenhouse,greenhouse,birdhouse,0.40666574239730835
+palace,palace,castle,0.6421201229095459
+monastery,monastery,church,0.5393263697624207
+library,library,bookshop,0.4418826997280121
+apiary,apiary,bee,0.47537821531295776
+boathouse,boathouse,pier,0.5848270654678345
+church,church,monastery,0.5393263697624207
+mosque,mosque,church,0.4509551227092743
+stupa,stupa,obelisk,0.49907732009887695
+planetarium,planetarium,dome,0.4179764688014984
+restaurant,restaurant,bakery,0.596653163433075
+cinema,cinema,projector,0.3951624929904938
+home theater,home theater,,
+lumbermill,lumbermill,harvester,0.3514791429042816
+coil,coil,spindle,0.5567952990531921
+obelisk,obelisk,flagpole,0.5141090750694275
+totem pole,totem pole,,
+castle,castle,palace,0.6421201229095459
+prison,prison,monastery,0.29449933767318726
+grocery store,grocery store,,
+bakery,bakery,restaurant,0.596653163433075
+barbershop,barbershop,restaurant,0.45522862672805786
+bookshop,bookshop,toyshop,0.5060789585113525
+butcher shop,butcher shop,,
+confectionery,confectionery,bakery,0.5209851264953613
+shoe shop,shoe shop,,
+tobacco shop,tobacco shop,,
+toyshop,toyshop,bookshop,0.5060789585113525
+fountain,fountain,tub,0.4620627462863922
+cliff dwelling,cliff dwelling,,
+yurt,yurt,canoe,0.41652724146842957
+dock,dock,pier,0.6510422825813293
+brass,brass,trombone,0.3744961619377136
+megalith,megalith,castle,0.34555768966674805
+bannister,bannister,bookcase,0.474587082862854
+breakwater,breakwater,pier,0.7290346622467041
+dam,dam,breakwater,0.4505370259284973
+chainlink fence,chainlink fence,,
+picket fence,picket fence,,
+worm fence,worm fence,,
+stone wall,stone wall,,
+grille,grille,bonnet,0.5511677861213684
+sliding door,sliding door,,
+turnstile,turnstile,carousel,0.43864163756370544
+mountain tent,mountain tent,,
+scoreboard,scoreboard,screen,0.37138688564300537
+honeycomb,honeycomb,ringlet,0.43599048256874084
+plate rack,plate rack,,
+pedestal,pedestal,altar,0.4277927577495575
+beacon,beacon,candle,0.3258887231349945
+mashed potato,mashed potato,,
+bell pepper,bell pepper,,
+head cabbage,head cabbage,,
+broccoli,broccoli,cauliflower,0.746509850025177
+cauliflower,cauliflower,broccoli,0.746509850025177
+zucchini,zucchini,cauliflower,0.6771699786186218
+spaghetti squash,spaghetti squash,,
+acorn squash,acorn squash,,
+butternut squash,butternut squash,,
+cucumber,cucumber,cauliflower,0.6453002691268921
+artichoke,artichoke,cauliflower,0.6629069447517395
+cardoon,cardoon,stinkhorn,0.5806318521499634
+mushroom,mushroom,bolete,0.5461058020591736
+shower curtain,shower curtain,,
+jean,jean,miniskirt,0.5113776922225952
+carton,carton,tray,0.5187104940414429
+handkerchief,handkerchief,pillow,0.46850836277008057
+sandal,sandal,loafer,0.4453780949115753
+ashcan,ashcan,saltshaker,0.38368892669677734
+safe,safe,upright,0.26633891463279724
+plate,plate,tray,0.42626696825027466
+necklace,necklace,vase,0.4937049150466919
+croquet ball,croquet ball,,
+fur coat,fur coat,,
+thimble,thimble,beaker,0.46620872616767883
+pajama,pajama,cardigan,0.42588159441947937
+running shoe,running shoe,,
+cocktail shaker,cocktail shaker,,
+chest,chest,ear,0.4129801392555237
+manhole cover,manhole cover,,
+modem,modem,laptop,0.5108977556228638
+tub,tub,bathtub,0.7819672226905823
+tray,tray,refrigerator,0.5380393862724304
+balance beam,balance beam,,
+bagel,bagel,pizza,0.5243498086929321
+prayer rug,prayer rug,,
+kimono,kimono,lampshade,0.4659058451652527
+hot pot,hot pot,,
+whiskey jug,whiskey jug,,
+knee pad,knee pad,,
+book jacket,book jacket,,
+spindle,spindle,coil,0.5567952990531921
+ski mask,ski mask,,
+beer bottle,beer bottle,,
+crash helmet,crash helmet,,
+bottlecap,bottlecap,saltshaker,0.46095630526542664
+tile roof,tile roof,,
+mask,mask,cloak,0.5193217992782593
+maillot,maillot,overskirt,0.5410006642341614
+petri dish,Petri dish,,
+football helmet,football helmet,,
+bathing cap,bathing cap,,
+teddy bear,teddy bear,,
+holster,holster,revolver,0.5503153800964355
+pop bottle,pop bottle,,
+photocopier,photocopier,printer,0.5746568441390991
+vestment,vestment,breastplate,0.3787561058998108
+crossword puzzle,crossword puzzle,,
+golf ball,golf ball,,
+trifle,trifle,consomme,0.37865889072418213
+suit,suit,wig,0.2705834209918976
+water tower,water tower,,
+feather boa,feather boa,,
+cloak,cloak,mask,0.5193217992782593
+red wine,red wine,,
+drumstick,drumstick,maraca,0.47590816020965576
+shield,shield,cloak,0.4617994427680969
+christmas stocking,Christmas stocking,,
+hoopskirt,hoopskirt,,
+menu,menu,restaurant,0.5196681618690491
+stage,stage,scale,0.3135269582271576
+bonnet,bonnet,grille,0.5511677861213684
+meat loaf,meat loaf,,
+baseball,baseball,basketball,0.6411849856376648
+face powder,face powder,,
+scabbard,scabbard,breastplate,0.5461283922195435
+sunscreen,sunscreen,lotion,0.6381957530975342
+beer glass,beer glass,,
+hen-of-the-woods,hen-of-the-woods,,
+guacamole,guacamole,burrito,0.5267931818962097
+lampshade,lampshade,wig,0.5077735185623169
+wool,wool,angora,0.5434457063674927
+hay,hay,corn,0.5384114980697632
+bow tie,bow tie,,
+mailbag,mailbag,mailbox,0.3875601887702942
+water jug,water jug,,
+bucket,bucket,tub,0.47971585392951965
+dishrag,dishrag,saltshaker,0.5005244016647339
+soup bowl,soup bowl,,
+eggnog,eggnog,potpie,0.41759583353996277
+mortar,mortar,projectile,0.3358437418937683
+trench coat,trench coat,,
+paddle,paddle,canoe,0.6400002837181091
+chain,chain,restaurant,0.39005622267723083
+swab,swab,syringe,0.4287715554237366
+mixing bowl,mixing bowl,,
+potpie,potpie,carbonara,0.5877224802970886
+wine bottle,wine bottle,,
+shoji,shoji,kimono,0.44308438897132874
+bulletproof vest,bulletproof vest,,
+drilling platform,drilling platform,,
+binder,binder,tray,0.45074155926704407
+cardigan,cardigan,overskirt,0.537300169467926
+sweatshirt,sweatshirt,backpack,0.5376055836677551
+pot,pot,wok,0.3746221363544464
+birdhouse,birdhouse,quilt,0.5082885026931763
+hamper,hamper,clog,0.3340710699558258
+ping-pong ball,ping-pong ball,,
+pencil box,pencil box,,
+pay-phone,pay-phone,,
+consomme,consomme,potpie,0.5802732706069946
+apron,apron,tray,0.4222801625728607
+punching bag,punching bag,,
+backpack,backpack,wallet,0.5492209196090698
+groom,groom,mortarboard,0.3182039260864258
+bearskin,bearskin,chiton,0.47730493545532227
+pencil sharpener,pencil sharpener,,
+broom,broom,shovel,0.527963399887085
+mosquito net,mosquito net,,
+abaya,abaya,overskirt,0.4306890666484833
+mortarboard,mortarboard,sweatshirt,0.4178674817085266
+poncho,poncho,sombrero,0.4865674376487732
+crutch,crutch,screwdriver,0.3250640332698822
+polaroid camera,Polaroid camera,,
+space bar,space bar,,
+cup,cup,goblet,0.4297175407409668
+racket,racket,maraca,0.28034430742263794
+traffic light,traffic light,,
+quill,quill,paintbrush,0.5016017556190491
+radio,radio,television,0.6114971041679382
+dough,dough,spatula,0.518966794013977
+cuirass,cuirass,,
+military uniform,military uniform,,
+lipstick,lipstick,lotion,0.47417980432510376
+shower cap,shower cap,,
+monitor,monitor,stopwatch,0.28143712878227234
+oscilloscope,oscilloscope,modem,0.4214695394039154
+mitten,mitten,ladybug,0.4531852900981903
+brassiere,brassiere,nipple,0.4754219949245453
+french loaf,French loaf,,
+vase,vase,teapot,0.6208178400993347
+milk can,milk can,,
+rugby ball,rugby ball,,
+paper towel,paper towel,,
+earthstar,earthstar,,
+envelope,envelope,mailbox,0.4371315538883209
+miniskirt,miniskirt,bikini,0.5207105278968811
+cowboy hat,cowboy hat,,
+trolleybus,trolleybus,streetcar,0.47518667578697205
+perfume,perfume,lotion,0.5071074366569519
+bathtub,bathtub,tub,0.7819672226905823
+hotdog,hotdog,pizza,0.5737497806549072
+coral fungus,coral fungus,,
+bullet train,bullet train,,
+pillow,pillow,tub,0.501036524772644
+toilet tissue,toilet tissue,,
+cassette,cassette,ipod,0.4718974530696869
+carpenter's kit,carpenter's kit,,
+ladle,ladle,spatula,0.5733891129493713
+stinkhorn,stinkhorn,cardoon,0.5806318521499634
+lotion,lotion,sunscreen,0.6381957530975342
+hair spray,hair spray,,
+academic gown,academic gown,,
+dome,dome,planetarium,0.4179764688014984
+crate,crate,carton,0.5061734318733215
+wig,wig,lampshade,0.5077735185623169
+burrito,burrito,cheeseburger,0.6729996800422668
+pill bottle,pill bottle,,
+chain mail,chain mail,,
+theater curtain,theater curtain,,
+window shade,window shade,,
+barrel,barrel,corn,0.3035070598125458
+washbasin,washbasin,tub,0.5581591129302979
+ballpoint,ballpoint,quill,0.49974197149276733
+basketball,basketball,volleyball,0.7170256972312927
+bath towel,bath towel,,
+cowboy boot,cowboy boot,,
+gown,gown,overskirt,0.5651047825813293
+window screen,window screen,,
+agaric,agaric,,
+cellular telephone,cellular telephone,,
+nipple,nipple,brassiere,0.4754219949245453
+barbell,barbell,dumbbell,0.6749532222747803
+mailbox,mailbox,envelope,0.4371315538883209
+lab coat,lab coat,,
+fire screen,fire screen,,
+minibus,minibus,jeep,0.6241374015808105
+packet,packet,carton,0.4334906339645386
+maze,maze,castle,0.32808780670166016
+pole,pole,flagpole,0.34987780451774597
+horizontal bar,horizontal bar,,
+sombrero,sombrero,poncho,0.4865674376487732
+pickelhaube,pickelhaube,,
+rain barrel,rain barrel,,
+wallet,wallet,purse,0.6020283102989197
+cassette player,cassette player,,
+comic book,comic book,,
+piggy bank,piggy bank,,
+street sign,street sign,,
+bell cote,bell cote,,
+fountain pen,fountain pen,,
+windsor tie,Windsor tie,,
+volleyball,volleyball,basketball,0.7170256972312927
+overskirt,overskirt,gown,0.5651047825813293
+sarong,sarong,cardigan,0.4691992700099945
+purse,purse,wallet,0.6020283102989197
+bolo tie,bolo tie,,
+bib,bib,jersey,0.4971754848957062
+parachute,parachute,balloon,0.5213617086410522
+sleeping bag,sleeping bag,,
+television,television,radio,0.6114971041679382
+swimming trunks,swimming trunks,,
+measuring cup,measuring cup,,
+espresso,espresso,coffeepot,0.41121917963027954
+pizza,pizza,burrito,0.6371643543243408
+breastplate,breastplate,scabbard,0.5461283922195435
+shopping basket,shopping basket,,
+wooden spoon,wooden spoon,,
+saltshaker,saltshaker,beaker,0.5078486204147339
+chocolate sauce,chocolate sauce,,
+ballplayer,ballplayer,baseball,0.5921314358711243
+goblet,goblet,vase,0.5534815192222595
+gyromitra,gyromitra,,
+stretcher,stretcher,ambulance,0.5142790675163269
+water bottle,water bottle,,
+dial telephone,dial telephone,,
+soap dispenser,soap dispenser,,
+jersey,jersey,sweatshirt,0.5083307027816772
+school bus,school bus,,
+jigsaw puzzle,jigsaw puzzle,,
+plastic bag,plastic bag,,
+reflex camera,reflex camera,,
+diaper,diaper,bassinet,0.4658900797367096
+band aid,Band Aid,,
+ice lolly,ice lolly,,
+velvet,velvet,angora,0.5070353746414185
+tennis ball,tennis ball,,
+gasmask,gasmask,sunglasses,0.4766387641429901
+doormat,doormat,dishrag,0.3159305453300476
+loafer,Loafer,sandal,0.4453780949115753
+ice cream,ice cream,,
+pretzel,pretzel,bagel,0.46964022517204285
+quilt,quilt,birdhouse,0.5082885026931763
+maillot,maillot,overskirt,0.5410006642341614
+tape player,tape player,,
+clog,clog,hamper,0.3340710699558258
+ipod,iPod,laptop,0.5077642202377319
+bolete,bolete,stinkhorn,0.5520479083061218
+scuba diver,scuba diver,,
+pitcher,pitcher,ballplayer,0.5736907124519348
+matchstick,matchstick,ballpoint,0.38644248247146606
+bikini,bikini,miniskirt,0.5207105278968811
+sock,sock,sweatshirt,0.4717490077018738
+cd player,CD player,,
+lens cap,lens cap,,
+thatch,thatch,ringlet,0.35052937269210815
+vault,vault,padlock,0.29340487718582153
+beaker,beaker,saltshaker,0.5078486204147339
+bubble,bubble,balloon,0.35326269268989563
+cheeseburger,cheeseburger,burrito,0.6729996800422668
+parallel bars,parallel bars,,
+flagpole,flagpole,obelisk,0.5141090750694275
+coffee mug,coffee mug,,
+rubber eraser,rubber eraser,,
+stole,stole,purse,0.32040777802467346
+carbonara,carbonara,potpie,0.5877224802970886
+dumbbell,dumbbell,barbell,0.6749532222747803

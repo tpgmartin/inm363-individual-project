@@ -16,6 +16,7 @@ tcav = "*"
 tensorflow = "~=1.14"
 pillow = "*"
 sklearn = "*"
+gensim = "*"
 
 [requires]
 python_version = "3.7"

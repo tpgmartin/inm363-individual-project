@@ -1,0 +1,100 @@
+label,raw_label,most_similar_label,cosine_similarity
+cello,cello,sax,0.4612444043159485
+damselfly,damselfly ,mantis,0.3487021327018738
+hard disc,hard_disc,,
+lionfish,lionfish,zebra,0.2977561056613922
+padlock,padlock,bookshop,0.2556222379207611
+sax,sax,cello,0.4612444043159485
+sussex spaniel,Sussex_spaniel ,,
+volcano,volcano,gorilla,0.2108113318681717
+ambulance,ambulance,jeep,0.35874515771865845
+bookshop,bookshop,restaurant,0.28690123558044434
+hatchet,hatchet,tripod,0.21035875380039215
+lipstick,lipstick,lotion,0.38667893409729004
+panpipe,panpipe ,,
+school bus,school_bus,,
+tank suit,tank_suit,,
+volleyball,volleyball,basketball,0.6496630311012268
+american black bear,American_black_bear,,
+boxer,boxer ,basketball,0.1834268867969513
+chihuahua,Chihuahua,llama,0.24087868630886078
+drilling platform,drilling_platform,,
+hen-of-the-woods,hen-of-the-woods,,
+llama,llama,wool,0.2957542836666107
+parallel bars,parallel_bars,,
+seashore,seashore                        ,snorkel,0.23428164422512054
+ant,ant,mantis,0.27138274908065796
+china cabinet,china_cabinet,,
+dumbbell,dumbbell,tray,0.28764134645462036
+park bench,park_bench,,
+shopping cart,shopping_cart,,
+tennis ball,tennis_ball,,
+wine bottle,wine_bottle,,
+backpack,backpack,sunglasses,0.39413464069366455
+bubble,bubble,balloon,0.34184619784355164
+chow,chow,hamster,0.2389330267906189
+electric guitar,electric_guitar,,
+jackfruit,jackfruit,lionfish,0.2230852097272873
+lotion,lotion,lipstick,0.38667893409729004
+snail,snail,damselfly,0.30627205967903137
+wood rabbit,wood_rabbit,,
+balloon,balloon,bubble,0.34184619784355164
+bullet train,bullet_train,,
+cinema,cinema,restaurant,0.3437783122062683
+european gallinule,European_gallinule,,
+jeep,jeep,cab,0.3592354357242584
+mantis,mantis,damselfly,0.3487021327018738
+pickelhaube,pickelhaube,,
+snorkel,snorkel,sunglasses,0.2929324507713318
+theater curtain,theater_curtain,,
+wool,wool,gown,0.3357318341732025
+basketball,basketball,volleyball,0.6496630311012268
+bullfrog,bullfrog,mantis,0.2862043082714081
+cocker spaniel,cocker_spaniel,,
+jinrikisha,jinrikisha,,
+marimba,marimba,cello,0.44512760639190674
+police van,police_van,,
+space bar,space_bar,,
+thresher,thresher,mantis,0.2529124319553375
+norfolk terrier,Norfolk_terrier,,
+basset,basset,llama,0.19659338891506195
+butcher shop,butcher_shop,,
+collie,collie,zebra,0.23912037909030914
+gorilla,gorilla,leopard,0.36982429027557373
+junco,junco,thresher,0.22206038236618042
+miniskirt,miniskirt,gown,0.391670823097229
+prison,prison,suit,0.18111518025398254
+staffordshire bullterrier,Staffordshire_bullterrier,,
+tiger beetle,tiger_beetle    ,,
+beer bottle,beer_bottle,,
+cab,cab,jeep,0.3592354357242584
+common newt,common_newt,,
+gown,gown,miniskirt,0.391670823097229
+killer whale,killer_whale,,
+punching bag,punching_bag,,
+standard schnauzer,standard_schnauzer,,
+toilet tissue,toilet_tissue,,
+zebra,zebra,leopard,0.5016782879829407
+king snake,king_snake,,
+hippopotamus,hippopotamus,zebra,0.37508735060691833
+reel,reel,cassette,0.35262730717658997
+strainer,strainer,tray,0.3013157248497009
+traffic light,traffic_light,,
+bell pepper,bell_pepper,,
+carousel,carousel,zebra,0.2536329925060272
+crane bird,crane_bird,,
+restaurant,restaurant,cinema,0.3437783122062683
+suit,suit,sunglasses,0.3460071086883545
+tray,tray,strainer,0.3013157248497009
+cassette,cassette,reel,0.35262730717658997
+crossword puzzle,crossword_puzzle,,
+hamster,hamster,mantis,0.25807440280914307
+leopard,leopard,zebra,0.5016782879829407
+moving van,moving_van,,
+revolver,revolver,backpack,0.32280004024505615
+sunglasses,sunglasses,backpack,0.39413464069366455
+tripod,tripod,dumbbell,0.2356470823287964
+bolo tie,bolo_tie,,
+cassette player,cassette_player,,
+dam,dam,volcano,0.1609356552362442
+liner,liner,cassette,0.2838151454925537
