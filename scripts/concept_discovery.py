@@ -80,6 +80,8 @@ class ConceptDiscovery(object):
       output = pool.map(
           lambda i: self.model.run_examples(imgs[i * bs:(i + 1) * bs], self.bottleneck),
           np.arange(int(imgs.shape[0] / bs) + 1))
+      # Close thread pool
+      pool.close()
     else:
       output = []
       for i in range(int(imgs.shape[0] / bs) + 1):
