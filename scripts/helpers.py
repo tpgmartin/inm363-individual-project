@@ -105,3 +105,12 @@ def load_images_from_files(filenames, max_imgs=500, return_filenames=False,
     return np.array(imgs), final_filenames
   else:
     return np.array(imgs)
+
+def cosine_similarity(a, b):
+  """Cosine similarity of two vectors."""
+  assert a.shape == b.shape, 'Two vectors must have the same dimensionality'
+  a_norm, b_norm = np.linalg.norm(a), np.linalg.norm(b)
+  if a_norm * b_norm == 0:
+    return 0.
+  cos_sim = np.sum(a * b) / (a_norm * b_norm)
+  return cos_sim

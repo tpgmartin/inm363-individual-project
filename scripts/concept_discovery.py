@@ -95,6 +95,16 @@ class ConceptDiscovery(object):
       output = np.reshape(output, [output.shape[0], -1])
     return output
 
+  def get_img_activations(self, img_label):
+      # Save to path './acts/acts_{img_label}_{img_num}_{bottleneck}'
+      img_acts_path = os.path.join(self.activation_dir, f'acts_{img_label}_{img_num}_{self.bottleneck}')
+      if not tf.gfile.Exists(img_acts_path):
+        acts = self.get_bn_activations()
+        with tf.gfile.Open(img_acts_path, 'w') as f:
+          np.save(f, bacts, allow_pickle=False)
+        del acts
+      return np.load(rnd_acts_path).squeeze()
+
   # From ACE code #############################################################
   def _random_concept_activations(self, bottleneck, random_concept):
     """Wrapper for computing or loading activations of random concepts.
