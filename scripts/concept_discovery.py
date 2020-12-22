@@ -95,13 +95,13 @@ class ConceptDiscovery(object):
       output = np.reshape(output, [output.shape[0], -1])
     return output
 
-  def get_img_activations(self, img_label):
+  def get_img_activations(self, img_num):
       # Save to path './acts/acts_{img_label}_{img_num}_{bottleneck}'
-      img_acts_path = os.path.join(self.activation_dir, f'acts_{img_label}_{img_num}_{self.bottleneck}')
+      img_acts_path = os.path.join(self.activation_dir, f'acts_{self.target_class}_{img_num}_{self.bottleneck}')
       if not tf.gfile.Exists(img_acts_path):
         acts = self.get_bn_activations()
         with tf.gfile.Open(img_acts_path, 'w') as f:
-          np.save(f, bacts, allow_pickle=False)
+          np.save(f, acts, allow_pickle=False)
         del acts
       return np.load(rnd_acts_path).squeeze()
 
