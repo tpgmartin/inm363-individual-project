@@ -97,13 +97,15 @@ class ConceptDiscovery(object):
 
   def get_img_activations(self, img_num):
       # Save to path './acts/acts_{img_label}_{img_num}_{bottleneck}'
-      img_acts_path = os.path.join(self.activation_dir, f'acts_{self.target_class}_{img_num}_{self.bottleneck}')
+      img_acts_path = os.path.join(self.activation_dir, self.target_class, f'acts_{self.target_class}_{img_num}_{self.bottleneck}')
+      if not tf.gfile.Exists(os.path.join(self.activation_dir, self.target_class)):
+        tf.gfile.MakeDirs(os.path.join(self.activation_dir, self.target_class))
       if not tf.gfile.Exists(img_acts_path):
         acts = self.get_bn_activations()
         with tf.gfile.Open(img_acts_path, 'w') as f:
           np.save(f, acts, allow_pickle=False)
         del acts
-      return np.load(rnd_acts_path).squeeze()
+      return np.load(img_acts_path).squeeze()
 
   # From ACE code #############################################################
   def _random_concept_activations(self, bottleneck, random_concept):

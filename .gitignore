@@ -9,6 +9,7 @@ images
 baseline_predictions
 baseline_prediction_samples
 bottleneck_activations
+cosine_similarities
 net_heatmap_predictions
 net_occlusion_heatmaps
 net_occlusion_heatmaps_delta_prob
