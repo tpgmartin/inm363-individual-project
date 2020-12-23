@@ -41,3 +41,10 @@ Then run one of,
 ### Check Classification of Heatmaps
 
 Run `check_classification_of_heatmaps.py` to find the predicted label and probability of heatmaps.
+
+### Find Cosine Similarities between Images
+
+In order run,
+* `get_image_bottleneck_activations.py`
+* `get_image_cosine_similarities.py`
+* `get_image_cosine_similarities_different_labels.py`
