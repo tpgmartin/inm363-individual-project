@@ -8,42 +8,44 @@ from concept_discovery import ConceptDiscovery
 
 if __name__ == '__main__':
 
-    labels = glob('./acts/**/')
+	labels = glob('./acts/**/')
 
-    for i in range()
+	for i in range(len(labels)-1):
+		for j in range(i+1,len(labels)):
 
-	for label_acts in glob('./acts/**/'):
+			labels_1 = []
+			labels_2 = []
+			imgs_1 = []
+			imgs_2 = []
+			cos_sims = []
 
-		label = label_acts.split('/')[-2]
+			if len(glob(f'{labels[i]}*')) != len(glob(f'{labels[j]}*')):
+				continue
 
-		imgs = glob(f'./acts/{label}/*')
-		labels = []
-		imgs_1 = []
-		imgs_2 = []
-		cos_sims = []
-		for i in range(len(imgs)):
-			for j in range(i, len(imgs)):
+			for img_1 in glob(f'{labels[i]}*'):
+				for img_2 in glob(f'{labels[j]}*'):
 
-				labels.append(label)
+					label_1 = labels[i].split('/')[-2]
+					label_2 = labels[j].split('/')[-2]
 
-				image_1 = imgs[i]
-				image_2 = imgs[j]
+					labels_1.append(label_1)
+					labels_2.append(label_2)
+					imgs_1.append(img_1)
+					imgs_2.append(img_2)
 
-				image_1_acts = np.load(image_1).squeeze()
-				image_2_acts = np.load(image_2).squeeze()
-
-				imgs_1.append(image_1)
-				imgs_2.append(image_2)
-				cos_sims.append(cosine_similarity(image_1_acts, image_2_acts))
+					image_1_acts = np.load(img_1).squeeze()
+					image_2_acts = np.load(img_2).squeeze()
+					cos_sims.append(cosine_similarity(image_1_acts, image_2_acts))
 		
-		df = pd.DataFrame({
-			'label': labels,
-			'image_1': imgs_1,
-			'image_2': imgs_2,
-			'cosine_sim': cos_sims
-		})
+			df = pd.DataFrame({
+				'labels_1': labels_1,
+				'labels_2': labels_2,
+				'image_1': imgs_1,
+				'image_2': imgs_2,
+				'cosine_sim': cos_sims
+			})
 
-		df.sort_values(by='cosine_sim', inplace=True, ascending=False)
+			df.sort_values(by='cosine_sim', inplace=True, ascending=False)
 
-		df.to_csv(f'./cosine_similarities/different_labels_only/{label}_cosine_similarities.csv', index=False)
-		print(f'Found cosine similarities for {label}')
+			df.to_csv(f"./cosine_similarities/different_labels_only/{labels[i].split('/')[-2]}_{labels[j].split('/')[-2]}_cosine_similarities.csv", index=False)
+			print(f"Found cosine similarities for {labels[i].split('/')[-2]} & {labels[j].split('/')[-2]}")
