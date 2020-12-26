@@ -16,5 +16,6 @@ net_occlusion_heatmaps_delta_prob
 occluded_image_predictions
 occluded_images
 occlusion_heatmaps
+pca_acts
 superpixels
 test_images

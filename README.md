@@ -48,3 +48,4 @@ In order run,
 * `get_image_bottleneck_activations.py`
 * `get_image_cosine_similarities.py`
 * `get_image_cosine_similarities_different_labels.py`
+* Run `dimensionality_reduction_input_images.py` to plot activations of input images using PCA
