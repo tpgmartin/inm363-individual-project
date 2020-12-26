@@ -15,37 +15,44 @@ from sklearn.decomposition import PCA, SparsePCA
 # 
 # Find 2D projection of all vectors and plot to grid using image labels
 
-# img_1 = np.load('./acts/ant/acts_ant_n02219486_20946_mixed4c')
-# print(img_1)
+pairs = [
+    ['bookshop', 'restaurant'],
+    ['cinema', 'restaurant'],
+    ['cab', 'jeep'],
+    ['ambulance', 'jeep'],
+    ['ant', 'mantis'],
+    ['damselfly', 'mantis'],
+    ['bubble', 'balloon'],
+    ['lipstick', 'lotion'],
+    ['volleyball', 'basketball']
+]
 
-ants_acts = np.array([np.load(acts).squeeze() for acts in glob('./acts/ant/*')])
-mantis_acts = np.array([np.load(acts).squeeze() for acts in glob('./acts/mantis/*')])
-basketball_acts = np.array([np.load(acts).squeeze() for acts in glob('./acts/basketball/*')])
+for input_images in pairs:
 
-pca = PCA(n_components=2)
-sparse_pca = SparsePCA(n_components=2, random_state=0)
+    image_1, image_2 = input_images
 
-ants_acts_reduced = pca.fit_transform(ants_acts)
-mantis_acts_reduced = pca.fit_transform(mantis_acts)
-basketball_acts_reduced = pca.fit_transform(basketball_acts)
+    image_1_acts = np.array([np.load(acts).squeeze() for acts in glob(f'./acts/{image_1}/*')])
+    image_2_acts = np.array([np.load(acts).squeeze() for acts in glob(f'./acts/{image_2}/*')])
 
-ants_acts_sparse_reduced = sparse_pca.fit_transform(ants_acts)
-mantis_acts_sparse_reduced = sparse_pca.fit_transform(mantis_acts)
-basketball_acts_sparse_reduced = sparse_pca.fit_transform(basketball_acts)
+    pca = PCA(n_components=2)
+    # sparse_pca = SparsePCA(n_components=2, random_state=0)
 
-ants_acts_sparse_reduced_x =[c[0] for c in ants_acts_sparse_reduced]
-ants_acts_sparse_reduced_y =[c[1] for c in ants_acts_sparse_reduced]
+    image_1_acts_reduced = pca.fit_transform(image_1_acts)
+    image_2_acts_acts_reduced = pca.fit_transform(image_2_acts)
 
-mantis_acts_sparse_reduced_x =[c[0] for c in mantis_acts_sparse_reduced]
-mantis_acts_sparse_reduced_y =[c[1] for c in mantis_acts_sparse_reduced]
+    image_1_acts_reduced_x =[c[0] for c in image_1_acts_reduced]
+    image_1_acts_reduced_y =[c[1] for c in image_1_acts_reduced]
 
-basketball_acts_sparse_reduced_x =[c[0] for c in basketball_acts_sparse_reduced]
-basketball_acts_sparse_reduced_y =[c[1] for c in basketball_acts_sparse_reduced]
+    image_2_acts_acts_reduced_x =[c[0] for c in image_2_acts_acts_reduced]
+    image_2_acts_acts_reduced_y =[c[1] for c in image_2_acts_acts_reduced]
 
-# plt.scatter(ants_acts_sparse_reduced_x, ants_acts_sparse_reduced_y)
-# plt.scatter(mantis_acts_sparse_reduced_x, mantis_acts_sparse_reduced_y)
-# plt.savefig('ants_mantis_acts.png')
+    plt.scatter(image_1_acts_reduced_x, image_1_acts_reduced_y, label=f'{image_1}')
+    plt.scatter(image_2_acts_acts_reduced_x, image_2_acts_acts_reduced_y, label=f'{image_2}')
+    plt.legend()
+    plt.xlabel('Component 1')
+    plt.ylabel('Component 2')
+    plt.savefig(f'./pca_acts/{image_1}_{image_2}_pca_acts.png')
+    plt.clf()
+    plt.cla()
+    plt.close()
 
-plt.scatter(ants_acts_sparse_reduced_x, ants_acts_sparse_reduced_y)
-plt.scatter(basketball_acts_sparse_reduced_x, basketball_acts_sparse_reduced_y)
-plt.savefig('ants_basketball_acts.png')

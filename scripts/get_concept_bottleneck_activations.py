@@ -39,9 +39,9 @@ def get_patch_activations(args, activations_dir, cavs_dir, random_concept='rando
 
 def extract_patch(image, DPI=72):
 
-    IMG = io.imread(image)
+    IMG = io.imread(image) # <- skip this line
 
-    HEIGHT, WIDTH, _ = IMG.shape
+    HEIGHT, WIDTH, _ = IMG.shape # <- skip this line
     DPI = DPI # <- skip this line
     IMAGE_NO = image.split('/')[3] # <- skip this line
     IMAGE_CAT = IMAGE_NO.split('_')[0] # <- skip this line

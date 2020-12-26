@@ -71,7 +71,7 @@ if __name__ == '__main__':
 		l = []
 		target_labels = ['bookshop', 'restaurant', 'cinema', 'cab', 'jeep', 'ambulance', 
 		 'lipstick', 'lotion', 'volleyball', 'basketball', 'ant', 
-		 'mantis', 'snail', 'damselfly', 'bubble', 'ballon']
+		 'mantis', 'snail', 'damselfly', 'bubble', 'balloon']
 		
 		for sample in samples:
 			for label in target_labels:
