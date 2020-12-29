@@ -114,3 +114,49 @@ def cosine_similarity(a, b):
     return 0.
   cos_sim = np.sum(a * b) / (a_norm * b_norm)
   return cos_sim
+
+def save_concepts(cd, concepts_dir):
+  """Saves discovered concept's images or patches.
+
+  Args:
+    cd: The ConceptDiscovery instance the concepts of which we want to save
+    concepts_dir: The directory to save the concept images
+  """
+  for bn in cd.bottlenecks:
+    for concept in cd.dic[bn]['concepts']:
+      patches_dir = os.path.join(concepts_dir, bn + '_' + concept + '_patches')
+      images_dir = os.path.join(concepts_dir, bn + '_' + concept)
+      patches = (np.clip(cd.dic[bn][concept]['patches'], 0, 1) * 256).astype(
+          np.uint8)
+      images = (np.clip(cd.dic[bn][concept]['images'], 0, 1) * 256).astype(
+          np.uint8)
+      tf.gfile.MakeDirs(patches_dir)
+      tf.gfile.MakeDirs(images_dir)
+      image_numbers = cd.dic[bn][concept]['image_numbers']
+      image_addresses, patch_addresses = [], []
+      for i in range(len(images)):
+        image_name = '0' * int(np.ceil(2 - np.log10(i + 1))) + '{}_{}'.format(
+            i + 1, image_numbers[i])
+        patch_addresses.append(os.path.join(patches_dir, image_name + '.png'))
+        image_addresses.append(os.path.join(images_dir, image_name + '.png'))
+      save_images(patch_addresses, patches)
+      save_images(image_addresses, images)
+
+def save_images(addresses, images):
+  """Save images in the addresses.
+
+  Args:
+    addresses: The list of addresses to save the images as or the address of the
+      directory to save all images in. (list or str)
+    images: The list of all images in numpy uint8 format.
+  """
+  if not isinstance(addresses, list):
+    image_addresses = []
+    for i, image in enumerate(images):
+      image_name = '0' * (3 - int(np.log10(i + 1))) + str(i + 1) + '.png'
+      image_addresses.append(os.path.join(addresses, image_name))
+    addresses = image_addresses
+  assert len(addresses) == len(images), 'Invalid number of addresses'
+  for address, image in zip(addresses, images):
+    with tf.gfile.Open(address, 'w') as f:
+      Image.fromarray(image).save(f, format='PNG')

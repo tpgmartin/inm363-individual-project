@@ -49,3 +49,8 @@ In order run,
 * `get_image_cosine_similarities.py`
 * `get_image_cosine_similarities_different_labels.py`
 * Run `dimensionality_reduction_input_images.py` to plot activations of input images using PCA
+
+### Find Concept CAVs for Images
+
+* `get_concepts_for_selected_images.py`
+<!-- TODO: get bottleneck activations for concepts -->
