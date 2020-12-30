@@ -95,9 +95,13 @@ class ConceptDiscovery(object):
       output = np.reshape(output, [output.shape[0], -1])
     return output
 
-  def get_img_activations(self, img_num):
+  def get_img_activations(self, img_num, concept_num=None):
       # Save to path './acts/acts_{img_label}_{img_num}_{bottleneck}'
-      img_acts_path = os.path.join(self.activation_dir, self.target_class, f'acts_{self.target_class}_{img_num}_{self.bottleneck}')
+      if not concept_num:
+        img_acts_path = os.path.join(self.activation_dir, self.target_class, f'acts_{self.target_class}_{img_num}_{self.bottleneck}')
+      else:
+        img_acts_path = os.path.join(self.activation_dir, self.target_class, f'acts_{self.target_class}_{concept_num}_{img_num}_{self.bottleneck}')
+
       if not tf.gfile.Exists(os.path.join(self.activation_dir, self.target_class)):
         tf.gfile.MakeDirs(os.path.join(self.activation_dir, self.target_class))
       if not tf.gfile.Exists(img_acts_path):
