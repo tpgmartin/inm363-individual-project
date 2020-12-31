@@ -71,7 +71,7 @@ if __name__ == '__main__':
 
 		l = []
 		target_labels = [
-			'jeep'
+			'mantis'
 		]
 		# 'restaurant', 'cinema', 'cab', 'bookshop', 'ambulance', 
 		#  'lipstick', 'lotion', 'volleyball', 'basketball', 'ant', 
@@ -79,13 +79,13 @@ if __name__ == '__main__':
 
 		# for img in l:
 
-		for concept_img in glob('../ACE/ACE/concepts/mixed4c_jeep_concept2/*.png'):
+		for concept_img in glob('../ACE/ACE/concepts/mixed4c_mantis_concept6/*.png'):
 
 			concept_num = concept_img.split('/')[-2].split('_')[-1]
 			true_label = concept_img.split('/')[-2].split('_')[1]
 			source_dir = concept_img[:-4]
 			img_filename = concept_img.split('/')[-1].split('.')[0]
-			source_file = f'{source_dir}/{img_filename}'
+			source_file = f'{source_dir}/{img_filename}.png'
 
 			os.makedirs(source_dir, exist_ok=True)
 			copyfile(concept_img, source_file)

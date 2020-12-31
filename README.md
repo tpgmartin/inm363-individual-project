@@ -52,5 +52,6 @@ In order run,
 
 ### Find Concept CAVs for Images
 
-* `get_concepts_for_selected_images.py`
-<!-- TODO: get bottleneck activations for concepts -->
+* Find concepts using ACE algorithm `get_concepts_for_selected_images.py` (Run within ACE project)
+* For discovered concepts, find activations `get_activations_for_concepts.py`
+* `dimensionality_reduction_concepts.py` to plot activations of concepts using PCA
