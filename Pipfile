@@ -17,6 +17,7 @@ tensorflow = "~=1.14"
 pillow = "*"
 sklearn = "*"
 gensim = "*"
+keras = "~=2.2.4"
 
 [requires]
 python_version = "3.7"
