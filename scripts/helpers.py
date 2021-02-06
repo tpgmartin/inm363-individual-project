@@ -1,8 +1,11 @@
+import keras
+from keras.models import load_model
 from multiprocessing import dummy as multiprocessing
 import numpy as np
 from PIL import Image
 import tcav.model as model
 import tensorflow as tf
+from wrapper import KerasModelWrapper
 
 # Helper functions
 def map_labels_to_dirs(labels_to_dirs='./labels/ImageNet_label.txt'):
@@ -41,8 +44,24 @@ def get_acts_from_images(imgs, model, bottleneck_name):
 def make_model(sess, model_to_run, model_path, labels_path):
 
   if model_to_run == 'InceptionV3':
-    mymodel = model.InceptionV3Wrapper_public(
-        sess, model_saved_path=model_path, labels_path=labels_path)
+    if not model_path:
+      base_path = os.getcwd()
+      # Ideally want to replace hardcoded filename
+      mymodel = load_model(os.path.join(base_path,'inception_v3.h5'))
+
+      endpoints_v3 = dict(
+        input=mymodel.inputs[0].name,
+        input_tensor=mymodel.inputs[0],
+        logit=mymodel.outputs[0].name,
+        prediction=mymodel.outputs[0].name,
+        prediction_tensor=mymodel.outputs[0])
+
+      mymodel = KerasModelWrapper(sess,
+        labels_path, [299, 299, 3], endpoints_v3,
+        'InceptionV3_public', (-1, 1))
+    else:
+      mymodel = model.InceptionV3Wrapper_public(
+          sess, model_saved_path=model_path, labels_path=labels_path)
   elif model_to_run == 'GoogleNet':
     mymodel = model.GoolgeNetWrapper_public(
         sess, model_saved_path=model_path, labels_path=labels_path)

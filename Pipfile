@@ -12,12 +12,12 @@ matplotlib = "*"
 scikit-image = "*"
 scipy = "*"
 numpy = "*"
-tcav = "*"
 tensorflow = "~=1.14"
 pillow = "*"
 sklearn = "*"
 gensim = "*"
 keras = "~=2.2.4"
+tcav = "*"
 
 [requires]
 python_version = "3.7"
