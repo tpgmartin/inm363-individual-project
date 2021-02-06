@@ -60,6 +60,9 @@ def parse_arguments(argv):
 if __name__ == '__main__':
 
 		args = parse_arguments(sys.argv[1:])
+		args.model_to_run = 'InceptionV3'
+		args.model_path = './inception_v3.h5'
+		args.bottlenecks = 'mixed8'
 		random_concept = 'random_discovery'
 		cavs_dir = os.path.join(args.working_dir, 'cavs/')
 		activations_dir = os.path.join(args.working_dir, 'acts/')

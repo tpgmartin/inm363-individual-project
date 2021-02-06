@@ -44,10 +44,8 @@ def get_acts_from_images(imgs, model, bottleneck_name):
 def make_model(sess, model_to_run, model_path, labels_path):
 
   if model_to_run == 'InceptionV3':
-    if not model_path:
-      base_path = os.getcwd()
-      # Ideally want to replace hardcoded filename
-      mymodel = load_model(os.path.join(base_path,'inception_v3.h5'))
+    if '.h5' in model_path:
+      mymodel = load_model(model_path)
 
       endpoints_v3 = dict(
         input=mymodel.inputs[0].name,
