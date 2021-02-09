@@ -48,7 +48,7 @@ def parse_arguments(argv):
 		parser.add_argument('--labels_path', type=str,
 				help='Path to model checkpoints.', default='./imagenet_labels.txt')
 		parser.add_argument('--target_class', type=str,
-			help='The name of the target class to be interpreted', default='bubble')
+			help='The name of the target class to be interpreted', default='ambulance')
 		parser.add_argument('--bottlenecks', type=str,
 				help='Names of the target layers of the network (comma separated)',
 												default='mixed4c')
@@ -60,7 +60,11 @@ def parse_arguments(argv):
 
 if __name__ == '__main__':
 
+		layer = 'mixed8'
 		args = parse_arguments(sys.argv[1:])
+		args.model_to_run = 'InceptionV3'
+		args.model_path = './inception_v3.h5'
+		args.bottlenecks = layer
 		random_concept = 'random_discovery'
 		cavs_dir = os.path.join(args.working_dir, 'cavs/')
 		activations_dir = os.path.join(args.working_dir, 'acts/')
@@ -71,7 +75,7 @@ if __name__ == '__main__':
 
 		l = []
 		target_labels = [
-			'mantis'
+			'jeep'
 		]
 		# 'restaurant', 'cinema', 'cab', 'bookshop', 'ambulance', 
 		#  'lipstick', 'lotion', 'volleyball', 'basketball', 'ant', 
@@ -79,10 +83,23 @@ if __name__ == '__main__':
 
 		# for img in l:
 
-		for concept_img in glob('../ACE/ACE/concepts/mixed4c_mantis_concept6/*.png'):
+		# Get random images
 
-			concept_num = concept_img.split('/')[-2].split('_')[-1]
-			true_label = concept_img.split('/')[-2].split('_')[1]
+		# random_sample = random.sample(glob('../ACE/ImageNet/random500_0/*.JPEG'),40)
+		
+		concept_imgs = [x for x in glob(f'../ACE/ACE/concepts/{layer}_{target_labels[0]}_*/*.png') if 'patches' not in x]
+
+		concept21_imgs = [x for x in concept_imgs if 'concept21' in x]
+		concept2_imgs = [x for x in concept_imgs if 'concept2' in x]
+		concept13_imgs = [x for x in concept_imgs if 'concept13' in x]
+		concept9_imgs = [x for x in concept_imgs if 'concept9' in x]
+
+		concept_imgs = concept21_imgs + concept2_imgs + concept13_imgs + concept9_imgs
+
+		for concept_img in concept_imgs:
+		# for concept_img in random_sample:
+			concept_num = 'random' if concept_img.split('/')[-2].split('_')[-1] == '0' else concept_img.split('/')[-2].split('_')[-1]
+			true_label = 'random' if concept_img.split('/')[-2].split('_')[1] == '0' else concept_img.split('/')[-2].split('_')[1]
 			source_dir = concept_img[:-4]
 			img_filename = concept_img.split('/')[-1].split('.')[0]
 			source_file = f'{source_dir}/{img_filename}.png'
