@@ -59,3 +59,7 @@ In order run,
 * Find concepts using ACE algorithm `get_concepts_for_selected_images.py` (Run within ACE project)
 * For discovered concepts, find activations `get_activations_for_concepts.py` - this saves activations to `./acts/<target label>/acts_<target label>_concept<concept number>_<patch number>_<bottleneck layer>`
 * `dimensionality_reduction_concepts.py` to plot activations of concepts using PCA
+
+### Other Useful Scripts
+
+* `check_all_concept_activations_present`: Run this to check whether there is are the corresponding activation files available for all concepts found for a given image class

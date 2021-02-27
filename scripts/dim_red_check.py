@@ -4,7 +4,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.decomposition import PCA, SparsePCA
 
-label = 'jeep'
+chart_type = 'all_concepts'
+label = 'ambulance'
 layer = 'mixed8'
 concepts = np.unique([x.split('_')[2] for x in glob(f'./acts/{label}/*_{layer}') if 'concept' in x]).tolist()
 
@@ -21,10 +22,12 @@ for concept in concepts:
 
         plt.scatter(image_acts_embedded[:,0], image_acts_embedded[:,1], label=f'{concept}')
 
-plt.legend(loc='upper right')
+if chart_type != 'all_concepts':
+    plt.legend(loc='upper right')
+
 plt.xlabel('Component 1')
 plt.ylabel('Component 2')
-plt.savefig(f'{label}_{layer}_concepts_plot.png')
+plt.savefig(f'./concept_activation_plots/{label}_{layer}_{chart_type}_plot.png')
 plt.clf()
 plt.cla()
 plt.close()
