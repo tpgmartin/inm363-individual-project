@@ -63,3 +63,4 @@ In order run,
 ### Other Useful Scripts
 
 * `check_all_concept_activations_present`: Run this to check whether there is are the corresponding activation files available for all concepts found for a given image class
+* `plot_cav_accuracies_tcav_scores`: Plot charts illustrating CAV accuracies and TCAV scores for discovered concepts using ACE algorithm
