@@ -4,8 +4,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.decomposition import PCA, SparsePCA
 
-chart_type = 'top_10'
-label = 'lipstick'
+# chart_type = 'top_5'
+# chart_type = 'top_10'
+chart_type = 'all_concepts'
+label = 'jeep'
 layer = 'mixed8'
 concepts = np.unique([x.split('_')[2] for x in glob(f'./acts/{label}/*_{layer}') if 'concept' in x]).tolist()
 
@@ -21,18 +23,22 @@ if 'top' in chart_type:
 
     concepts = [concept for concept in concepts if concept in top_concepts]
 
+all_image_acts = []
 for concept in concepts:
     image_acts = np.array([np.load(acts).squeeze() for acts in glob(f'./acts/{label}/acts_{label}_{concept}_*_{layer}')])
     image_acts = [x for x in image_acts if isinstance(x[0], np.float32)]
+    all_image_acts.extend(image_acts)
 
-    if len(image_acts) >= 2:
-        pca = PCA(n_components=2)
-        pca.fit(image_acts)
-        pca_c = pca.components_
+pca = PCA(n_components=2)
+pca.fit(all_image_acts)
+pca_c = pca.components_
 
-        image_acts_embedded = np.dot(image_acts,pca_c.T)
+for concept in concepts:
+    image_acts = np.array([np.load(acts).squeeze() for acts in glob(f'./acts/{label}/acts_{label}_{concept}_*_{layer}')])
+    image_acts = [x for x in image_acts if isinstance(x[0], np.float32)]
+    image_acts_embedded = np.dot(image_acts,pca_c.T)
 
-        plt.scatter(image_acts_embedded[:,0], image_acts_embedded[:,1], label=f'{concept}')
+    plt.scatter(image_acts_embedded[:,0], image_acts_embedded[:,1], label=f'{concept}')
 
 if chart_type != 'all_concepts':
     concept_labels = ['Concept ' + concept.split('concept')[-1] for concept in np.unique(top_concepts)]
