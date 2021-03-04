@@ -30,8 +30,10 @@ def main(args, activations_dir, cavs_dir, random_concept='random_discovery'):
 				args.source_dir,
 				activations_dir,
 				cavs_dir)
-
-		bn_activations = cd.get_img_activations(args.img_num, args.concept_num)
+		try:
+			bn_activations = cd.get_img_activations(args.img_num, args.concept_num)
+		except ValueError:
+			pass
 
 		sess.close()
 
@@ -74,7 +76,11 @@ if __name__ == '__main__':
 		tf.gfile.MakeDirs(cavs_dir)
 		tf.gfile.MakeDirs(activations_dir)
 		
-		concept_imgs = [x for x in glob(f'../ACE/ImageNet/random_discovery/*.JPEG')]
+		concept_imgs = glob('../ACE/ImageNet/random_discovery/*.JPEG')
+		acts = glob('./acts/random/*')
+		acts = [f'../ACE/ImageNet/random_discovery/{"_".join(act.split("_")[3:5])}.JPEG' for act in acts]
+
+		concept_imgs = list(set(concept_imgs) - set(acts))
 
 		for concept_img in concept_imgs:
 		# for concept_img in random_sample:
@@ -88,7 +94,7 @@ if __name__ == '__main__':
 
 			os.makedirs(source_dir, exist_ok=True)
 			copyfile(concept_img, source_file)
-
+			print(img_filename)
 			args.target_class = true_label
 			args.source_dir = source_dir
 			args.img_num = img_filename

@@ -22,7 +22,7 @@ def plot_concept_activations(concepts, label, layer, colour, embedding):
 chart_type = 'top_10'
 # chart_type = 'all_concepts'
 label1 = 'jeep'
-label2 = 'lipstick'
+label2 = 'ambulance'
 layer = 'mixed8'
 concepts1 = np.unique([x.split('_')[2] for x in glob(f'./acts/{label1}/*_{layer}') if 'concept' in x]).tolist()
 concepts2 = np.unique([x.split('_')[2] for x in glob(f'./acts/{label2}/*_{layer}') if 'concept' in x]).tolist()
