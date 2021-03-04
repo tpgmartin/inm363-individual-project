@@ -62,5 +62,6 @@ In order run,
 
 ### Other Useful Scripts
 
-* `check_all_concept_activations_present`: Run this to check whether there is are the corresponding activation files available for all concepts found for a given image class
-* `plot_cav_accuracies_tcav_scores`: Plot charts illustrating CAV accuracies and TCAV scores for discovered concepts using ACE algorithm
+* `check_all_concept_activations_present.py`: Run this to check whether there is are the corresponding activation files available for all concepts found for a given image class
+* `get_activations_for_random_concepts.py`: Get random concepts from images and generate corresponding bottleneck activation
+* `plot_cav_accuracies_tcav_scores.py`: Plot charts illustrating CAV accuracies and TCAV scores for discovered concepts using ACE algorithm
