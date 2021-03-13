@@ -4,8 +4,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.decomposition import PCA, SparsePCA
 
-concept = 'concept11'
-label = 'lipstick'
+concept = 'concept3'
+label = 'ambulance'
 layer = 'mixed8'
 acts = glob(f'./acts/{label}/*{concept}*{layer}')
 
@@ -18,9 +18,12 @@ random_image_acts = random_image_acts[:40]
 
 all_image_acts = concept_image_acts + random_image_acts
 
-pca = PCA(n_components=2)
-pca.fit(all_image_acts)
-pca_c = pca.components_
+# pca = PCA(n_components=2)
+# pca.fit(all_image_acts)
+# pca_c = pca.components_
+sPCA = SparsePCA(n_components=2,random_state=1)
+sPCA.fit(all_image_acts)
+pca_c = sPCA.components_
 
 concept_image_acts_embedded = np.dot(concept_image_acts,pca_c.T)
 plt.scatter(concept_image_acts_embedded[:,0], concept_image_acts_embedded[:,1], label=f'{label.capitalize()} {concept}')

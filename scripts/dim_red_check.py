@@ -5,9 +5,9 @@ import numpy as np
 from sklearn.decomposition import PCA, SparsePCA
 
 # chart_type = 'top_5'
-# chart_type = 'top_10'
-chart_type = 'all_concepts'
-label = 'jeep'
+chart_type = 'top_10'
+# chart_type = 'all_concepts'
+label = 'restaurant'
 layer = 'mixed8'
 concepts = np.unique([x.split('_')[2] for x in glob(f'./acts/{label}/*_{layer}') if 'concept' in x]).tolist()
 

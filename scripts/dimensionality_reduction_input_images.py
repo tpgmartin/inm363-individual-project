@@ -1,7 +1,6 @@
 from glob import glob
 import matplotlib.pyplot as plt
 import numpy as np
-import random
 from sklearn.decomposition import PCA, SparsePCA
 
 # TODO:
@@ -16,9 +15,8 @@ from sklearn.decomposition import PCA, SparsePCA
 # 
 # Find 2D projection of all vectors and plot to grid using image labels
 
-# TODO
-# Get activations for random images
-random.seed(1)
+# TODO: This is for input images
+method = 'other'
 
 pairs = [
     ['bookshop', 'restaurant'],
@@ -49,25 +47,29 @@ def plot_scatter(image_1, image_2, image_1_acts, image_2_acts):
 for input_images in pairs:
 
     image_1, image_2 = input_images
-    random_sample = random.sample(glob('./acts/**/*'), 50)
+    print(image_1, image_2)
 
     image_1_acts = np.array([np.load(acts).squeeze() for acts in glob(f'./acts/{image_1}/*')])
     image_2_acts = np.array([np.load(acts).squeeze() for acts in glob(f'./acts/{image_2}/*')])
-    random_acts = np.array([np.load(acts).squeeze() for acts in random_sample])
+    print(len(image_1_acts))
+    print(len(image_2_acts))
 
-    pca = PCA(n_components=2)
-    # sparse_pca = SparsePCA(n_components=2, random_state=0)
+    all_image_acts = image_1_acts + image_2_acts
 
-    image_1_acts_reduced = pca.fit_transform(image_1_acts)
-    image_2_acts_reduced = pca.fit_transform(image_2_acts)
-    random_acts_reduced = pca.fit_transform(random_acts)
+    if method == 'sparse_pca':
+        pca = SparsePCA(n_components=2, random_state=0)
+    else:
+        pca = PCA(n_components=2, random_state=0)
+
+    pca.fit(all_image_acts)
+    pca_c = pca.components_
+    
+    image_1_acts_embedded = np.dot(image_1_acts,pca_c.T)
+    image_2_acts_embedded = np.dot(image_2_acts,pca_c.T)
 
     fig = plt.figure(figsize=(12, 5))
-    fig.suptitle(f'Activations of {image_1.capitalize()} vs {image_2.capitalize()}')
-    plt.subplot(121)
-    plot_scatter(image_1, image_2, image_1_acts_reduced, image_2_acts_reduced)
-    plt.subplot(122)
-    plot_scatter(image_1, 'random', image_1_acts_reduced, random_acts_reduced)
+    plt.title(f'Activations of {image_1.capitalize()} vs {image_2.capitalize()}')
+    plot_scatter(image_1, image_2, image_1_acts_embedded, image_2_acts_embedded)
     plt.savefig(f'./pca_acts/{image_1}_{image_2}_pca_acts.png')
     plt.clf()
     plt.cla()

@@ -78,7 +78,7 @@ if __name__ == '__main__':
 
 		l = []
 		target_labels = [
-			'jeep'
+			'restaurant'
 		]
 		# 'restaurant', 'cinema', 'cab', 'bookshop', 'ambulance', 
 		#  'lipstick', 'lotion', 'volleyball', 'basketball', 'ant', 

@@ -53,6 +53,7 @@ In order run,
 * `get_image_cosine_similarities.py`
 * `get_image_cosine_similarities_different_labels.py`
 * Run `dimensionality_reduction_input_images.py` to plot activations of input images using PCA
+* Run `dim_red_check.py` to plot concept activations of input images using PCA
 
 ### Find Concept CAVs for Images
 
@@ -66,3 +67,20 @@ In order run,
 * `get_concept_count_by_class.py`: Check number of concepts with activations available by image class
 * `get_activations_for_random_concepts.py`: Get random concepts from images and generate corresponding bottleneck activation
 * `plot_cav_accuracies_tcav_scores.py`: Plot charts illustrating CAV accuracies and TCAV scores for discovered concepts using ACE algorithm
+
+## Project Structure
+
+### Visualistions
+
+#### CAV visualisations
+* cav_accuracies_histograms
+* cav_accuracies_plots
+
+#### Bottleneck activations
+* concept_activation_plots: Visualisation of concepts by label
+* pca_acts: Comparison of bottleneck activations across labels
+* pca_acts_concepts: Comparison of bottleneck activations of concepts across labels
+
+#### TCAV visualisations
+* tcav_scores_histograms
+* tcav_scores_plots
