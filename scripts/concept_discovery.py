@@ -104,8 +104,12 @@ class ConceptDiscovery(object):
 
       if not tf.gfile.Exists(os.path.join(self.activation_dir, self.target_class)):
         tf.gfile.MakeDirs(os.path.join(self.activation_dir, self.target_class))
+
+      imgs, _ = self.load_concept_imgs(None, self.num_discovery_imgs)
+      acts = get_acts_from_images(imgs, self.model, self.bottleneck)
+      acts = acts.reshape(-1)
+
       if not tf.gfile.Exists(img_acts_path):
-        acts = self.get_bn_activations()
         with tf.gfile.Open(img_acts_path, 'w') as f:
           np.save(f, acts, allow_pickle=False)
         del acts

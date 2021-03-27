@@ -89,8 +89,18 @@ if __name__ == '__main__':
 		# Get random images
 
 		# random_sample = random.sample(glob('../ACE/ImageNet/random500_0/*.JPEG'),40)
+
+		chart_type = 'top_10'
+		start = 4
+		stop = start + int(chart_type.split('_')[-1])
+
+		with open(f'../ACE/ACE/results_summaries/{layer}_{target_labels[0]}_ace_results.txt') as f:
+			lines = f.readlines()
+
+		top_concepts = [line.split(':')[1].split('_')[-1] for line in lines[start:stop]]
 		
 		concept_imgs = [x for x in glob(f'../ACE/ACE/concepts/{layer}_{target_labels[0]}_*/*.png') if 'patches' not in x]
+		concept_imgs = [concept_img for concept_img in concept_imgs if concept_img.split('/')[-2].split('_')[-1] in top_concepts]
 
 		activations = glob(f'./acts/{target_labels[0]}/acts_{target_labels[0]}_concept*_*_{layer}')
 		activation_concept_imgs = []
@@ -102,6 +112,8 @@ if __name__ == '__main__':
 			activation_concept_imgs.append(activation_concept_img)
 
 		concept_imgs = list(set(concept_imgs) - set(activation_concept_imgs))
+
+		print(len(concept_imgs))
 
 		# concept21_imgs = [x for x in concept_imgs if 'concept21' in x]
 		# concept2_imgs = [x for x in concept_imgs if 'concept2' in x]
