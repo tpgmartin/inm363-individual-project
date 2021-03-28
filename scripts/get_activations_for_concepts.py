@@ -78,7 +78,17 @@ if __name__ == '__main__':
 
 		l = []
 		target_labels = [
-			'ant'
+			'ant',
+			'balloon',
+			'basketball',
+			'bookshop',
+			'cab',
+			'cinema',
+			'damselfly',
+			'lotion',
+			'mantis',
+			'snail',
+			'volleyball'
 		]
 		# 'restaurant', 'cinema', 'cab', 'bookshop', 'ambulance', 
 		#  'lipstick', 'lotion', 'volleyball', 'basketball', 'ant', 
@@ -90,56 +100,57 @@ if __name__ == '__main__':
 
 		# random_sample = random.sample(glob('../ACE/ImageNet/random500_0/*.JPEG'),40)
 
-		chart_type = 'top_10'
-		start = 4
-		stop = start + int(chart_type.split('_')[-1])
+		for label in target_labels:
+			chart_type = 'top_10'
+			start = 4
+			stop = start + int(chart_type.split('_')[-1])
 
-		with open(f'../ACE/ACE/results_summaries/{layer}_{target_labels[0]}_ace_results.txt') as f:
-			lines = f.readlines()
+			with open(f'../ACE/ACE/results_summaries/{layer}_{label}_ace_results.txt') as f:
+				lines = f.readlines()
 
-		top_concepts = [line.split(':')[1].split('_')[-1] for line in lines[start:stop]]
-		
-		concept_imgs = [x for x in glob(f'../ACE/ACE/concepts/{layer}_{target_labels[0]}_*/*.png') if 'patches' not in x]
-		concept_imgs = [concept_img for concept_img in concept_imgs if concept_img.split('/')[-2].split('_')[-1] in top_concepts]
+			top_concepts = [line.split(':')[1].split('_')[-1] for line in lines[start:stop]]
+			
+			concept_imgs = [x for x in glob(f'../ACE/ACE/concepts/{layer}_{label}_*/*.png') if 'patches' not in x]
+			concept_imgs = [concept_img for concept_img in concept_imgs if concept_img.split('/')[-2].split('_')[-1] in top_concepts]
 
-		activations = glob(f'./acts/{target_labels[0]}/acts_{target_labels[0]}_concept*_*_{layer}')
-		activation_concept_imgs = []
-		for activation in activations:
-			l = activation.split('_')
-			concept, image_no_1, image_no_2 = l[2], l[3], l[4]
-			image_no = f'{image_no_1}_{image_no_2}'
-			activation_concept_img = f'../ACE/ACE/concepts/{layer}_{target_labels[0]}_{concept}/{image_no}.png'
-			activation_concept_imgs.append(activation_concept_img)
+			activations = glob(f'./acts/{label}/acts_{label}_concept*_*_{layer}')
+			activation_concept_imgs = []
+			for activation in activations:
+				l = activation.split('_')
+				concept, image_no_1, image_no_2 = l[2], l[3], l[4]
+				image_no = f'{image_no_1}_{image_no_2}'
+				activation_concept_img = f'../ACE/ACE/concepts/{layer}_{label}_{concept}/{image_no}.png'
+				activation_concept_imgs.append(activation_concept_img)
 
-		concept_imgs = list(set(concept_imgs) - set(activation_concept_imgs))
+			concept_imgs = list(set(concept_imgs) - set(activation_concept_imgs))
 
-		# concept21_imgs = [x for x in concept_imgs if 'concept21' in x]
-		# concept2_imgs = [x for x in concept_imgs if 'concept2' in x]
-		# concept13_imgs = [x for x in concept_imgs if 'concept13' in x]
-		# concept9_imgs = [x for x in concept_imgs if 'concept9' in x]
+			# concept21_imgs = [x for x in concept_imgs if 'concept21' in x]
+			# concept2_imgs = [x for x in concept_imgs if 'concept2' in x]
+			# concept13_imgs = [x for x in concept_imgs if 'concept13' in x]
+			# concept9_imgs = [x for x in concept_imgs if 'concept9' in x]
 
-		# concept_imgs = concept21_imgs + concept2_imgs + concept13_imgs + concept9_imgs
+			# concept_imgs = concept21_imgs + concept2_imgs + concept13_imgs + concept9_imgs
 
-		for concept_img in concept_imgs:
-		# for concept_img in random_sample:
-			img_start = time.time()
-			concept_num = 'random' if concept_img.split('/')[-2].split('_')[-1] == '0' else concept_img.split('/')[-2].split('_')[-1]
-			true_label = 'random' if concept_img.split('/')[-2].split('_')[1] == '0' else concept_img.split('/')[-2].split('_')[1]
-			source_dir = concept_img[:-4]
-			img_filename = concept_img.split('/')[-1].split('.')[0]
-			# This step creates a new folder for each image file to pass to model
-			source_file = f'{source_dir}/{img_filename}.png'
+			for concept_img in concept_imgs:
+			# for concept_img in random_sample:
+				img_start = time.time()
+				concept_num = 'random' if concept_img.split('/')[-2].split('_')[-1] == '0' else concept_img.split('/')[-2].split('_')[-1]
+				true_label = 'random' if concept_img.split('/')[-2].split('_')[1] == '0' else concept_img.split('/')[-2].split('_')[1]
+				source_dir = concept_img[:-4]
+				img_filename = concept_img.split('/')[-1].split('.')[0]
+				# This step creates a new folder for each image file to pass to model
+				source_file = f'{source_dir}/{img_filename}.png'
 
-			os.makedirs(source_dir, exist_ok=True)
-			copyfile(concept_img, source_file)
+				os.makedirs(source_dir, exist_ok=True)
+				copyfile(concept_img, source_file)
 
-			args.target_class = true_label
-			args.source_dir = source_dir
-			args.img_num = img_filename
-			args.concept_num = concept_num
-			bottleneck_activation = main(args, activations_dir, cavs_dir)
-			img_end = time.time()
-			print(f'Img elapsed time (s): {img_end - img_start}')
-		
-		main_end = time.time()
-		print(f'Total elapsed time (s): {main_end - main_start}')
+				args.target_class = true_label
+				args.source_dir = source_dir
+				args.img_num = img_filename
+				args.concept_num = concept_num
+				bottleneck_activation = main(args, activations_dir, cavs_dir)
+				img_end = time.time()
+				print(f'Img elapsed time (s): {img_end - img_start}')
+			
+			main_end = time.time()
+			print(f'Total elapsed time (s): {main_end - main_start}')
