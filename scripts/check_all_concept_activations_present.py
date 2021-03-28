@@ -26,6 +26,6 @@ for concept in concepts:
 # Then just convert lists of activations to set, find difference, and return as list
 missing_activations = set(concept_activation_filenames) - set(activations)
 print(f'Missing activations for {target_class.capitalize()}: {len(list(missing_activations))}')
-print(missing_activations)
-print(len(concept_activation_filenames))
-print(len(activations))
+# print(missing_activations)
+# print(len(concept_activation_filenames))
+# print(len(activations))

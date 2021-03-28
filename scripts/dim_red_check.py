@@ -4,10 +4,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.decomposition import PCA, SparsePCA
 
-# chart_type = 'top_5'
-chart_type = 'top_10'
+chart_type = 'top_5'
+# chart_type = 'top_10'
 # chart_type = 'all_concepts'
-label = 'restaurant'
+label = 'damselfly'
 layer = 'mixed8'
 concepts = np.unique([x.split('_')[2] for x in glob(f'./acts/{label}/*_{layer}') if 'concept' in x]).tolist()
 
@@ -29,7 +29,8 @@ for concept in concepts:
     image_acts = [x for x in image_acts if isinstance(x[0], np.float32)]
     all_image_acts.extend(image_acts)
 
-pca = PCA(n_components=2)
+# pca = PCA(n_components=2)
+pca = SparsePCA(n_components=2,random_state=1)
 pca.fit(all_image_acts)
 pca_c = pca.components_
 
@@ -46,7 +47,8 @@ if chart_type != 'all_concepts':
 
 plt.xlabel('Component 1')
 plt.ylabel('Component 2')
-plt.savefig(f'./concept_activation_plots/{label}_{layer}_{chart_type}_plot.png')
+# plt.savefig(f'./concept_activation_plots/{label}_{layer}_{chart_type}_plot.png')
+plt.savefig(f'test_concept_activation_sparse_pca_plots.png')
 plt.clf()
 plt.cla()
 plt.close()

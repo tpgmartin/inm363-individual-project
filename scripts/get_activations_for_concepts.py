@@ -78,7 +78,7 @@ if __name__ == '__main__':
 
 		l = []
 		target_labels = [
-			'restaurant'
+			'ant'
 		]
 		# 'restaurant', 'cinema', 'cab', 'bookshop', 'ambulance', 
 		#  'lipstick', 'lotion', 'volleyball', 'basketball', 'ant', 
@@ -112,8 +112,6 @@ if __name__ == '__main__':
 			activation_concept_imgs.append(activation_concept_img)
 
 		concept_imgs = list(set(concept_imgs) - set(activation_concept_imgs))
-
-		print(len(concept_imgs))
 
 		# concept21_imgs = [x for x in concept_imgs if 'concept21' in x]
 		# concept2_imgs = [x for x in concept_imgs if 'concept2' in x]
