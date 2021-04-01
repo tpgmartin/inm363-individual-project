@@ -1,50 +1,39 @@
-import pattern
-# from pattern import en
+from collections import defaultdict
+import json
 import nltk
 from nltk.corpus import wordnet
 
-def get_synonyms(synset):
-    for lemma in synset.lemmas():
-        for synonym in lemma:
-            print(synonym.name())
-    # return set([lemma for lemma in synset.lemmas()])
+        
+def tree():
+    return defaultdict(tree)
 
-# e.g. dog.n.01 corresponds to the noun "dog"
-# synset = wordnet.synsets('cinema')
-# synset = wordnet.synset('cinema.n.02')
-# print(synset.lemmas())
+def add_to_tree(t, path):
 
-# Get synonyms
-def get_synonyms(synset):
-    synonyms = []
-    for l in synset.lemmas():
-        synonyms.append(l.name())
-    return synonyms
+    max_idx = len(path) - 1
+    for idx, node in enumerate(path):
+        if idx == max_idx:
+            t[path[idx-1]] = node
+        else:
+            t = t[node]
 
-# print(set(get_synonyms(wordnet.synset('dog.n.01'))))
-print(wordnet.synsets('bookshop'))
-print(set(get_synonyms(wordnet.synset('bookshop.n.01'))))
+def get_hypernyms(synset, hypernyms=[]):
+    synset_hypernyms = synset.hypernyms()
+    if len(synset.hypernyms()) == 0:
+        hypernyms.reverse()
+        return hypernyms
+    else:
+        if len(hypernyms) == 0:
+            hypernyms.append(synset.lemmas()[0].name())
+        for synset in synset_hypernyms:
+            hypernyms.append(synset_hypernyms[0].lemmas()[0].name())
+        return get_hypernyms(synset, hypernyms)
 
-# Get hypernyms
-# For bookshop should get
-# shop
-# v
-# place of business, establishment
-# v
-# establishment
-# v
-# structure
-# v artifact
-def get_hypernyms(synset):
-    hypernyms = set()
-    for hypernym in synset.hypernyms():
-        hypernyms |= set(get_hypernyms(hypernym))
-    return hypernyms | set(synset.hypernyms())
-bookshop = wordnet.synset('bookshop.n.01')
-print(get_hypernyms(bookshop))
+wordnet_hierarchy = tree()
 
-bookshop = wordnet.synset('bookshop.n.01')
-print(bookshop.hypernyms())
-# print(bookshop.holonyms())
+labels = [line.strip() for line in open('./labels/class_labels_subset.txt')]
+lemmas = [f'{label}.n.01' if label != 'crane_bird' else 'crane.n.05' for label in labels]
+hypernyms = [get_hypernyms(wordnet.synset(lemma), []) for lemma in lemmas]
 
-print(wordnet.synset('bookshop.n.01').holonyms())
+for hypernym in hypernyms: add_to_tree(wordnet_hierarchy, hypernym)
+
+print(json.dumps(wordnet_hierarchy))
