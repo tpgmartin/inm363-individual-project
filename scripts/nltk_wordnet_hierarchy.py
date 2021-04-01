@@ -2,19 +2,23 @@ from collections import defaultdict
 import json
 import nltk
 from nltk.corpus import wordnet
+import pprint
 
+pp = pprint.PrettyPrinter()
         
 def tree():
     return defaultdict(tree)
 
 def add_to_tree(t, path):
 
-    max_idx = len(path) - 1
-    for idx, node in enumerate(path):
-        if idx == max_idx:
-            t[path[idx-1]] = node
-        else:
-            t = t[node]
+    # max_idx = len(path) - 1
+    for node in path:
+    #     if idx == max_idx:
+    #         t[path[idx-1]] = node
+    #     else:
+        t = t[node]
+
+def dicts(t): return {k: dicts(t[k]) for k in t}
 
 def get_hypernyms(synset, hypernyms=[]):
     synset_hypernyms = synset.hypernyms()
@@ -36,4 +40,6 @@ hypernyms = [get_hypernyms(wordnet.synset(lemma), []) for lemma in lemmas]
 
 for hypernym in hypernyms: add_to_tree(wordnet_hierarchy, hypernym)
 
-print(json.dumps(wordnet_hierarchy))
+with open('wordnet_hierarchy.json', 'w+') as f:
+    json.dump(wordnet_hierarchy, f)
+

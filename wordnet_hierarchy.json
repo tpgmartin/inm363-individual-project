@@ -1,0 +1,622 @@
+{
+    "entity": {
+        "physical_entity": {
+            "object": {
+                "whole": {
+                    "living_thing": {
+                        "organism": {
+                            "animal": {
+                                "chordate": {
+                                    "vertebrate": {
+                                        "bird": {
+                                            "parrot": {
+                                                "African_grey": {}
+                                            },
+                                            "aquatic_bird": {
+                                                "gallinule": {
+                                                    "purple_gallinule": {
+                                                        "European_gallinule": {}
+                                                    }
+                                                },
+                                                "wading_bird": {
+                                                    "crane": {}
+                                                }
+                                            },
+                                            "passerine": {
+                                                "oscine": {
+                                                    "finch": {
+                                                        "junco": {}
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "aquatic_vertebrate": {
+                                            "fish": {
+                                                "bony_fish": {
+                                                    "teleost_fish": {
+                                                        "spiny-finned_fish": {
+                                                            "scorpaenoid": {
+                                                                "scorpaenid": {
+                                                                    "lionfish": {}
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "mammal": {
+                                            "placental": {
+                                                "carnivore": {
+                                                    "bear": {
+                                                        "American_black_bear": {}
+                                                    }
+                                                },
+                                                "ungulate": {
+                                                    "even-toed_ungulate": {
+                                                        "llama": {},
+                                                        "hippopotamus": {}
+                                                    },
+                                                    "odd-toed_ungulate": {
+                                                        "equine": {
+                                                            "zebra": {}
+                                                        }
+                                                    }
+                                                },
+                                                "lagomorph": {
+                                                    "leporid": {
+                                                        "rabbit": {
+                                                            "wood_rabbit": {}
+                                                        }
+                                                    }
+                                                },
+                                                "primate": {
+                                                    "ape": {
+                                                        "anthropoid_ape": {
+                                                            "great_ape": {
+                                                                "gorilla": {}
+                                                            }
+                                                        }
+                                                    }
+                                                },
+                                                "aquatic_mammal": {
+                                                    "cetacean": {
+                                                        "whale": {
+                                                            "toothed_whale": {
+                                                                "dolphin": {
+                                                                    "killer_whale": {}
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                },
+                                                "rodent": {
+                                                    "hamster": {}
+                                                }
+                                            }
+                                        },
+                                        "amphibian": {
+                                            "frog": {
+                                                "true_frog": {
+                                                    "bullfrog": {}
+                                                }
+                                            },
+                                            "salamander": {
+                                                "newt": {
+                                                    "common_newt": {}
+                                                }
+                                            }
+                                        },
+                                        "reptile": {
+                                            "diapsid": {
+                                                "snake": {
+                                                    "colubrid_snake": {
+                                                        "king_snake": {}
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "invertebrate": {
+                                    "arthropod": {
+                                        "insect": {
+                                            "odonate": {
+                                                "damselfly": {}
+                                            },
+                                            "hymenopterous_insect": {
+                                                "ant": {}
+                                            },
+                                            "dictyopterous_insect": {
+                                                "mantis": {}
+                                            },
+                                            "beetle": {
+                                                "tiger_beetle": {}
+                                            }
+                                        }
+                                    },
+                                    "mollusk": {
+                                        "gastropod": {
+                                            "snail": {}
+                                        }
+                                    }
+                                },
+                                "canine": {
+                                    "canine": {
+                                        "dog": {
+                                            "hunting_dog": {
+                                                "sporting_dog": {
+                                                    "spaniel": {
+                                                        "Sussex_spaniel": {},
+                                                        "cocker_spaniel": {}
+                                                    }
+                                                },
+                                                "terrier": {
+                                                    "Norfolk_terrier": {},
+                                                    "bullterrier": {
+                                                        "Staffordshire_bullterrier": {}
+                                                    },
+                                                    "schnauzer": {
+                                                        "standard_schnauzer": {}
+                                                    }
+                                                },
+                                                "hound": {
+                                                    "basset": {}
+                                                }
+                                            },
+                                            "working_dog": {
+                                                "shepherd_dog": {
+                                                    "collie": {}
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "fungus": {
+                                "hen-of-the-woods": {}
+                            },
+                            "plant": {
+                                "vascular_plant": {
+                                    "woody_plant": {
+                                        "tree": {
+                                            "angiospermous_tree": {
+                                                "fruit_tree": {
+                                                    "jackfruit": {}
+                                                }
+                                            }
+                                        },
+                                        "shrub": {
+                                            "capsicum": {
+                                                "sweet_pepper": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "causal_agent": {
+                            "causal_agent": {
+                                "person": {
+                                    "combatant": {
+                                        "boxer": {}
+                                    },
+                                    "unfortunate": {
+                                        "victim": {
+                                            "punching_bag": {}
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "artifact": {
+                        "instrumentality": {
+                            "device": {
+                                "musical_instrument": {
+                                    "stringed_instrument": {
+                                        "bowed_stringed_instrument": {
+                                            "cello": {}
+                                        },
+                                        "guitar": {
+                                            "electric_guitar": {}
+                                        }
+                                    },
+                                    "wind_instrument": {
+                                        "pipe": {
+                                            "panpipe": {}
+                                        }
+                                    },
+                                    "percussion_instrument": {
+                                        "marimba": {}
+                                    }
+                                },
+                                "memory_device": {
+                                    "magnetic_disk": {
+                                        "hard_disc": {}
+                                    }
+                                },
+                                "restraint": {
+                                    "fastener": {
+                                        "lock": {
+                                            "padlock": {}
+                                        }
+                                    }
+                                },
+                                "instrument": {
+                                    "weapon": {
+                                        "tomahawk": {},
+                                        "gun": {
+                                            "firearm": {
+                                                "pistol": {
+                                                    "revolver": {}
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "optical_instrument": {
+                                        "spectacles": {
+                                            "sunglasses": {}
+                                        }
+                                    }
+                                },
+                                "breathing_device": {
+                                    "snorkel": {}
+                                },
+                                "machine": {
+                                    "farm_machine": {
+                                        "thresher": {}
+                                    }
+                                },
+                                "filter": {
+                                    "strainer": {}
+                                },
+                                "support": {
+                                    "rack": {
+                                        "tripod": {}
+                                    }
+                                }
+                            },
+                            "conveyance": {
+                                "container": {
+                                    "container": {
+                                        "wheeled_vehicle": {
+                                            "self-propelled_vehicle": {
+                                                "motor_vehicle": {
+                                                    "car": {
+                                                        "ambulance": {},
+                                                        "jeep": {}
+                                                    },
+                                                    "truck": {
+                                                        "van": {
+                                                            "police_van": {},
+                                                            "moving_van": {}
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            "handcart": {
+                                                "shopping_cart": {}
+                                            },
+                                            "wagon": {
+                                                "cart": {
+                                                    "jinrikisha": {}
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "public_transport": {
+                                    "bus": {
+                                        "school_bus": {}
+                                    },
+                                    "train": {
+                                        "passenger_train": {
+                                            "bullet_train": {}
+                                        }
+                                    }
+                                },
+                                "vehicle": {
+                                    "craft": {
+                                        "aircraft": {
+                                            "lighter-than-air_craft": {
+                                                "balloon": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "toiletry": {
+                                "cosmetic": {
+                                    "makeup": {
+                                        "lipstick": {}
+                                    }
+                                },
+                                "lotion": {}
+                            },
+                            "equipment": {
+                                "gear": {
+                                    "rig": {
+                                        "drill_rig": {
+                                            "drilling_platform": {}
+                                        }
+                                    }
+                                },
+                                "sports_equipment": {
+                                    "gymnastic_apparatus": {
+                                        "parallel_bars": {}
+                                    },
+                                    "weight": {
+                                        "dumbbell": {}
+                                    }
+                                },
+                                "game_equipment": {
+                                    "ball": {
+                                        "tennis_ball": {}
+                                    },
+                                    "game": {
+                                        "puzzle": {
+                                            "crossword_puzzle": {}
+                                        }
+                                    }
+                                },
+                                "photographic_equipment": {
+                                    "photographic_paper": {
+                                        "film": {
+                                            "reel": {}
+                                        }
+                                    }
+                                },
+                                "electronic_equipment": {
+                                    "cassette_player": {}
+                                }
+                            },
+                            "furnishing": {
+                                "furniture": {
+                                    "cabinet": {
+                                        "china_cabinet": {}
+                                    },
+                                    "seat": {
+                                        "bench": {
+                                            "park_bench": {}
+                                        }
+                                    }
+                                }
+                            },
+                            "container": {
+                                "vessel": {
+                                    "bottle": {
+                                        "wine_bottle": {},
+                                        "beer_bottle": {}
+                                    }
+                                },
+                                "bag": {
+                                    "backpack": {}
+                                },
+                                "receptacle": {
+                                    "tray": {}
+                                },
+                                "cassette": {}
+                            },
+                            "medium": {
+                                "film": {}
+                            },
+                            "blind": {
+                                "blind": {
+                                    "curtain": {
+                                        "theater_curtain": {}
+                                    }
+                                }
+                            },
+                            "implement": {
+                                "bar": {
+                                    "lever": {
+                                        "key": {
+                                            "space_bar": {}
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "structure": {
+                            "establishment": {
+                                "place_of_business": {
+                                    "mercantile_establishment": {
+                                        "shop": {
+                                            "bookshop": {},
+                                            "butcher_shop": {}
+                                        }
+                                    }
+                                },
+                                "institution": {
+                                    "penal_institution": {
+                                        "correctional_institution": {
+                                            "prison": {}
+                                        }
+                                    }
+                                }
+                            },
+                            "area": {
+                                "room": {
+                                    "compartment": {
+                                        "cab": {}
+                                    }
+                                }
+                            },
+                            "building": {
+                                "restaurant": {}
+                            },
+                            "obstruction": {
+                                "barrier": {
+                                    "dam": {}
+                                }
+                            }
+                        },
+                        "consumer_goods": {
+                            "consumer_goods": {
+                                "clothing": {
+                                    "garment": {
+                                        "swimsuit": {
+                                            "maillot": {}
+                                        },
+                                        "skirt": {
+                                            "miniskirt": {}
+                                        },
+                                        "suit": {},
+                                        "neckwear": {
+                                            "necktie": {
+                                                "bolo_tie": {}
+                                            }
+                                        }
+                                    },
+                                    "woman's_clothing": {
+                                        "dress": {
+                                            "gown": {}
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "covering": {
+                            "protective_covering": {
+                                "shield": {
+                                    "plate": {
+                                        "armor_plate": {
+                                            "helmet": {
+                                                "pickelhaube": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "fabric": {
+                            "wool": {}
+                        }
+                    }
+                },
+                "amorphous_shape": {
+                    "amorphous_shape": {
+                        "space": {
+                            "opening": {
+                                "crack": {
+                                    "vent": {}
+                                }
+                            }
+                        }
+                    }
+                },
+                "geological_formation": {
+                    "shore": {
+                        "seashore": {}
+                    }
+                }
+            }
+        },
+        "abstraction": {
+            "psychological_feature": {
+                "event": {
+                    "act": {
+                        "activity": {
+                            "diversion": {
+                                "game": {
+                                    "game": {
+                                        "athletic_game": {
+                                            "court_game": {
+                                                "volleyball": {},
+                                                "basketball": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "touch": {
+                            "hit": {
+                                "fly": {
+                                    "liner": {}
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "attribute": {
+                "shape": {
+                    "round_shape": {
+                        "sphere": {
+                            "ball": {
+                                "globule": {
+                                    "bubble": {}
+                                }
+                            }
+                        }
+                    },
+                    "line": {
+                        "curve": {
+                            "closed_curve": {
+                                "simple_closed_curve": {
+                                    "loop": {
+                                        "belt": {
+                                            "conveyer_belt": {
+                                                "carousel": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "group": {
+                "social_group": {
+                    "kin": {
+                        "genealogy": {
+                            "lineage": {
+                                "family": {
+                                    "dynasty": {
+                                        "Zhou": {}
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "relation": {
+                "matter": {
+                    "matter": {
+                        "substance": {
+                            "material": {
+                                "paper": {
+                                    "tissue": {
+                                        "toilet_tissue": {}
+                                    }
+                                },
+                                "animal_material": {
+                                    "animal_product": {
+                                        "animal_skin": {
+                                            "fur": {
+                                                "leopard": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "communication": {
+                "signal": {
+                    "visual_signal": {
+                        "light": {
+                            "traffic_light": {}
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
