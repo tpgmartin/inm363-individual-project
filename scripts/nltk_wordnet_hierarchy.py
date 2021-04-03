@@ -13,12 +13,15 @@ def add_to_tree(t, path):
 label_exceptions = {
     'boxer': 'boxer.n.04',
     'cab': 'cab.n.03',
+    'chihuahua': 'chihuahua.n.03',
     'chow': 'chow.n.03',
+    'cinema': 'cinema.n.02',
     'crane_bird': 'crane.n.05',
     'leopard': 'leopard.n.02',
     'liner': 'liner.n.04',
     'punching_bag': 'punching_bag.n.02',
-    'reel': 'reel.n.03'
+    'reel': 'reel.n.03',
+    'sax': 'sax.n.02'
 }
 
 # Handle known exceptions
@@ -42,7 +45,7 @@ def get_hypernyms(synset, hypernyms=[]):
 
 wordnet_hierarchy = tree()
 
-labels = [line.strip() for line in open('./labels/class_labels_subset.txt')]
+labels = [line.strip().lower() for line in open('./labels/class_labels_subset.txt')]
 lemmas = [get_lemmas(label, label_exceptions) for label in labels]
 hypernyms = [get_hypernyms(wordnet.synset(lemma), []) for lemma in lemmas]
 

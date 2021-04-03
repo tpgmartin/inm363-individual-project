@@ -175,6 +175,9 @@
                                                     "collie": {}
                                                 }
                                             },
+                                            "toy_dog": {
+                                                "Chihuahua": {}
+                                            },
                                             "spitz": {
                                                 "chow": {}
                                             }
@@ -218,6 +221,13 @@
                                         }
                                     },
                                     "wind_instrument": {
+                                        "woodwind": {
+                                            "beating-reed_instrument": {
+                                                "single-reed_instrument": {
+                                                    "sax": {}
+                                                }
+                                            }
+                                        },
                                         "pipe": {
                                             "panpipe": {}
                                         }
@@ -402,9 +412,6 @@
                                 },
                                 "cassette": {}
                             },
-                            "medium": {
-                                "film": {}
-                            },
                             "blind": {
                                 "blind": {
                                     "curtain": {
@@ -441,6 +448,9 @@
                                 }
                             },
                             "building": {
+                                "theater": {
+                                    "cinema": {}
+                                },
                                 "restaurant": {}
                             },
                             "obstruction": {
