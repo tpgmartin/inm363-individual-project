@@ -50,6 +50,11 @@
                                                 "carnivore": {
                                                     "bear": {
                                                         "American_black_bear": {}
+                                                    },
+                                                    "feline": {
+                                                        "big_cat": {
+                                                            "leopard": {}
+                                                        }
                                                     }
                                                 },
                                                 "ungulate": {
@@ -165,9 +170,13 @@
                                                 }
                                             },
                                             "working_dog": {
+                                                "boxer": {},
                                                 "shepherd_dog": {
                                                     "collie": {}
                                                 }
+                                            },
+                                            "spitz": {
+                                                "chow": {}
                                             }
                                         }
                                     }
@@ -190,20 +199,6 @@
                                             "capsicum": {
                                                 "sweet_pepper": {}
                                             }
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        "causal_agent": {
-                            "causal_agent": {
-                                "person": {
-                                    "combatant": {
-                                        "boxer": {}
-                                    },
-                                    "unfortunate": {
-                                        "victim": {
-                                            "punching_bag": {}
                                         }
                                     }
                                 }
@@ -268,6 +263,13 @@
                                         "thresher": {}
                                     }
                                 },
+                                "mechanism": {
+                                    "mechanical_device": {
+                                        "winder": {
+                                            "reel": {}
+                                        }
+                                    }
+                                },
                                 "filter": {
                                     "strainer": {}
                                 },
@@ -285,7 +287,8 @@
                                                 "motor_vehicle": {
                                                     "car": {
                                                         "ambulance": {},
-                                                        "jeep": {}
+                                                        "jeep": {},
+                                                        "cab": {}
                                                     },
                                                     "truck": {
                                                         "van": {
@@ -322,6 +325,13 @@
                                             "lighter-than-air_craft": {
                                                 "balloon": {}
                                             }
+                                        },
+                                        "vessel": {
+                                            "ship": {
+                                                "passenger_ship": {
+                                                    "liner": {}
+                                                }
+                                            }
                                         }
                                     }
                                 }
@@ -352,18 +362,12 @@
                                 },
                                 "game_equipment": {
                                     "ball": {
-                                        "tennis_ball": {}
+                                        "tennis_ball": {},
+                                        "punching_bag": {}
                                     },
                                     "game": {
                                         "puzzle": {
                                             "crossword_puzzle": {}
-                                        }
-                                    }
-                                },
-                                "photographic_equipment": {
-                                    "photographic_paper": {
-                                        "film": {
-                                            "reel": {}
                                         }
                                     }
                                 },
@@ -433,13 +437,6 @@
                                         "correctional_institution": {
                                             "prison": {}
                                         }
-                                    }
-                                }
-                            },
-                            "area": {
-                                "room": {
-                                    "compartment": {
-                                        "cab": {}
                                     }
                                 }
                             },
@@ -530,13 +527,6 @@
                                     }
                                 }
                             }
-                        },
-                        "touch": {
-                            "hit": {
-                                "fly": {
-                                    "liner": {}
-                                }
-                            }
                         }
                     }
                 }
@@ -569,21 +559,6 @@
                     }
                 }
             },
-            "group": {
-                "social_group": {
-                    "kin": {
-                        "genealogy": {
-                            "lineage": {
-                                "family": {
-                                    "dynasty": {
-                                        "Zhou": {}
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
             "relation": {
                 "matter": {
                     "matter": {
@@ -592,15 +567,6 @@
                                 "paper": {
                                     "tissue": {
                                         "toilet_tissue": {}
-                                    }
-                                },
-                                "animal_material": {
-                                    "animal_product": {
-                                        "animal_skin": {
-                                            "fur": {
-                                                "leopard": {}
-                                            }
-                                        }
                                     }
                                 }
                             }

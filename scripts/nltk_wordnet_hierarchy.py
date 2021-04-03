@@ -2,23 +2,31 @@ from collections import defaultdict
 import json
 import nltk
 from nltk.corpus import wordnet
-import pprint
-
-pp = pprint.PrettyPrinter()
         
 def tree():
     return defaultdict(tree)
 
 def add_to_tree(t, path):
-
-    # max_idx = len(path) - 1
     for node in path:
-    #     if idx == max_idx:
-    #         t[path[idx-1]] = node
-    #     else:
         t = t[node]
 
-def dicts(t): return {k: dicts(t[k]) for k in t}
+label_exceptions = {
+    'boxer': 'boxer.n.04',
+    'cab': 'cab.n.03',
+    'chow': 'chow.n.03',
+    'crane_bird': 'crane.n.05',
+    'leopard': 'leopard.n.02',
+    'liner': 'liner.n.04',
+    'punching_bag': 'punching_bag.n.02',
+    'reel': 'reel.n.03'
+}
+
+# Handle known exceptions
+def get_lemmas(label, label_exceptions):
+    if label in label_exceptions:
+        return label_exceptions[label]
+    else:
+        return f'{label}.n.01'
 
 def get_hypernyms(synset, hypernyms=[]):
     synset_hypernyms = synset.hypernyms()
@@ -35,7 +43,7 @@ def get_hypernyms(synset, hypernyms=[]):
 wordnet_hierarchy = tree()
 
 labels = [line.strip() for line in open('./labels/class_labels_subset.txt')]
-lemmas = [f'{label}.n.01' if label != 'crane_bird' else 'crane.n.05' for label in labels]
+lemmas = [get_lemmas(label, label_exceptions) for label in labels]
 hypernyms = [get_hypernyms(wordnet.synset(lemma), []) for lemma in lemmas]
 
 for hypernym in hypernyms: add_to_tree(wordnet_hierarchy, hypernym)
