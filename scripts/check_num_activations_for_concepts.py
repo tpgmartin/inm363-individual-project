@@ -1,10 +1,11 @@
 from glob import glob
 
-label = 'damselfly'
+label = 'ambulance'
+short_label = label.split('_')[0]
 layer = 'mixed8'
 
 concepts = glob(f'../ACE/ACE/concepts/{layer}_{label}_concept*/**/*.png')
-acts = glob(f'./acts/{label}/*{layer}')
+acts = glob(f'./acts/{short_label}/*{layer}')
 
 # mixed8:restaurant_concept19:0.7025±0.07980444849756184,2.942195744994734e-07
 # mixed8:restaurant_concept22:0.67875±0.11132020256898564,9.68045324475897e-07
@@ -37,3 +38,5 @@ for concept in top_concepts:
     print(concept)
     print('Total super-pixel images:', images_for_concepts[concept])
     print('Total activation files:', acts_for_concepts[concept])
+    if images_for_concepts[concept] != acts_for_concepts[concept]:
+        print('Missing acts for', concept)
