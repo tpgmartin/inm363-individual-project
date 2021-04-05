@@ -1,10 +1,11 @@
 from glob import glob
 
-label = 'ambulance'
+label = 'school_bus'
 short_label = label.split('_')[0]
 layer = 'mixed8'
 
-concepts = glob(f'../ACE/ACE/concepts/{layer}_{label}_concept*/**/*.png')
+concepts = glob(f'../ACE/ACE/concepts/{layer}_{label}_concept*/*')
+concepts = [concept for concept in concepts if '.png' in concept]
 acts = glob(f'./acts/{short_label}/*{layer}')
 
 # mixed8:restaurant_concept19:0.7025±0.07980444849756184,2.942195744994734e-07
@@ -35,8 +36,11 @@ for act in acts:
         acts_for_concepts[concept] = 1
 
 for concept in top_concepts:
-    print(concept)
-    print('Total super-pixel images:', images_for_concepts[concept])
-    print('Total activation files:', acts_for_concepts[concept])
-    if images_for_concepts[concept] != acts_for_concepts[concept]:
-        print('Missing acts for', concept)
+    try:
+        print(concept)
+        if images_for_concepts[concept] != acts_for_concepts[concept]:
+            print('Missing acts for', concept)
+        print('Total super-pixel images:', images_for_concepts[concept])
+        print('Total activation files:', acts_for_concepts[concept])
+    except KeyError:
+        pass
