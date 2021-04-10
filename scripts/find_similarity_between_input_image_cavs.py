@@ -39,7 +39,8 @@ if __name__ == '__main__':
         'moving_van',
         'shopping_cart',
         'school_bus',
-        'wine_bottle'
+        'bullet_train',
+        'snail'
     ]
     layer = 'mixed8'
     randoms = ['random500_{}'.format(i) for i in np.arange(20)]

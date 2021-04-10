@@ -72,6 +72,7 @@ For time being these scripts are found within forked version of ACE project
 
 * scripts/find_similarity_between_input_image_activations.py
 * scripts/find_similarity_between_input_image_cavs.py
+* scripts/find_similarity_between_concept_activations.py
 * scripts/find_similarity_between_concept_cavs.py
 * notebooks/Process Concept CAV Cosine Similarities.ipynb
 * cosine_similarities/

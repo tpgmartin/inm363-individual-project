@@ -21,25 +21,28 @@ if __name__ == '__main__':
         'ambulance',
         'jeep',
         'cab',
-        'police van',
-        'moving van',
-        'shopping cart',
-        'school bus',
-        'bullet train',
-        'snail'
+        'police',
+        'moving',
+        'shopping',
+        'school',
+        'bullet',
+        'wine'
     ]
     layer = 'mixed8'
 
     acts_dic = {}
     for label in input_images:
-        acts_dic[label] = [norm_vector(np.load(act).squeeze()) for act in glob(f'./acts/{label}/acts_{label}_n*_{layer}')]
+        label_concepts = np.unique(['_'.join(layer_concept.split('/')[-1].split('_')[1:3]) for layer_concept in glob(f'./acts/{label}/acts_{label}_concept*_{layer}')])
+        
+        for label_concept in label_concepts:
+            acts_dic[label_concept] = [norm_vector(np.load(act).squeeze()) for act in glob(f'./acts/{label}/acts_{label_concept}_*_{layer}')]
 
     similarity_dic = defaultdict(list)
-    for label_1 in input_images:
-        for label_2 in input_images:
-            for act_1, act_2 in zip(acts_dic[label_1], acts_dic[label_2]):
+    for label_concept_1 in acts_dic.keys():
+        for label_concept_2 in acts_dic.keys():
+            for act_1, act_2 in zip(acts_dic[label_concept_1], acts_dic[label_concept_2]):
                 sim = cosine_similarity(act_1, act_2)
-                similarity_dic[(label_1, label_2)].append(sim)
+                similarity_dic[(label_concept_1, label_concept_2)].append(sim)
 
     image_1 = []
     image_2 = []
@@ -50,15 +53,15 @@ if __name__ == '__main__':
         values.extend(sim_values)
 
     sims_df = pd.DataFrame({
-        'image_1': image_1,
-        'image_2': image_2,
+        'concept_1': image_1,
+        'concept_2': image_2,
         'cosine_similarity': values
     })
 
-    sims_df.to_csv('./cosine_similarities/input_images_acts/input_image_cosine_similarities.csv', index=False)
+    sims_df.to_csv('./cosine_similarities/concept_acts/concept_cosine_similarities.csv', index=False)
     
-    sims_summary = sims_df.groupby(['image_1', 'image_2'])['cosine_similarity'].agg([np.mean, np.std])
+    sims_summary = sims_df.groupby(['concept_1', 'concept_2'])['cosine_similarity'].agg([np.mean, np.std])
     sims_summary.reset_index(inplace=True)
     sims_summary = sims_summary[sims_summary['mean'] < 1]
     sims_summary.sort_values(by=['mean', 'std'], ascending=False, inplace=True)
-    sims_summary.to_csv('./cosine_similarities/input_images_acts/input_image_summary.csv', index=False)
+    sims_summary.to_csv('./cosine_similarities/concept_acts/concept_summary.csv', index=False)
