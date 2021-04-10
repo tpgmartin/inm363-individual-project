@@ -68,6 +68,14 @@ For time being these scripts are found within forked version of ACE project
 * Find combined concepts: run `custom_ace_run.py`, which uses scripts `custom_ace.py` and `custom_cav.py`
 * Output is save as text file to `resuls_summaries/` directory
 
+### (WIP) Find Similarity of Images and Concepts CAVs
+
+* scripts/find_similarity_between_input_image_activations.py
+* scripts/find_similarity_between_input_image_cavs.py
+* scripts/find_similarity_between_concept_cavs.py
+* notebooks/Process Concept CAV Cosine Similarities.ipynb
+* cosine_similarities/
+
 ### Other Useful Scripts
 
 * `check_all_concept_activations_present.py`: Run this to check whether there is are the corresponding activation files available for all concepts found for a given image class

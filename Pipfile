@@ -19,6 +19,7 @@ gensim = "*"
 keras = "~=2.2.4"
 tcav = "*"
 nltk = "*"
+seaborn = "*"
 
 [requires]
 python_version = "3.7"
