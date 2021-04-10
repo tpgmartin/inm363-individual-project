@@ -132,6 +132,70 @@ def cosine_similarity(a, b):
   cos_sim = np.sum(a * b) / (a_norm * b_norm)
   return cos_sim
 
+def similarity(cd, num_random_exp=None, num_workers=25):
+  """Returns cosine similarity of all discovered concepts.
+
+  Args:
+    cd: The ConceptDiscovery module for discovered conceps.
+    num_random_exp: If None, calculates average similarity using all the class's
+      random concepts. If a number, uses that many random counterparts.
+    num_workers: If greater than 0, runs the function in parallel.
+
+  Returns:
+    A similarity dict in the form of {(concept1, concept2):[list of cosine
+    similarities]}
+  """
+
+  def concepts_similarity(cd, concepts, rnd, bn):
+    """Calcualtes the cosine similarity of concept cavs.
+
+    This function calculates the pairwise cosine similarity of all concept cavs
+    versus an specific random concept
+
+    Args:
+      cd: The ConceptDiscovery instance
+      concepts: List of concepts to calculate similarity for
+      rnd: a random counterpart
+      bn: bottleneck layer the concepts belong to
+
+    Returns:
+      A dictionary of cosine similarities in the form of
+      {(concept1, concept2): [list of cosine similarities], ...}
+    """
+    similarity_dic = {}
+    for c1 in concepts:
+      cav1 = cd.load_cav_direction(c1, rnd, bn)
+      for c2 in concepts:
+        if (c1, c2) in similarity_dic.keys():
+          continue
+        cav2 = cd.load_cav_direction(c2, rnd, bn)
+        similarity_dic[(c1, c2)] = cosine_similarity(cav1, cav2)
+        similarity_dic[(c2, c1)] = similarity_dic[(c1, c2)]
+    return similarity_dic
+
+  similarity_dic = {bn: {} for bn in cd.bottlenecks}
+  if num_random_exp is None:
+    num_random_exp = cd.num_random_exp
+  randoms = ['random500_{}'.format(i) for i in np.arange(num_random_exp)]
+  concepts = {}
+  for bn in cd.bottlenecks:
+    concepts[bn] = [cd.target_class, cd.random_concept] + cd.dic[bn]['concepts']
+  for bn in cd.bottlenecks:
+    concept_pairs = [(c1, c2) for c1 in concepts[bn] for c2 in concepts[bn]]
+    similarity_dic[bn] = {pair: [] for pair in concept_pairs}
+    def t_func(rnd):
+      return concepts_similarity(cd, concepts[bn], rnd, bn)
+    if num_workers:
+      pool = multiprocessing.Pool(num_workers)
+      sims = pool.map(lambda rnd: t_func(rnd), randoms)
+    else:
+      sims = [t_func(rnd) for rnd in randoms]
+    while sims:
+      sim = sims.pop()
+      for pair in concept_pairs:
+        similarity_dic[bn][pair].append(sim[pair])
+  return similarity_dic
+
 def save_concepts(cd, concepts_dir):
   """Saves discovered concept's images or patches.
 
