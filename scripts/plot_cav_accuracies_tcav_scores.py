@@ -6,11 +6,23 @@ import pandas as pd
 
 results_summaries = glob('../ACE/ACE/results_summaries/*.txt')
 
+results_summaries = [
+    '../ACE/ACE/results_summaries/mixed8_ambulance_and_jeep_ace_results.txt',
+    '../ACE/ACE/results_summaries/mixed8_ambulance_ace_results.txt',
+    '../ACE/ACE/results_summaries/mixed8_jeep_ace_results.txt'
+]
+
 for results in results_summaries:
 
-    layer, label, _, _ = results.split('/')[-1].split('_')
+    filename = results.split('/')[-1].split('_')
 
-    with open(f'../ACE/ACE/results_summaries/{layer}_{label}_ace_results.txt') as f:
+    if len(filename) < 6:
+        layer, label, _, _ = filename
+    else:
+        layer = filename[0]
+        label = '_'.join(filename[1:4])
+
+    with open(results) as f:
         lines = f.readlines()
         lines.append('END OF FILE')
 
@@ -98,8 +110,8 @@ for results in results_summaries:
 
     for raw_score in all_raw_tcav_scores:
         
-        raw_acc = raw_acc.strip()
-        layer, label_concept, scores = raw_acc.split(':')
+        raw_score = raw_score.strip()
+        layer, label_concept, scores = raw_score.split(':')
         concept = label_concept.split('_')[-1]
         scores = literal_eval(scores)
 
@@ -130,10 +142,22 @@ for results in results_summaries:
 
     plt.scatter(tcav_concept_num, tcav_score_mean)
     plt.errorbar(tcav_concept_num, tcav_score_mean, yerr=tcav_score_std, fmt="o") 
+    plt.axhline(y = np.mean([x for y in all_tcav_scores for x in y]), color = 'r', linestyle = '-')
+    plt.ylim([0, 1])
     plt.title(f'{label.capitalize()} TCAV Scores (Ordered by Decreasing TCAV Score)')
     plt.xlabel('Concept')
     plt.ylabel('TCAV Score')
     plt.savefig(f'./tcav_scores_plots/{label}_{layer}_TCAV_scores.png')
+    plt.clf()
+    plt.cla()
+    plt.close()
+
+    plt.boxplot(all_tcav_scores)
+    # plt.axhline(y = np.mean([x for y in all_tcav_scores for x in y]), color = 'r', linestyle = '-')
+    plt.title(f'{label.capitalize()} TCAV Scores (Ordered by Decreasing TCAV Score)')
+    plt.xlabel('Concept')
+    plt.ylabel('TCAV Scores')
+    plt.savefig(f'./tcav_scores_plots/boxplot_{label}_{layer}_TCAV_scores.png')
     plt.clf()
     plt.cla()
     plt.close()
