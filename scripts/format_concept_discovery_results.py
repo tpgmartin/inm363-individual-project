@@ -40,11 +40,16 @@ def parse_image_numbers(start, lines):
 
 if __name__ == '__main__':
 
-    filepath = '../ACE/ACE/concept_discovery_results/mixed_8_ambulance_and_police_van_results.txt'
-    index_lookup_filepath = '../ACE/ACE/concepts/images_index_lookup/ambulance_and_police_van.csv'
+    # filepath = '../ACE/ACE/concept_discovery_results/mixed_8_police_van_results.txt'
+    # filepath = '../ACE/ACE/concept_discovery_results/mixed_8_moving_van_results.txt'
+    filepath = '../ACE/ACE/concept_discovery_results/mixed_8_cab_results.txt'
+    # index_lookup_filepath = '../ACE/ACE/concepts/images_index_lookup/ambulance.csv'
+    index_lookup_filepath = None
+    index_lookup = None
 
-    index_lookup = pd.read_csv(index_lookup_filepath)
-    index_lookup.loc[:,'img_idx'] = index_lookup.index.values
+    if index_lookup_filepath:
+        index_lookup = pd.read_csv(index_lookup_filepath)
+        index_lookup.loc[:,'img_idx'] = index_lookup.index.values
 
     filename = filepath.split('/')[-1].split('.')[0]
 
@@ -52,6 +57,7 @@ if __name__ == '__main__':
         lines = f.readlines()
     
     labels = []
+    concept_labels = []
     highly_common_concept = []
     cond2 = []
     cond3 = []
@@ -70,20 +76,24 @@ if __name__ == '__main__':
         elif 'non_common_concept and highly_populated_concept:' in line:
             cond3.append(line.split(' ')[-1].strip())
         elif 'concept_is_acceptable:' in line:
-            concept_is_acceptable.append(line.split(' ')[-1].strip())
-        elif 'image_numbers: [' in line:
-            total_image_numbers_by_label, distinct_image_numbers_by_label = parse_image_numbers(idx, lines[2:])
+            concept_is_acceptable_bool = line.split(' ')[-1].strip()
+            concept_is_acceptable.append(concept_is_acceptable_bool)
+            if index_lookup is not None:
+                total_image_numbers_by_label, distinct_image_numbers_by_label = parse_image_numbers(idx+2, lines[2:])
         
-        if 'image_numbers: [' in line:
-            if total_image_numbers_by_label:
+        if 'concept_is_acceptable:' in line:
+            if index_lookup and total_image_numbers_by_label:
+                concept_labels.append(lines[idx+4].split(' ')[-1].strip())
                 all_total_img_numbers_by_label.append(total_image_numbers_by_label)
                 all_distinct_img_numbers_by_label.append(distinct_image_numbers_by_label)
             else:
+                concept_labels.append(None)
                 all_total_img_numbers_by_label.append(None)
                 all_distinct_img_numbers_by_label.append(None)
 
     df = pd.DataFrame({
         'labels': labels,
+        'concept_labels': concept_labels,
         'highly_common_concept': highly_common_concept,
         'cond2': cond2,
         'cond3': cond3,
