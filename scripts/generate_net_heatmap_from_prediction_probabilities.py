@@ -33,18 +33,18 @@ def save_image(image_to_save, image_filename_to_save, width, height, dpi, img_fi
     os.makedirs(f"./net_occlusion_heatmaps_delta_prob/{img_filename.split('_')[0]}/{img_filename}/mask_dim_{MASK_SIZE}/{img_filename}_{image_filename_to_save}", exist_ok=True)
     plt.savefig(f"./net_occlusion_heatmaps_delta_prob/{img_filename.split('_')[0]}/{img_filename}/mask_dim_{MASK_SIZE}/{img_filename}_{image_filename_to_save}/{img_filename}_{image_filename_to_save}.JPEG")
 
-def main(f, label, z_value):
+def main(f, label, mask_size, z_value):
 
     IMG = io.imread(f"../ACE/ImageNet/ILSVRC2012_img_train/{f.split('_')[0]}/{f}/{f}.JPEG")
 
     HEIGHT, WIDTH, _ = IMG.shape
     DPI = 72
-    MASK_SIZE = 100
+    MASK_SIZE = mask_size
 
     img_mask = init_mask(WIDTH, HEIGHT)
 
     # bookshop_image_n02871525_10490_occluded_image_predictions
-    df = pd.read_csv(f'./occluded_image_predictions/mask_dim_100/{label}_image_{f}_occluded_image_predictions.csv')
+    df = pd.read_csv(f'./occluded_image_predictions/mask_dim_{MASK_SIZE}/{label}_image_{f}_occluded_image_predictions.csv')
     # prediction_probability_delta = df['true_label_prediction_probability_delta'].values
 
     prob_mean = df['true_label_prediction_probability_delta'].mean()

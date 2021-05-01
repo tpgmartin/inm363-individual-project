@@ -25,8 +25,12 @@ def main(args):
         cd = ConceptDiscovery(
             mymodel,
             None,
+            None,
+            None,
             sess,
-            f'{source_dir}/')
+            f'{source_dir}/',
+            None,
+            None)
 
         try:
             prediction, filename = cd.predict()

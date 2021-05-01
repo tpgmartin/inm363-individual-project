@@ -25,6 +25,9 @@ Run the script `get_benchmark_accuracies.py` to get the predicted label and pred
 ### Occlude Images
 
 Run `occlude_images.py`
+- `./occluded_images` contains sets of occluded images by occlusion template size and image class and id
+- `./occluded_image_predictions` contains predicted label, and prediction probability of image with and without occlusion
+- `./net_occlusion_heatmaps_delta_prob` contains various images with occlusion heatmap overlaid
 
 ### Get Predictions for Occluded Images
 

@@ -61,7 +61,7 @@ def make_model(sess, model_to_run, model_path, labels_path):
       mymodel = model.InceptionV3Wrapper_public(
           sess, model_saved_path=model_path, labels_path=labels_path)
   elif model_to_run == 'GoogleNet':
-    mymodel = model.GoolgeNetWrapper_public(
+    mymodel = model.GoogleNetWrapper_public(
         sess, model_saved_path=model_path, labels_path=labels_path)
   else:
     raise ValueError('Invalid model name')
