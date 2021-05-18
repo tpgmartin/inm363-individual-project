@@ -146,14 +146,24 @@ if __name__ == '__main__':
     # heatmaps = [f for f in occlusion_heatmaps if 'n09229709_28418' in f]
     # for f in heatmaps:
         # print(f)
-    f = 'jeep_image_n03594945_7578_occluded_image_predictions.csv'
+
+    # heatmaps = [
+    #     'jeep_image_n03594945_21090_occluded_image_predictions.csv',
+    #     'jeep_image_n03594945_477_occluded_image_predictions.csv',
+    #     'jeep_image_n03594945_32810_occluded_image_predictions.csv',
+    #     'jeep_image_n03594945_12093_occluded_image_predictions.csv',
+    #     'jeep_image_n03594945_1568_occluded_image_predictions.csv'
+    # ]
+
+    heatmaps = ['jeep_image_n03594945_13257_occluded_image_predictions']
 
     # one-tailed test
     # p-value | z-score
     # 0.1586552594 | 1
     # 0.05    | 1.644854
     # 0.01    | 2.644854
-    print(f)
-    print(('_').join(f.split('_')[2:4]))
-    print(f.split('_')[0])
-    main(('_').join(f.split('_')[2:4]), f.split('_')[0], mask_size, 1)
+    for f in heatmaps:
+        print(f)
+        print(('_').join(f.split('_')[2:4]))
+        print(f.split('_')[0])
+        main(('_').join(f.split('_')[2:4]), f.split('_')[0], mask_size, 1)

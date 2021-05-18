@@ -63,10 +63,10 @@ if __name__ == '__main__':
 
 		main_start = time.time()
 
-		layer = 'mixed8'
+		layer = 'mixed4c'
 		args = parse_arguments(sys.argv[1:])
-		args.model_to_run = 'InceptionV3'
-		args.model_path = './inception_v3.h5'
+		# args.model_to_run = 'InceptionV3'
+		# args.model_path = './inception_v3.h5'
 		args.bottlenecks = layer
 		random_concept = 'random_discovery'
 		cavs_dir = os.path.join(args.working_dir, 'cavs/')
@@ -78,17 +78,10 @@ if __name__ == '__main__':
 
 		l = []
 		target_labels = [
-			'ant',
-			'balloon',
-			'basketball',
-			'bookshop',
-			'cab',
-			'cinema',
-			'damselfly',
-			'lotion',
-			'mantis',
-			'snail',
-			'volleyball'
+			'bullet_train',
+			'police_van',
+			'jeep',
+			'mantis'
 		]
 		# 'restaurant', 'cinema', 'cab', 'bookshop', 'ambulance', 
 		#  'lipstick', 'lotion', 'volleyball', 'basketball', 'ant', 
@@ -101,6 +94,7 @@ if __name__ == '__main__':
 		# random_sample = random.sample(glob('../ACE/ImageNet/random500_0/*.JPEG'),40)
 
 		for label in target_labels:
+			print(label, '-----------------------')
 			chart_type = 'top_10'
 			start = 4
 			stop = start + int(chart_type.split('_')[-1])
@@ -130,7 +124,7 @@ if __name__ == '__main__':
 			# concept9_imgs = [x for x in concept_imgs if 'concept9' in x]
 
 			# concept_imgs = concept21_imgs + concept2_imgs + concept13_imgs + concept9_imgs
-
+			print(concept_imgs)
 			for concept_img in concept_imgs:
 			# for concept_img in random_sample:
 				img_start = time.time()
@@ -154,3 +148,4 @@ if __name__ == '__main__':
 			
 			main_end = time.time()
 			print(f'Total elapsed time (s): {main_end - main_start}')
+			print('End of label ----------')

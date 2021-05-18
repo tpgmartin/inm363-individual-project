@@ -4,12 +4,22 @@ import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.decomposition import PCA, SparsePCA
 
-chart_type = 'top_5'
+chart_type = 'top_10'
 # chart_type = 'top_10'
 # chart_type = 'all_concepts'
-label = 'damselfly'
-layer = 'mixed8'
-concepts = np.unique([x.split('_')[2] for x in glob(f'./acts/{label}/*_{layer}') if 'concept' in x]).tolist()
+
+# label = 'ambulance'
+# label = 'jeep'
+# label = 'mantis'
+# label = 'cab'
+label = 'police_van'
+# label = 'moving_van'
+# label = 'shopping_cart'
+# label = 'school_bus'
+# label = 'bullet_train'
+short_label = label.split('_')[0]
+layer = 'mixed4c'
+concepts = np.unique([x.split('_')[2] for x in glob(f'./acts/{short_label}/*_{layer}') if 'concept' in x]).tolist()
 
 # Read from ACE result file top N concepts by TCAV score
 if 'top' in chart_type:
@@ -25,17 +35,17 @@ if 'top' in chart_type:
 
 all_image_acts = []
 for concept in concepts:
-    image_acts = np.array([np.load(acts).squeeze() for acts in glob(f'./acts/{label}/acts_{label}_{concept}_*_{layer}')])
+    image_acts = np.array([np.load(acts).squeeze() for acts in glob(f'./acts/{short_label}/acts_{short_label}_{concept}_*_{layer}')])
     image_acts = [x for x in image_acts if isinstance(x[0], np.float32)]
     all_image_acts.extend(image_acts)
 
-# pca = PCA(n_components=2)
-pca = SparsePCA(n_components=2,random_state=1)
+pca = PCA(n_components=2)
+# pca = SparsePCA(n_components=2,random_state=1)
 pca.fit(all_image_acts)
 pca_c = pca.components_
 
 for concept in concepts:
-    image_acts = np.array([np.load(acts).squeeze() for acts in glob(f'./acts/{label}/acts_{label}_{concept}_*_{layer}')])
+    image_acts = np.array([np.load(acts).squeeze() for acts in glob(f'./acts/{short_label}/acts_{short_label}_{concept}_*_{layer}')])
     image_acts = [x for x in image_acts if isinstance(x[0], np.float32)]
     image_acts_embedded = np.dot(image_acts,pca_c.T)
 
@@ -47,8 +57,7 @@ if chart_type != 'all_concepts':
 
 plt.xlabel('Component 1')
 plt.ylabel('Component 2')
-# plt.savefig(f'./concept_activation_plots/{label}_{layer}_{chart_type}_plot.png')
-plt.savefig(f'test_concept_activation_sparse_pca_plots.png')
+plt.savefig(f'./concept_activation_plots/{label}_{layer}_{chart_type}_plot.png')
 plt.clf()
 plt.cla()
 plt.close()

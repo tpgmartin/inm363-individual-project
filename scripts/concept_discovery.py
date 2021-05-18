@@ -74,6 +74,8 @@ class ConceptDiscovery(object):
 
     if channel_mean is None:
       channel_mean = self.channel_mean
+    elif channel_mean is 'skip':
+      channel_mean = False
 
     if self.num_workers:
       pool = multiprocessing.Pool(self.num_workers)

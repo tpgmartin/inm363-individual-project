@@ -18,17 +18,18 @@ def norm_vector(acts):
 if __name__ == '__main__':
 
     input_images = [
-        'ambulance',
+        # 'ambulance',
         'jeep',
-        'cab',
+        # 'cab',
         'police',
-        'moving',
-        'shopping',
-        'school',
+        # 'moving',
+        # 'shopping',
+        # 'school',
         'bullet',
-        'wine'
+        # 'wine'
+        'mantis'
     ]
-    layer = 'mixed8'
+    layer = 'mixed4c'
 
     acts_dic = {}
     for label in input_images:
@@ -58,10 +59,10 @@ if __name__ == '__main__':
         'cosine_similarity': values
     })
 
-    sims_df.to_csv('./cosine_similarities/concept_acts/concept_cosine_similarities.csv', index=False)
+    sims_df.to_csv(f'./cosine_similarities/concept_acts/{layer}_concept_cosine_similarities.csv', index=False)
     
     sims_summary = sims_df.groupby(['concept_1', 'concept_2'])['cosine_similarity'].agg([np.mean, np.std])
     sims_summary.reset_index(inplace=True)
     sims_summary = sims_summary[sims_summary['mean'] < 1]
     sims_summary.sort_values(by=['mean', 'std'], ascending=False, inplace=True)
-    sims_summary.to_csv('./cosine_similarities/concept_acts/concept_summary.csv', index=False)
+    sims_summary.to_csv(f'./cosine_similarities/concept_acts/{layer}_concept_summary.csv', index=False)

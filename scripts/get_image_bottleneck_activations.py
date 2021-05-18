@@ -72,9 +72,11 @@ if __name__ == '__main__':
 		samples = glob('./baseline_prediction_samples/*')
 
 		l = []
-		target_labels = ['bookshop', 'restaurant', 'cinema', 'cab', 'jeep', 'ambulance', 
-		 'lipstick', 'lotion', 'volleyball', 'basketball', 'ant', 
-		 'mantis', 'snail', 'damselfly', 'bubble', 'balloon']
+		target_labels = [
+			'ambulance','jeep','cab','police_van',
+			'moving_van','shopping_cart','school_bus',
+			'bullet_train'
+		]
 		
 		for sample in samples:
 			for label in target_labels:
