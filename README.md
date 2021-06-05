@@ -86,6 +86,7 @@ For time being these scripts are found within forked version of ACE project
 * `get_concept_count_by_class.py`: Check number of concepts with activations available by image class
 * `get_activations_for_random_concepts.py`: Get random concepts from images and generate corresponding bottleneck activation
 * `plot_cav_accuracies_tcav_scores.py`: Plot charts illustrating CAV accuracies and TCAV scores for discovered concepts using ACE algorithm
+* Check [yolov5](https://github.com/tpgmartin/yolov5/tree/save-single-crop-image) fork for object dectection script
 
 ## Project Structure
 
