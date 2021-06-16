@@ -4,6 +4,7 @@ import numpy as np
 import os
 import pandas as pd
 from skimage import io
+import tensorflow as tf
 
 from helpers import map_images_to_labels
 
@@ -91,9 +92,17 @@ def main(f, label, mask_size, z_value):
         lb_pos_val = 0
 
     img_cropped_to_mask = IMG.copy()
+
+    img_mask_array = []
+    for y in range(HEIGHT):
+        img_mask_array.append([])
+        for _ in range(WIDTH):
+            img_mask_array[y].append(0)
+
     for y in range(HEIGHT):
         for x in range(WIDTH):
             intensity = img_mask[y][x][0]
+
             
             if intensity > 0:
                 try:
@@ -107,13 +116,14 @@ def main(f, label, mask_size, z_value):
                 img_mask[y][x][0] = 0
                 img_mask[y][x][2] = 0
 
-            # Crop input image and channel intensities to masks
             mean_pixel_intensity = np.mean(IMG)
             if img_mask[y][x][0] == 0:
                 img_cropped_to_mask[y][x][0] = mean_pixel_intensity
                 img_cropped_to_mask[y][x][1] = mean_pixel_intensity
                 img_cropped_to_mask[y][x][2] = mean_pixel_intensity
+                img_mask_array[y][x] = 0
             else:
+                img_mask_array[y][x] = 1
                 pass
 
             try:
@@ -128,6 +138,13 @@ def main(f, label, mask_size, z_value):
                 IMG[y][x][0] = (1-img_mask[y][x][0])*IMG[y][x][0] + 255*img_mask[y][x][0]
                 IMG[y][x][1] = (1-img_mask[y][x][0])*IMG[y][x][1]
                 IMG[y][x][2] = (1-img_mask[y][x][0])*IMG[y][x][2]
+
+    # Save img_mask_array
+    img_mask_array_filename_to_save = 'image_mask'
+    img_mask_array_dirpath = f"./net_occlusion_heatmaps_delta_prob/{f.split('_')[0]}/{f}/mask_dim_{MASK_SIZE}/{f}_{img_mask_array_filename_to_save}"
+    os.makedirs(img_mask_array_dirpath, exist_ok=True)
+    img_mask_array_filepath = f"{img_mask_array_dirpath}/{f}_{img_mask_array_filename_to_save}.npy"
+    np.save(img_mask_array_filepath, img_mask_array, allow_pickle=False)
 
     save_image(img_mask, f'net_heatmap_z_value_{z_value}', WIDTH, HEIGHT, DPI, f, MASK_SIZE)
     save_image(img_cropped_to_mask, f'image_cropped_to_mask_z_value_{z_value}', WIDTH, HEIGHT, DPI, f, MASK_SIZE)
@@ -155,7 +172,7 @@ if __name__ == '__main__':
     #     'jeep_image_n03594945_1568_occluded_image_predictions.csv'
     # ]
 
-    heatmaps = ['jeep_image_n03594945_13257_occluded_image_predictions']
+    heatmaps = ['jeep_image_n03594945_7904_occluded_image_predictions']
 
     # one-tailed test
     # p-value | z-score
@@ -166,4 +183,4 @@ if __name__ == '__main__':
         print(f)
         print(('_').join(f.split('_')[2:4]))
         print(f.split('_')[0])
-        main(('_').join(f.split('_')[2:4]), f.split('_')[0], mask_size, 1)
+        main(('_').join(f.split('_')[2:4]), f.split('_')[0], mask_size, 2.644854)
