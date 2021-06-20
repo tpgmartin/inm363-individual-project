@@ -34,9 +34,10 @@ def save_image(image_to_save, image_filename_to_save, width, height, dpi, img_fi
     os.makedirs(f"./net_occlusion_heatmaps_delta_prob/{img_filename.split('_')[0]}/{img_filename}/mask_dim_{MASK_SIZE}/{img_filename}_{image_filename_to_save}", exist_ok=True)
     plt.savefig(f"./net_occlusion_heatmaps_delta_prob/{img_filename.split('_')[0]}/{img_filename}/mask_dim_{MASK_SIZE}/{img_filename}_{image_filename_to_save}/{img_filename}_{image_filename_to_save}.JPEG")
 
-def main(f, label, mask_size, z_value):
+def main(f, label, target_class, img_filename, mask_size, z_value):
 
-    IMG = io.imread(f"../ACE/ImageNet/ILSVRC2012_img_train/{f.split('_')[0]}/{f}/{f}.JPEG")
+    # IMG = io.imread(f"../ACE/ImageNet/ILSVRC2012_img_train/{f.split('_')[0]}/{f}/{f}.JPEG")
+    IMG = io.imread(f'../ACE/ACE/concepts/images/{target_class}/{img_filename}.png')
 
     HEIGHT, WIDTH, _ = IMG.shape
     DPI = 72
@@ -172,7 +173,7 @@ if __name__ == '__main__':
     #     'jeep_image_n03594945_1568_occluded_image_predictions.csv'
     # ]
 
-    heatmaps = ['jeep_image_n03594945_7904_occluded_image_predictions']
+    # heatmaps = ['jeep_image_n03594945_7904_occluded_image_predictions']
 
     # one-tailed test
     # p-value | z-score

@@ -36,9 +36,11 @@ def get_mask_coords(CURRENT_SEARCHES, previous_mask_coords, HEIGHT, WIDTH, MASK_
         previous_mask_coords.extend(mask_coords)
         return (mask_y_min, mask_x_min)
 
-def main(img_filename, dir_name, MAX_MASK_SIZE, MAX_MASKED_IMAGES, MASKS_PER_EPOCH):
+def main(img_filename, dir_name, label, img_file, MAX_MASK_SIZE, MAX_MASKED_IMAGES, MASKS_PER_EPOCH):
 
-    IMG = io.imread(f'../ACE/ImageNet/ILSVRC2012_img_train/{dir_name}/{img_filename}/{img_filename}.JPEG')
+
+    # IMG = io.imread(f'../ACE/ImageNet/ILSVRC2012_img_train/{dir_name}/{img_filename}/{img_filename}.JPEG')
+    IMG = io.imread(f'../ACE/ACE/concepts/images/{label}/{img_file}.png')
     HEIGHT, WIDTH, _ = IMG.shape
     DPI = 72 # Check this value
     MASK_SIZE = np.min([(np.min([HEIGHT, WIDTH]) // 100)*100, MAX_MASK_SIZE])
