@@ -29,6 +29,7 @@ if __name__ == '__main__':
 
     name_lookup = pd.read_csv(f'../ACE/ACE/concepts/images/{label}/image_name_lookup.csv')
     class_id = name_lookup.iloc[0]['image_filename'].split('/')[3]
+    print('class_id:', class_id)
 
     # for idx, row in name_lookup.iterrows():
 
@@ -40,26 +41,26 @@ if __name__ == '__main__':
     # # # #####################################################################################################################################
 
     # # # Get Occluded Image Accuracy #########################################################################################################
-    # mapping_images_to_labels = map_images_to_labels()
+    mapping_images_to_labels = map_images_to_labels()
 
-    # keys = ['source_dir', 'model_to_run', 'model_path', 'labels_path', 'target_class']
-    # values = ['./occluded_images/', 'GoogleNet', './tensorflow_inception_graph.pb', './imagenet_labels.txt', label]
-    # args_params = dict(zip(keys,values))
-    # args = ArgsDict(args_params)
+    keys = ['source_dir', 'model_to_run', 'model_path', 'labels_path', 'target_class']
+    values = ['./occluded_images/', 'GoogleNet', './tensorflow_inception_graph.pb', './imagenet_labels.txt', label]
+    args_params = dict(zip(keys,values))
+    args = ArgsDict(args_params)
 
-    # for images_path in [f for f in glob(f'{args.source_dir}**/**/*') if class_id in f]:
+    for images_path in [f for f in glob(f'{args.source_dir}**/**/*') if class_id in f]:
     # for images_path in glob(f'{args.source_dir}**/**/*'):
     # for images_path in ['./occluded_images/{class_id}/n03032252_10737/mask_dim_100']:
-        # args.target_class = mapping_images_to_labels[images_path.split('/')[2]]
-        # args.source_dir = f'{images_path}/'
-        # get_occluded_image_accuracy.main(args)
+        args.target_class = mapping_images_to_labels[images_path.split('/')[2]]
+        args.source_dir = f'{images_path}/'
+        get_occluded_image_accuracy.main(args)
     # # # #####################################################################################################################################
 
     # # # Check True Label Prediction Accuracy ################################################################################################
-    # for f in glob(f'./occluded_image_predictions/mask_dim_{MAX_MASK_SIZE}/{label}_image_*.csv'):
+    for f in glob(f'./occluded_image_predictions/mask_dim_{MAX_MASK_SIZE}/{label}_image_*.csv'):
     # # # for f in glob('occluded_image_predictions/**/*'):
     # for f in [f'./occluded_image_predictions/mask_dim_{MAX_MASK_SIZE}/cinema_image_n03032252_10737_occluded_image_predictions.csv']:
-        # check_true_label_prediction_accuracy.main(f'./{f}')
+        check_true_label_prediction_accuracy.main(f'./{f}')
     # #####################################################################################################################################
 
     # Generate Net Heatmap from Prediction Probabilities ##################################################################################
