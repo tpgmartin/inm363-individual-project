@@ -4,14 +4,21 @@ import pandas as pd
 
 def main(target_class, img, MAX_MASK_SIZE, MAX_MASKED_IMAGES, z_val):
 
-    df = pd.read_csv(f'./occluded_image_predictions/mask_dim_{MAX_MASK_SIZE}/{target_class}_image_{img}_occluded_image_predictions.csv')
-    df = df.iloc[:MAX_MASKED_IMAGES]
+    try:
+        df = pd.read_csv(f'./occluded_image_predictions/mask_dim_{MAX_MASK_SIZE}/{target_class}_image_{img}_occluded_image_predictions.csv')
+        df = df.iloc[:MAX_MASKED_IMAGES]
+    except FileNotFoundError:
+        return 0
 
-    prob_mean = df['true_label_prediction_probability_delta'].mean()
-    prob_std = df['true_label_prediction_probability_delta'].std()
-    df['standardised_prediction_prob'] = df['true_label_prediction_probability_delta'].apply(lambda p: (p-prob_mean)/prob_std)
+    print(df)
+    try: 
+        prob_mean = df['true_label_prediction_probability_delta'].mean()
+        prob_std = df['true_label_prediction_probability_delta'].std()
+        df['standardised_prediction_prob'] = df['true_label_prediction_probability_delta'].apply(lambda p: (p-prob_mean)/prob_std)
     
-    return df[(df['standardised_prediction_prob']<(-1*z_val))].shape[0] > 0
+        return int(df[(df['standardised_prediction_prob']<(-1*z_val))].shape[0] > 0)
+    except KeyError:
+        return 0
 
 
 if __name__ == '__main__':
@@ -56,6 +63,10 @@ if __name__ == '__main__':
         'has_occlusion_heatmap': has_occlusion_heatmap,
     })
 
-    df.groupby('target_class').agg([np.sum,'count'])
+    agg_results = df.groupby(['target_class','mask_size','total_masked_images','z_val'])['has_occlusion_heatmap'].agg([np.sum,'count'])
+    agg_results['prop_with_occlusion_results'] = agg_results['sum'] / agg_results['count']
+    agg_results.reset_index(inplace=True)
 
     df.to_csv(f'./occlusion_results/{target_class}_full_occlusion_results.csv', index=False)
+    # TODO: Check if only 40 images used in total
+    agg_results.to_csv(f'./occlusion_results/{target_class}_summary_occlusion_results.csv', index=False)
