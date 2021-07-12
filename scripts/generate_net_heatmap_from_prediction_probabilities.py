@@ -34,7 +34,7 @@ def save_image(image_to_save, image_filename_to_save, width, height, dpi, img_fi
     os.makedirs(f"./net_occlusion_heatmaps_delta_prob/{img_filename.split('_')[0]}/{img_filename}/mask_dim_{MASK_SIZE}/{img_filename}_{image_filename_to_save}", exist_ok=True)
     plt.savefig(f"./net_occlusion_heatmaps_delta_prob/{img_filename.split('_')[0]}/{img_filename}/mask_dim_{MASK_SIZE}/{img_filename}_{image_filename_to_save}/{img_filename}_{image_filename_to_save}.JPEG")
 
-def main(f, label, target_class, img_filename, mask_size, z_value):
+def main(f, target_class, img_filename, total_mask_images, mask_size, z_value):
 
     # IMG = io.imread(f"../ACE/ImageNet/ILSVRC2012_img_train/{f.split('_')[0]}/{f}/{f}.JPEG")
     IMG = io.imread(f'../ACE/ACE/concepts/images/{target_class}/{img_filename}.png')
@@ -46,8 +46,9 @@ def main(f, label, target_class, img_filename, mask_size, z_value):
     img_mask = init_mask(WIDTH, HEIGHT)
 
     # bookshop_image_n02871525_10490_occluded_image_predictions
-    df = pd.read_csv(f'./occluded_image_predictions/mask_dim_{MASK_SIZE}/{label}_image_{f}_occluded_image_predictions.csv')
+    df = pd.read_csv(f'./occluded_image_predictions/mask_dim_{MASK_SIZE}/{target_class}_image_{f}_occluded_image_predictions.csv')
     print(df)
+    df = df.iloc[:total_mask_images]
     # prediction_probability_delta = df['true_label_prediction_probability_delta'].values
 
     prob_mean = df['true_label_prediction_probability_delta'].mean()
@@ -55,8 +56,6 @@ def main(f, label, target_class, img_filename, mask_size, z_value):
     df['standardised_prediction_prob'] = df['true_label_prediction_probability_delta'].apply(lambda p: (p-prob_mean)/prob_std)
 
     df = df[(df['standardised_prediction_prob']<(-1*z_value))]
-    df = df.iloc[:10,:]
-    print(df)
 
     for _, row in df.iterrows():
         filename = row['filename'][:-4] + 'csv'
@@ -127,29 +126,28 @@ def main(f, label, target_class, img_filename, mask_size, z_value):
                 img_mask_array[y][x] = 1
                 pass
 
-            try:
-                IMG[y][x][0] = (1-img_mask[y][x][0]-img_mask[y][x][2])*IMG[y][x][0] + 255*img_mask[y][x][0]
-                IMG[y][x][1] = (1-img_mask[y][x][0]-img_mask[y][x][2])*IMG[y][x][1]
-                IMG[y][x][2] = (1-img_mask[y][x][0]-img_mask[y][x][2])*IMG[y][x][2] + 255*img_mask[y][x][2]
-            except ValueError:
-                print(img_mask[y][x][0])
-                print(IMG[y][x][0])
-                print(IMG[y][x][1])
-                print(IMG[y][x][2])
-                IMG[y][x][0] = (1-img_mask[y][x][0])*IMG[y][x][0] + 255*img_mask[y][x][0]
-                IMG[y][x][1] = (1-img_mask[y][x][0])*IMG[y][x][1]
-                IMG[y][x][2] = (1-img_mask[y][x][0])*IMG[y][x][2]
+            # try:
+            #     IMG[y][x][0] = (1-img_mask[y][x][0]-img_mask[y][x][2])*IMG[y][x][0] + 255*img_mask[y][x][0]
+            #     IMG[y][x][1] = (1-img_mask[y][x][0]-img_mask[y][x][2])*IMG[y][x][1]
+            #     IMG[y][x][2] = (1-img_mask[y][x][0]-img_mask[y][x][2])*IMG[y][x][2] + 255*img_mask[y][x][2]
+            # except ValueError:
+            #     print(img_mask[y][x][0])
+            #     print(IMG[y][x][0])
+            #     print(IMG[y][x][1])
+            #     print(IMG[y][x][2])
+            #     IMG[y][x][0] = (1-img_mask[y][x][0])*IMG[y][x][0] + 255*img_mask[y][x][0]
+            #     IMG[y][x][1] = (1-img_mask[y][x][0])*IMG[y][x][1]
+            #     IMG[y][x][2] = (1-img_mask[y][x][0])*IMG[y][x][2]
 
     # Save img_mask_array
     img_mask_array_filename_to_save = 'image_mask'
-    img_mask_array_dirpath = f"./net_occlusion_heatmaps_delta_prob/{f.split('_')[0]}/{f}/mask_dim_{MASK_SIZE}/{f}_{img_mask_array_filename_to_save}"
+    img_mask_array_dirpath = f"./net_occlusion_heatmaps_delta_prob/{f.split('_')[0]}/{f}/mask_dim_{MASK_SIZE}/{f}_z_value_{z_value}_total_masked_images_{total_mask_images}_{img_mask_array_filename_to_save}"
     os.makedirs(img_mask_array_dirpath, exist_ok=True)
     img_mask_array_filepath = f"{img_mask_array_dirpath}/{f}_{img_mask_array_filename_to_save}.npy"
     np.save(img_mask_array_filepath, img_mask_array, allow_pickle=False)
-
-    save_image(img_mask, f'net_heatmap_z_value_{z_value}', WIDTH, HEIGHT, DPI, f, MASK_SIZE)
-    save_image(img_cropped_to_mask, f'image_cropped_to_mask_z_value_{z_value}', WIDTH, HEIGHT, DPI, f, MASK_SIZE)
-    save_image(IMG, f'image_with_mask_z_value_{z_value}', WIDTH, HEIGHT, DPI, f, MASK_SIZE)
+    save_image(img_mask, f'net_heatmap_z_value_{z_value}_total_masked_images_{total_mask_images}', WIDTH, HEIGHT, DPI, f, MASK_SIZE)
+    save_image(img_cropped_to_mask, f'image_cropped_to_mask_z_value_{z_value}_total_masked_images_{total_mask_images}', WIDTH, HEIGHT, DPI, f, MASK_SIZE)
+    # save_image(IMG, f'image_with_mask_z_value_{z_value}', WIDTH, HEIGHT, DPI, f, MASK_SIZE)
     plt.clf()
 
 if __name__ == '__main__':

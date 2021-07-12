@@ -63,10 +63,10 @@ if __name__ == '__main__':
 
 		main_start = time.time()
 
-		layer = 'mixed4c'
+		layer = 'mixed8'
 		args = parse_arguments(sys.argv[1:])
-		# args.model_to_run = 'InceptionV3'
-		# args.model_path = './inception_v3.h5'
+		args.model_to_run = 'InceptionV3'
+		args.model_path = './inception_v3.h5'
 		args.bottlenecks = layer
 		random_concept = 'random_discovery'
 		cavs_dir = os.path.join(args.working_dir, 'cavs/')
@@ -78,20 +78,14 @@ if __name__ == '__main__':
 
 		l = []
 		target_labels = [
-			'bullet_train',
-			'police_van',
-			'jeep',
-			'mantis'
+			# 'ambulance',
+			# 'bullet_train',
+			# 'cab',
+			# 'jeep',
+			'mantis',
+			# 'moving_van',
+			# 'police_van'
 		]
-		# 'restaurant', 'cinema', 'cab', 'bookshop', 'ambulance', 
-		#  'lipstick', 'lotion', 'volleyball', 'basketball', 'ant', 
-		#  'mantis', 'snail', 'damselfly', 'bubble', 'balloon']
-
-		# for img in l:
-
-		# Get random images
-
-		# random_sample = random.sample(glob('../ACE/ImageNet/random500_0/*.JPEG'),40)
 
 		for label in target_labels:
 			print(label, '-----------------------')
@@ -118,12 +112,6 @@ if __name__ == '__main__':
 
 			concept_imgs = list(set(concept_imgs) - set(activation_concept_imgs))
 
-			# concept21_imgs = [x for x in concept_imgs if 'concept21' in x]
-			# concept2_imgs = [x for x in concept_imgs if 'concept2' in x]
-			# concept13_imgs = [x for x in concept_imgs if 'concept13' in x]
-			# concept9_imgs = [x for x in concept_imgs if 'concept9' in x]
-
-			# concept_imgs = concept21_imgs + concept2_imgs + concept13_imgs + concept9_imgs
 			print(concept_imgs)
 			for concept_img in concept_imgs:
 			# for concept_img in random_sample:

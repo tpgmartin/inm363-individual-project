@@ -18,9 +18,9 @@ def norm_vector(acts):
 if __name__ == '__main__':
 
     input_images = [
-        # 'ambulance',
+        'ambulance',
         'jeep',
-        # 'cab',
+        'cab',
         'police',
         # 'moving',
         # 'shopping',
@@ -29,7 +29,7 @@ if __name__ == '__main__':
         # 'wine'
         'mantis'
     ]
-    layer = 'mixed4c'
+    layer = 'mixed8'
 
     acts_dic = {}
     for label in input_images:

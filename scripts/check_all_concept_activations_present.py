@@ -6,7 +6,7 @@ import pandas as pd
 from shutil import copyfile
 import sys
 
-target_class = 'restaurant'
+target_class = 'police_van'
 layer = 'mixed8'
 
 # Find activations for given target class

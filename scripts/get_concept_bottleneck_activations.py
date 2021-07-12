@@ -134,7 +134,7 @@ if __name__ == '__main__':
     # costs = []
 
     # "bubble" images only
-    images = glob('./net_occlusion_heatmaps_delta_prob/n09229709/**/**/*_image_cropped_to_mask/*')
+    # images = glob('./net_occlusion_heatmaps_delta_prob/n09229709/**/**/*_image_cropped_to_mask/*')
     for image in images:
     # img_path = './net_occlusion_heatmaps_delta_prob/n09229709/n09229709_47343/mask_dim_100/n09229709_47343_image_cropped_to_mask/n09229709_47343_image_cropped_to_mask.JPEG'
         

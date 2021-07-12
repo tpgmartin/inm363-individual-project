@@ -43,7 +43,8 @@ def main(img_filename, dir_name, label, img_file, MAX_MASK_SIZE, MAX_MASKED_IMAG
     IMG = io.imread(f'../ACE/ACE/concepts/images/{label}/{img_file}.png')
     HEIGHT, WIDTH, _ = IMG.shape
     DPI = 72 # Check this value
-    MASK_SIZE = np.min([(np.min([HEIGHT, WIDTH]) // 100)*100, MAX_MASK_SIZE])
+    # MASK_SIZE = np.min([(np.min([HEIGHT, WIDTH]) // 100)*100, MAX_MASK_SIZE])
+    MASK_SIZE = MAX_MASK_SIZE
     # MAX_MASKED_IMAGES = 2 * int(np.ceil((HEIGHT * WIDTH) / (MASK_SIZE ** 2))) # scale this with mask size
     MAX_MASKED_IMAGES = MAX_MASKED_IMAGES
     # MAX_MASKS_PER_EPOCH = np.min([int(np.ceil((HEIGHT * WIDTH) / (MASK_SIZE ** 2))), MASKS_PER_EPOCH]) # Max number of searches for each epoch
