@@ -111,6 +111,7 @@ for results in results_summaries:
             # Toggle Bonferroni correction for combined concepts
             # if pval >= (0.01 / 3):
             if pval >= 0.01:
+                print(idx)
                 tcav_non_sig.append(idx)
 
             _, concept_num = concept.split('concept')
@@ -150,42 +151,48 @@ for results in results_summaries:
         except NameError:
             pass
 
-    plt.scatter(cav_concept_num, cav_acc_mean)
-    plt.errorbar(cav_concept_num, cav_acc_mean, yerr=cav_acc_std, fmt="o") 
-    # plt.ylim([0.88, 1.02])
-    plt.title(f'{label.capitalize()} {layer.capitalize()} CAV Concept Accuracies')
-    for idx in tcav_non_sig:
-        offset = idx + -0.15
-        plt.text(offset, 0.885, '*')
-    plt.xlabel('Concept')
-    plt.ylabel('CAV Accuracy')
-    plt.savefig(f'./cav_accuracies_plots/{label}_{layer}_CAV_concept_accuracy.png')
-    plt.clf()
-    plt.cla()
-    plt.close()
+    # plt.scatter(cav_concept_num, cav_acc_mean)
+    # plt.errorbar(cav_concept_num, cav_acc_mean, yerr=cav_acc_std, fmt="o") 
+    # # plt.ylim([0.88, 1.02])
+    # # title = list(map(lambda s: s.capitalize(), label.split('_')))
+    # # title[1] = '&'
+    # # title = ' '.join(title)
+    # # plt.title(f'{title} {layer.capitalize()} CAV Concept Accuracies')
+    # for idx in tcav_non_sig:
+    #     offset = idx + -0.15
+    #     plt.text(offset, 0.885, '*')
+    # plt.xlabel('Concept')
+    # plt.ylabel('CAV Accuracy')
+    # plt.savefig(f'./cav_accuracies_plots/{label}_{layer}_CAV_concept_accuracy.png')
+    # plt.clf()
+    # plt.cla()
+    # plt.close()
 
-    plt.scatter(cav_concept_num, cav_acc_mean)
-    plt.errorbar(cav_concept_num, cav_acc_mean, yerr=cav_acc_std, fmt="o") 
-    plt.ylim([0.6, 1.03])
-    plt.title(f'{label.capitalize()} {layer.capitalize()} CAV Concept Accuracies')
-    for idx in tcav_non_sig:
-        offset = idx + -0.15
-        plt.text(offset, 0.6, '*')
-    plt.xlabel('Concept')
-    plt.ylabel('CAV Accuracy')
-    plt.savefig(f'./cav_accuracies_plots/{label}_{layer}_CAV_concept_accuracy2.png')
-    plt.clf()
-    plt.cla()
-    plt.close()
+    # plt.scatter(cav_concept_num, cav_acc_mean)
+    # plt.errorbar(cav_concept_num, cav_acc_mean, yerr=cav_acc_std, fmt="o") 
+    # plt.ylim([0.6, 1.03])
+    # title = list(map(lambda s: s.capitalize(), label.split('_')))
+    # title[1] = '&'
+    # title = ' '.join(title)
+    # plt.title(f'{title} {layer.capitalize()} CAV Concept Accuracies')
+    # for idx in tcav_non_sig:
+    #     offset = idx + -0.15
+    #     plt.text(offset, 0.6, '*')
+    # plt.xlabel('Concept')
+    # plt.ylabel('CAV Accuracy')
+    # plt.savefig(f'./cav_accuracies_plots/{label}_{layer}_CAV_concept_accuracy2.png')
+    # plt.clf()
+    # plt.cla()
+    # plt.close()
 
-    plt.hist(all_cav_accs[-1])
-    plt.title(f'{label.capitalize()} Concept {all_cav_concept_num[-1]} CAV Concept Accuracies')
-    plt.xlabel('CAV Accuracy')
-    plt.ylabel('Frequency')
-    plt.savefig(f'./cav_accuracies_histograms/{label}_{layer}_concept_{all_cav_concept_num[-1]}_CAV_concept_accuracy_distribution.png')
-    plt.clf()
-    plt.cla()
-    plt.close()
+    # plt.hist(all_cav_accs[-1])
+    # plt.title(f'{label.capitalize()} Concept {all_cav_concept_num[-1]} CAV Concept Accuracies')
+    # plt.xlabel('CAV Accuracy')
+    # plt.ylabel('Frequency')
+    # plt.savefig(f'./cav_accuracies_histograms/{label}_{layer}_concept_{all_cav_concept_num[-1]}_CAV_concept_accuracy_distribution.png')
+    # plt.clf()
+    # plt.cla()
+    # plt.close()
 
     plt.scatter(tcav_concept_num, tcav_score_mean)
     plt.errorbar(tcav_concept_num, tcav_score_mean, yerr=tcav_score_std, fmt="o") 
@@ -193,9 +200,18 @@ for results in results_summaries:
     print(np.std([x for y in all_tcav_scores for x in y]))
     plt.axhline(y = np.mean([x for y in all_tcav_scores for x in y]), color = 'r', linestyle = '-')
     plt.ylim([0, 1])
-    plt.title(f'{label.capitalize()} {layer.capitalize()} TCAV Scores')
+    # title = list(map(lambda s: s.capitalize(), label.split('_')))
+    # title[1] = '&'
+    # title = ' '.join(title)
+    # plt.title(f'{title} {layer.capitalize()} TCAV Scores')
+    for idx in [51]:
+        offset = (idx // 3) + -0.15
+        plt.text(offset, 0.1, '*', c='g')
+    for idx in [46, 61]:
+        offset = (idx // 3) + -0.15
+        plt.text(offset, 0.05, '*', c='r')
     for idx in tcav_non_sig:
-        offset = idx + -0.15
+        offset = (idx // 3) + -0.15
         plt.text(offset, 0, '*')
     plt.xlabel('Concept')
     plt.ylabel('TCAV Score')
@@ -206,7 +222,10 @@ for results in results_summaries:
 
     plt.boxplot(all_tcav_scores)
     # plt.axhline(y = np.mean([x for y in all_tcav_scores for x in y]), color = 'r', linestyle = '-')
-    plt.title(f'{label.capitalize()} TCAV Scores (Ordered by Decreasing TCAV Score)')
+    title = list(map(lambda s: s.capitalize(), label.split('_')))
+    title[1] = '&'
+    title = ' '.join(title)
+    plt.title(f'{title} TCAV Scores (Ordered by Decreasing TCAV Score)')
     plt.xlabel('Concept')
     plt.ylabel('TCAV Scores')
     plt.savefig(f'./tcav_scores_plots/boxplot_{label}_{layer}_TCAV_scores.png')
@@ -216,7 +235,10 @@ for results in results_summaries:
 
 
     plt.hist(all_tcav_scores[-1])
-    plt.title(f'{label.capitalize()} Concept {all_tcav_concept_num[-1]} TCAV Scores')
+    title = list(map(lambda s: s.capitalize(), label.split('_')))
+    title[1] = '&'
+    title = ' '.join(title)
+    plt.title(f'{title} Concept {all_tcav_concept_num[-1]} TCAV Scores')
     plt.xlabel('TCAV Scores')
     plt.ylabel('Frequency')
     plt.savefig(f'./tcav_scores_histograms/{label}_{layer}_concept_{all_tcav_concept_num[-1]}_TCAV_scores_distribution.png')

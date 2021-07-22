@@ -82,7 +82,8 @@ def main(args):
         'prediction_probability': prediction_probability
     })
     
-    save_filename = f"./occluded_image_predictions/mask_dim_{mask_dim[0]}/{'_'.join(args.target_class.split(' '))}_image_{args.source_dir.split('/')[3]}_occluded_image_predictions.csv"
+    # save_filename = f"./occluded_image_predictions/mask_dim_{mask_dim[0]}/{'_'.join(args.target_class.split(' '))}_image_{args.source_dir.split('/')[3]}_occluded_image_predictions.csv"
+    save_filename = 'occluded_image_predictions/mask_dim_100/cab_image_n02930766_23814_occluded_image_predictions.csv'
     save_filepath = Path(save_filename)
     save_filepath.touch(exist_ok=True)
 

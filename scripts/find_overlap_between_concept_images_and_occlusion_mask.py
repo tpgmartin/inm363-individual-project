@@ -16,7 +16,7 @@ import tensorflow as tf
 # ../ACE/ACE/masks/mixed4c_cinema_cinema_concept3_masks/*_.npy
 
 layer = 'mixed8'
-target_class = 'cab'
+target_class = 'ambulance'
 name_lookup = pd.read_csv(f'../ACE/ACE/concepts/images/{target_class}/image_name_lookup.csv')
 all_concepts = len(glob(f'../ACE/ACE/masks/{layer}_{target_class}_{target_class}_concept*_masks/'))
 
@@ -31,24 +31,24 @@ for idx, row in name_lookup.iterrows():
     image = image_filename.split('/')[-1][:-5] # e.g. n03032252_17822
 
     if image not in [
-        # 'n02701002_2140',
-        # 'n02701002_3381',
-        # 'n02701002_12971',
-        # 'n02701002_22776',
-        # 'n02701002_4615',
-        # 'n02701002_7033',
-        # 'n02701002_3087',
-        # 'n02701002_2968',
-        # 'n02701002_1415',
-        # 'n02701002_652'
-        'n02930766_13320',
-        'n02930766_14354',
-        'n02930766_31200',
-        'n02930766_34503',
-        'n02930766_23814',
-        'n02930766_8716',
-        'n02930766_13891',
-        'n02930766_7103'
+        'n02701002_2140',
+        'n02701002_3381',
+        'n02701002_12971',
+        'n02701002_22776',
+        'n02701002_4615',
+        'n02701002_7033',
+        'n02701002_3087',
+        'n02701002_2968',
+        'n02701002_1415',
+        'n02701002_652'
+        # 'n02930766_13320',
+        # 'n02930766_14354',
+        # 'n02930766_31200',
+        # 'n02930766_34503',
+        # 'n02930766_23814',
+        # 'n02930766_8716',
+        # 'n02930766_13891',
+        # 'n02930766_7103'
     ]:
         continue
 
@@ -99,7 +99,8 @@ for idx, row in name_lookup.iterrows():
                     # TODO: Need to check if numerator larger than 0 as per denominator
                     # Or for numerator: could take sum of two masks and check total number of elements == 2
                     # overlap = np.sum(occlusion_img_mask * mask) / np.sum(occlusion_img_mask > 0)
-                    overlap = 100 * (np.sum((mask + occlusion_img_mask) > 1) / np.sum(occlusion_img_mask > 0))
+                    # overlap = 100 * (np.sum((mask + occlusion_img_mask) > 1) / np.sum(occlusion_img_mask > 0))
+                    overlap = 100 * (np.sum((occlusion_img_mask + mask) > 1) / np.sum(mask > 0))
                     print(overlap)
                     
                     if overlap > max_overlap:

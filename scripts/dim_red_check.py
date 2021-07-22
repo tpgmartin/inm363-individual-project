@@ -9,17 +9,17 @@ chart_type = 'top_10'
 # chart_type = 'top_10'
 # chart_type = 'all_concepts'
 
-# label = 'ambulance'
+label = 'ambulance'
 # label = 'jeep'
 # label = 'mantis'
-label = 'cab'
+# label = 'cab'
 # label = 'police_van'
 # label = 'moving_van'
 # label = 'shopping_cart'
 # label = 'school_bus'
 # label = 'bullet_train'
 short_label = label.split('_')[0]
-layer = 'mixed8'
+layer = 'mixed0'
 concepts = np.unique([x.split('_')[2] for x in glob(f'./acts/{short_label}/*_{layer}') if 'concept' in x]).tolist()
 
 # Read from ACE result file top N concepts by TCAV score

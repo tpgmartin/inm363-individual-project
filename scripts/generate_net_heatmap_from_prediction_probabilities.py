@@ -24,17 +24,17 @@ def init_mask(width, height):
     
     return img_mask
 
-def save_image(image_to_save, image_filename_to_save, width, height, dpi, img_filename, MASK_SIZE):
+def save_image(image_to_save, image_filename_to_save, width, height, dpi, img_filename, MASK_SIZE, start, total_mask_images):
 
     fig, ax = plt.subplots(figsize=((width/dpi),(height/dpi)), dpi=dpi)
     ax.imshow(image_to_save)
     ax.axis('off')
     plt.tight_layout(pad=0)
 
-    os.makedirs(f"./net_occlusion_heatmaps_delta_prob/{img_filename.split('_')[0]}/{img_filename}/mask_dim_{MASK_SIZE}/{img_filename}_{image_filename_to_save}", exist_ok=True)
-    plt.savefig(f"./net_occlusion_heatmaps_delta_prob/{img_filename.split('_')[0]}/{img_filename}/mask_dim_{MASK_SIZE}/{img_filename}_{image_filename_to_save}/{img_filename}_{image_filename_to_save}.JPEG")
+    os.makedirs(f"./net_occlusion_heatmaps_delta_prob/{img_filename.split('_')[0]}_run_{(start//total_mask_images)+1}/{img_filename}/mask_dim_{MASK_SIZE}/{img_filename}_{image_filename_to_save}", exist_ok=True)
+    plt.savefig(f"./net_occlusion_heatmaps_delta_prob/{img_filename.split('_')[0]}_run_{(start//total_mask_images)+1}/{img_filename}/mask_dim_{MASK_SIZE}/{img_filename}_{image_filename_to_save}/{img_filename}_{image_filename_to_save}.JPEG")
 
-def main(f, target_class, img_filename, total_mask_images, mask_size, z_value):
+def main(f, target_class, img_filename, total_mask_images, mask_size, z_value, start):
 
     # IMG = io.imread(f"../ACE/ImageNet/ILSVRC2012_img_train/{f.split('_')[0]}/{f}/{f}.JPEG")
     IMG = io.imread(f'../ACE/ACE/concepts/images/{target_class}/{img_filename}.png')
@@ -47,8 +47,18 @@ def main(f, target_class, img_filename, total_mask_images, mask_size, z_value):
 
     # bookshop_image_n02871525_10490_occluded_image_predictions
     df = pd.read_csv(f'./occluded_image_predictions/mask_dim_{MASK_SIZE}/{target_class}_image_{f}_occluded_image_predictions.csv')
-    print(df)
-    df = df.iloc[:total_mask_images]
+    # print(df)
+
+    first_image = start 
+    last_image = start + total_mask_images
+
+    print('generate_net_heatmap_from_prediction_probabilities')
+    print(start)
+    print(first_image)
+    print(last_image)
+    print()
+
+    df = df.iloc[first_image:last_image]
     # prediction_probability_delta = df['true_label_prediction_probability_delta'].values
 
     prob_mean = df['true_label_prediction_probability_delta'].mean()
@@ -56,6 +66,9 @@ def main(f, target_class, img_filename, total_mask_images, mask_size, z_value):
     df['standardised_prediction_prob'] = df['true_label_prediction_probability_delta'].apply(lambda p: (p-prob_mean)/prob_std)
 
     df = df[(df['standardised_prediction_prob']<(-1*z_value))]
+
+    # print('df of sig values')
+    # print(df.shape)
 
     for _, row in df.iterrows():
         filename = row['filename'][:-4] + 'csv'
@@ -141,12 +154,12 @@ def main(f, target_class, img_filename, total_mask_images, mask_size, z_value):
 
     # Save img_mask_array
     img_mask_array_filename_to_save = 'image_mask'
-    img_mask_array_dirpath = f"./net_occlusion_heatmaps_delta_prob/{f.split('_')[0]}/{f}/mask_dim_{MASK_SIZE}/{f}_z_value_{z_value}_total_masked_images_{total_mask_images}_{img_mask_array_filename_to_save}"
+    img_mask_array_dirpath = f"./net_occlusion_heatmaps_delta_prob/{f.split('_')[0]}_run_{(start//total_mask_images)+1}/{f}/mask_dim_{MASK_SIZE}/{f}_z_value_{z_value}_total_masked_images_{total_mask_images}_{img_mask_array_filename_to_save}"
     os.makedirs(img_mask_array_dirpath, exist_ok=True)
     img_mask_array_filepath = f"{img_mask_array_dirpath}/{f}_{img_mask_array_filename_to_save}.npy"
     np.save(img_mask_array_filepath, img_mask_array, allow_pickle=False)
-    save_image(img_mask, f'net_heatmap_z_value_{z_value}_total_masked_images_{total_mask_images}', WIDTH, HEIGHT, DPI, f, MASK_SIZE)
-    save_image(img_cropped_to_mask, f'image_cropped_to_mask_z_value_{z_value}_total_masked_images_{total_mask_images}', WIDTH, HEIGHT, DPI, f, MASK_SIZE)
+    save_image(img_mask, f'net_heatmap_z_value_{z_value}_total_masked_images_{total_mask_images}', WIDTH, HEIGHT, DPI, f, MASK_SIZE, start, total_mask_images)
+    save_image(img_cropped_to_mask, f'image_cropped_to_mask_z_value_{z_value}_total_masked_images_{total_mask_images}', WIDTH, HEIGHT, DPI, f, MASK_SIZE, start, total_mask_images)
     # save_image(IMG, f'image_with_mask_z_value_{z_value}', WIDTH, HEIGHT, DPI, f, MASK_SIZE)
     plt.clf()
 
