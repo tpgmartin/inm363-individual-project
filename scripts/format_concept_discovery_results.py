@@ -40,10 +40,7 @@ def parse_image_numbers(start, lines):
 
 if __name__ == '__main__':
 
-    # filepath = '../ACE/ACE/concept_discovery_results/mixed_8_police_van_results.txt'
-    # filepath = '../ACE/ACE/concept_discovery_results/mixed_8_moving_van_results.txt'
     filepath = '../ACE/ACE/concept_discovery_results/mixed_8_cab_results.txt'
-    # index_lookup_filepath = '../ACE/ACE/concepts/images_index_lookup/ambulance.csv'
     index_lookup_filepath = None
     index_lookup = None
 

@@ -41,14 +41,6 @@ for idx, row in name_lookup.iterrows():
         'n02701002_2968',
         'n02701002_1415',
         'n02701002_652'
-        # 'n02930766_13320',
-        # 'n02930766_14354',
-        # 'n02930766_31200',
-        # 'n02930766_34503',
-        # 'n02930766_23814',
-        # 'n02930766_8716',
-        # 'n02930766_13891',
-        # 'n02930766_7103'
     ]:
         continue
 
@@ -73,10 +65,8 @@ for idx, row in name_lookup.iterrows():
             img_segment_masks[concept_no][mask_filename] = np.load(mask_filepath).squeeze()
 
     # # Load occlusion results
-    # ./net_occlusion_heatmaps_delta_prob/n02701002/n02701002_1415/mask_dim_50/n02701002_1415_z_value_1.644854_total_masked_images_1000_image_mask/n02701002_1415_image_mask.npy
     occlusion_img_filename = f'./net_occlusion_heatmaps_delta_prob/{class_no}/{image}/mask_dim_50/{image}_z_value_1.644854_total_masked_images_1000_image_mask/{image}_image_mask.npy'
 
-    # TODO: Handle FileNotFoundError, most images will not have a heatmap image
     occlusion_img_mask = np.load(occlusion_img_filename).squeeze()
 
     for concept_no in range(all_concepts):
@@ -92,14 +82,7 @@ for idx, row in name_lookup.iterrows():
         if len(img_segment_masks_by_concept) > 0:
             for img_filename, mask in img_segment_masks_by_concept.items():
 
-                # mask = (...)
                 if np.mean(mask) > 0.001:
-                    # Update this, as occlusion mask is point of reference only 
-                    # care about fraction of mask contained in occluion image
-                    # TODO: Need to check if numerator larger than 0 as per denominator
-                    # Or for numerator: could take sum of two masks and check total number of elements == 2
-                    # overlap = np.sum(occlusion_img_mask * mask) / np.sum(occlusion_img_mask > 0)
-                    # overlap = 100 * (np.sum((mask + occlusion_img_mask) > 1) / np.sum(occlusion_img_mask > 0))
                     overlap = 100 * (np.sum((occlusion_img_mask + mask) > 1) / np.sum(mask > 0))
                     print(overlap)
                     
@@ -107,7 +90,6 @@ for idx, row in name_lookup.iterrows():
                         max_concept_no = concept_no
                         max_img_filename = img_filename
                         max_overlap = overlap
-                    # overlap_sim_by_mask[concept_no][img_filename] = overlap
         
         if max_img_filename is not None:
             image = image.split('_')[-1]

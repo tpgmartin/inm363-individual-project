@@ -136,7 +136,7 @@ if __name__ == '__main__':
 
     
     args.model_to_run = 'InceptionV3'
-    args.model_path = './v3_model.h5'
+    args.model_path = './inception_v3.h5'
     args.bottlenecks = 'mixed8'
 
     args.source_dir = sample_dir_path

@@ -564,6 +564,27 @@ class ConceptDiscovery(object):
       with tf.gfile.Open(address, 'w') as f:
         f.write(report)
 
+  def get_img_activations(self, img_num, concept_num=None):
+      # Save to path './acts/acts_{img_label}_{img_num}_{bottleneck}'
+      if not concept_num:
+        img_acts_path = os.path.join(self.activation_dir, self.target_class, f'acts_{self.target_class}_{img_num}_{self.bottleneck}')
+      else:
+        img_acts_path = os.path.join(self.activation_dir, self.target_class, f'acts_{self.target_class}_{concept_num}_{img_num}_{self.bottleneck}')
+
+      if not tf.gfile.Exists(os.path.join(self.activation_dir, self.target_class)):
+        tf.gfile.MakeDirs(os.path.join(self.activation_dir, self.target_class))
+
+      # imgs, _ = self.load_concept_imgs(None, self.num_discovery_imgs)
+      # acts = get_acts_from_images(imgs, self.model, self.bottleneck)
+      # acts = acts.reshape(-1)
+
+      if not tf.gfile.Exists(img_acts_path):
+        acts = self.get_bn_activations()
+        with tf.gfile.Open(img_acts_path, 'w') as f:
+          np.save(f, acts, allow_pickle=False)
+        del acts
+      return np.load(img_acts_path).squeeze()
+
   def _random_concept_activations(self, bottleneck, random_concept):
     """Wrapper for computing or loading activations of random concepts.
 

@@ -28,7 +28,7 @@ Run the script `get_benchmark_accuracies.py` to get the predicted label and pred
 
 ### Occlusion Sensitivity
 
-To generate heatmaps from change in prediction probabilities end-to-end run `scripts/main.py`
+To generate heatmaps from change in prediction probabilities end-to-end run `scripts/occlusion_sensitivity.py`
 
 #### Occlude Images
 
@@ -70,41 +70,19 @@ In order run,
 * For discovered concepts, find activations `get_activations_for_concepts.py` - this saves activations to `./acts/<target label>/acts_<target label>_concept<concept number>_<patch number>_<bottleneck layer>`
 * `dimensionality_reduction_concepts.py` to plot activations of concepts using PCA
 
-### (WIP) Find Similarity of Images and Concepts CAVs
+### Find Overlap between Binary Masks
 
-* scripts/find_similarity_between_input_image_activations.py
-* scripts/find_similarity_between_input_image_cavs.py
-* scripts/find_similarity_between_concept_activations.py
-* scripts/find_similarity_between_concept_cavs.py
-* notebooks/Process Concept CAV Cosine Similarities.ipynb
-* cosine_similarities/
+Assuming masks have been previously generated via ACE and other scripts, run `find_overlap_between_concept_images_and_occlusion_mask.py`
 
-### Other Useful Scripts
+### Find Similarity between Concepts CAVs
 
-* `check_all_concept_activations_present.py`: Run this to check whether there is are the corresponding activation files available for all concepts found for a given image class
-* `get_concept_count_by_class.py`: Check number of concepts with activations available by image class
-* `get_activations_for_random_concepts.py`: Get random concepts from images and generate corresponding bottleneck activation
+In order run,
+* `find_similarity_between_concept_cavs.py` to generate similarities
+* `compare_cav_cosine_similarities.py` to generate aggregate reports
+
+### Other Visualistions
+
 * `plot_cav_accuracies_tcav_scores.py`: Plot charts illustrating CAV accuracies and TCAV scores for discovered concepts using ACE algorithm
-* Check [yolov5](https://github.com/tpgmartin/yolov5/tree/save-single-crop-image) fork for object dectection script
-    - Updates to `detect.py` to find most likely relevant image subject according to hard-coded rules
-    - Update to `run_detect.sh` to run script against relevant image subset
-
-### Visualistions
-
-Run
-
-#### CAV visualisations
-* cav_accuracies_histograms
-* cav_accuracies_plots
-
-#### Bottleneck activations
-* concept_activation_plots: Visualisation of concepts by label
-* pca_acts: Comparison of bottleneck activations across labels
-* pca_acts_concepts: Comparison of bottleneck activations of concepts across labels
-
-#### TCAV visualisations
-* tcav_scores_histograms
-* tcav_scores_plots
 
 ### Labels
 
@@ -113,3 +91,9 @@ This directory contains the original ImageNet labels, the subset of labels used 
 ### Models
 
 This directory contains the model graph files.
+
+### Other
+
+* `format_concept_discovery_results.py` format txt files generated during concept discovery stage of ACE
+* `nltk_wordnet_hierarchy.py` generates the fill WordNet hierarchy as a JSON file
+* `sample_baseline_images.py` generates samples of images from ImageNet 

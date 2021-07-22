@@ -1,75 +1,73 @@
+# TODO: Bring in full funcitonality of `dimensionality_reduction_concepts.py`
 from glob import glob
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
 from sklearn.decomposition import PCA, SparsePCA
 
-# TODO:
-# 
-# * For bottleneck activations of following image pairs,
-# * Bookshop and restaurant, cinema and restaurant
-# * Cab and jeep, ambulance and jeep
-# * Ant and mantis, damselfly and mantis
-# * basketball and balloon
-# * Lipstick and lotion
-# * Volleyball and basketball
-# 
-# Find 2D projection of all vectors and plot to grid using image labels
+chart_type = 'top_10'
 
-method = 'sparse_pca'
-layer = 'mixed8'
+label = 'ambulance'
+short_label = label.split('_')[0]
+layer = 'mixed0'
+concepts = np.unique([x.split('_')[2] for x in glob(f'./acts/{short_label}/*_{layer}') if 'concept' in x]).tolist()
 
-pairs = [
-    ['ambulance', 'jeep'],
-    ['ambulance', 'restaurant'],
-    ['ambulance', 'lipstick'],
-    ['jeep', 'restaurant'],
-    ['jeep', 'lipstick'],
-    ['restaurant', 'lipstick']
-]
+# Read from ACE result file top N concepts by TCAV score
+if 'top' in chart_type:
+    start = 4
+    stop = start + int(chart_type.split('_')[-1])
 
-def plot_scatter(image_1, image_2, image_1_acts, image_2_acts):
+    with open(f'../ACE/ACE/results_summaries/{layer}_{label}_ace_results.txt') as f:
+        lines = f.readlines()
 
-    image_1_x =[c[0] for c in image_1_acts]
-    image_1_y =[c[1] for c in image_1_acts]
+    top_concepts = [line.split(':')[1].split('_')[-1] for line in lines[start:stop]]
 
-    image_2_x =[c[0] for c in image_2_acts]
-    image_2_y =[c[1] for c in image_2_acts]
+    concepts = [concept for concept in concepts if concept in top_concepts]
 
-    plt.scatter(image_1_x, image_1_y, label=f'{image_1}')
-    plt.scatter(image_2_x, image_2_y, label=f'{image_2}')
-    plt.legend(loc='upper right')
-    plt.xlabel('Component 1')
-    plt.ylabel('Component 2')
+all_image_acts = []
+for concept in concepts:
+    image_acts = np.array([np.load(acts).squeeze() for acts in glob(f'./acts/{short_label}/acts_{short_label}_{concept}_*_{layer}')])
+    image_acts = [x for x in image_acts if isinstance(x[0], np.float32)]
+    all_image_acts.extend(image_acts)
 
-for input_images in pairs:
+pca = PCA(n_components=2)
+pca.fit(all_image_acts)
+pca_c = pca.components_
 
-    print(input_images)
-    image_1, image_2 = input_images
-    all_image_acts = []
+acts_names = []
+coord_1 = []
+coord_2 = []
+for concept in concepts:
+    acts_filenames = glob(f'./acts/{short_label}/acts_{short_label}_{concept}_*_{layer}')
+    image_acts = np.array([np.load(acts).squeeze() for acts in acts_filenames])
+    image_acts = [x for x in image_acts if isinstance(x[0], np.float32)]
+    image_acts_embedded = np.dot(image_acts,pca_c.T)
 
-    image_1_acts = np.array([np.load(acts).squeeze() for acts in glob(f'./acts/{image_1}/*{layer}')])
-    # image_1_acts = [x for x in image_1_acts if isinstance(x[0], np.float32)]
-    image_2_acts = np.array([np.load(acts).squeeze() for acts in glob(f'./acts/{image_2}/*{layer}')])
-    # image_2_acts = [x for x in image_2_acts if isinstance(x[0], np.float32)]
+    for act_filename, coords in zip(acts_filenames, image_acts_embedded):
+        acts_names.append(act_filename)
+        coord_1.append(coords[0])
+        coord_2.append(coords[1])
 
-    all_image_acts.extend(image_1_acts)
-    all_image_acts.extend(image_2_acts)
+    plt.scatter(image_acts_embedded[:,0], image_acts_embedded[:,1], label=f'{concept}')
 
-    if method == 'sparse_pca':
-        pca = SparsePCA(n_components=2, random_state=0)
-    else:
-        pca = PCA(n_components=2, random_state=0)
+df = pd.DataFrame({
+    'filename': acts_names,
+    'component_1': coord_1,
+    'component_2': coord_2
+})
 
-    pca.fit(all_image_acts)
-    pca_c = pca.components_
-    
-    image_1_acts_embedded = np.dot(image_1_acts,pca_c.T)
-    image_2_acts_embedded = np.dot(image_2_acts,pca_c.T)
+df.sort_values(by=['component_1','component_2'],inplace=True)
 
-    # fig = plt.figure(figsize=(12, 5))
-    plt.title(f'Activations of {image_1.capitalize()} vs {image_2.capitalize()}')
-    plot_scatter(image_1, image_2, image_1_acts_embedded, image_2_acts_embedded)
-    plt.savefig(f'./pca_acts_concepts/{image_1}_{image_2}_{method}_acts.png')
-    plt.clf()
-    plt.cla()
-    plt.close()
+df.to_csv(f'./concept_activation_plots/{label}_{layer}_{chart_type}_mapping.csv', index=False)
+
+if chart_type != 'all_concepts':
+    concept_labels = ['Concept ' + concept.split('concept')[-1] for concept in np.unique(top_concepts)]
+    plt.legend(concept_labels, loc=(1.02,0.42))
+
+plt.title(f'PCA Plot {label.capitalize()} {layer.capitalize()} Concepts')
+plt.xlabel('Component 1')
+plt.ylabel('Component 2')
+plt.savefig(f'./concept_activation_plots/{label}_{layer}_{chart_type}_plot.png', bbox_inches='tight')
+plt.clf()
+plt.cla()
+plt.close()

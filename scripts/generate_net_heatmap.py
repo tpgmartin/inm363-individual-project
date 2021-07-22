@@ -26,7 +26,7 @@ def save_image(image_to_save, image_filename_to_save, width, height, dpi, img_fi
     os.makedirs(f"./net_occlusion_heatmaps/{img_filename.split('_')[0]}/{img_filename}/mask_dim_{MASK_SIZE}/{img_filename}_{image_filename_to_save}", exist_ok=True)
     plt.savefig(f"./net_occlusion_heatmaps/{img_filename.split('_')[0]}/{img_filename}/mask_dim_{MASK_SIZE}/{img_filename}_{image_filename_to_save}/{img_filename}_{image_filename_to_save}.JPEG")
 
-def main(f):
+def main(f, lower_bound):
 
 
     try:
@@ -70,10 +70,6 @@ def main(f):
     print(max_standardised_intensity)
     print(min_standardised_intensity)
 
-    # lower_bound = 1.96 # 95% confidence interval
-    # lower_bound = 1.645 # 90% confidence interval
-    # lower_bound = 1.282 # 80% confidence interval
-    lower_bound = 1 # 68.2% confidence interval
     img_cropped_to_mask = IMG.copy()
     for y in range(HEIGHT):
         for x in range(WIDTH):
@@ -105,12 +101,11 @@ def main(f):
 
 if __name__ == '__main__':
 
+    lower_bound = 1
     occlusion_heatmaps = [f.split('/')[-1] for f in glob('./occlusion_heatmaps/**/*')]
     occlusion_heatmaps = [f for f in occlusion_heatmaps if '_' in f]
-    # existing_heatmaps = [f.split('/')[-1] for f in glob('./net_occlusion_heatmaps/**/*')]
-    # heatmaps = list(set(occlusion_heatmaps) - set(existing_heatmaps))
+    existing_heatmaps = [f.split('/')[-1] for f in glob('./net_occlusion_heatmaps/**/*')]
+    heatmaps = list(set(occlusion_heatmaps) - set(existing_heatmaps))
 
-    # heatmaps = ['n04540053_12791']
     for dir_name in [f for f in occlusion_heatmaps if 'n02342885_96' in f]:
-        print(dir_name)
-        main(dir_name)
+        main(dir_name, lower_bound)

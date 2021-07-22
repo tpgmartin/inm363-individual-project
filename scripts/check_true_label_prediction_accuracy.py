@@ -13,9 +13,3 @@ def main(filename):
     occluded_image_predictions['true_label_prediction_probability_delta'] = occluded_image_predictions['true_label_predictions'] - true_label_prediction_probability
 
     occluded_image_predictions.to_csv(filename, index=False)
-
-if __name__ == '__main__':
-
-    for f in [f for f in glob('occluded_image_predictions/**/*') if 'n09229709' in f]:
-    # for f in ['./occluded_image_predictions/mask_dim_50/bookshop_image_n02871525_10490_occluded_image_predictions.csv']:
-        main(f'./{f}')

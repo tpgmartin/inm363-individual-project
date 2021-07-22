@@ -150,7 +150,7 @@ if __name__ == '__main__':
 
         args = parse_arguments(sys.argv[1:])
         args.model_to_run = 'InceptionV3'
-        args.model_path = './v3_model.h5'
+        args.model_path = './inception_v3.h5'
         args.bottlenecks = 'mixed0'
         args.source_dir = sample_dir_path
         args.target_class = sample.split('/')[-1].split('baseline')[0]
