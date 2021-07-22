@@ -97,3 +97,12 @@ This directory contains the model graph files.
 * `format_concept_discovery_results.py` format txt files generated during concept discovery stage of ACE
 * `nltk_wordnet_hierarchy.py` generates the fill WordNet hierarchy as a JSON file
 * `sample_baseline_images.py` generates samples of images from ImageNet 
+
+## Results
+
+Included with the repo are the following summary results,
+
+* `./concept_discovery_results` overview of clustering results generated during ACE concept clustering
+* `./occlusion_results` full occlussion results summary for "cab" class
+* `./overlap_results` full overlap results for selection of classes
+* `./plots` charts for CAV accuracies and TCAV scores, as well as PCA concept activation plots
